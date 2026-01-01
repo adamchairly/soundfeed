@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="Soundfeed.Api/Soundfeed.Api.csproj" Id="6a91df52-44a3-4d6c-b6cc-c1efaf64860b" />
+  <Project Path="Soundfeed.Bll/Soundfeed.Bll.csproj" Id="56d9e4be-40eb-47cf-afa6-8dddaa30ef93" />
+  <Project Path="Soundfeed.Dal/Soundfeed.Dal.csproj" Id="2e6bff86-e65f-4a0f-9388-b9fc9431fb5a" />
+</Solution>

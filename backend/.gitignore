@@ -1,0 +1,46 @@
+## [ Visual Studio ]
+.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.userosscache
+*.sln.docstates
+
+## [ .NET / C# ]
+# Ignore build results
+publish/
+# For .NET Core storage of secrets
+.microsoft.dotnet.secretmanager/
+# Local project tool restores
+.config/dotnet-tools.json
+
+
+.env
+.env.*
+!.env.example
+a
+appsettings.Development.json
+appsettings.Local.json
+
+## [ Frontend / JavaScript ]
+# If you are using React/Angular/Vue templates
+node_modules/
+dist/
+.npm/
+npm-debug.log*
+
+## [ OS Specific ]
+.DS_Store
+Thumbs.db
+
+## [ Testing ]
+TestResults/
+*.sequenced
+
+## [ IDEs - JetBrains / VS Code ]
+.idea/
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+*.swp
