@@ -1,0 +1,26 @@
+name: CD - Deploy to Azure VM
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to VM via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VM_SSH_HOST }}
+          username: ${{ secrets.VM_SSH_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            cd ~/Soundfeed
+            
+            # 1. Pull latest code
+            git pull origin main
+            
+            # 2. Rebuild and restart
+            docker compose --profile prod up -d --build --remove-orphans
+            
