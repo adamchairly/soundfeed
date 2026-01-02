@@ -1,1 +1,6 @@
 .env
+/data/caddy
+/config/caddy
+node_modules/
+bin/
+obj/

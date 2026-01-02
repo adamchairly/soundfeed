@@ -3,15 +3,15 @@ services:
     image: postgres:16-alpine
     container_name: soundfeed-db
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-soundfeed}
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -22,12 +22,11 @@ services:
       dockerfile: Dockerfile
     container_name: soundfeed-api
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=${POSTGRES_DB:-soundfeed};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
       - Spotify__ClientId=${SPOTIFY_CLIENT_ID}
       - Spotify__ClientSecret=${SPOTIFY_CLIENT_SECRET}
       - CookieSettings__SecretKey=${COOKIE_SECRET_KEY}
-      - AllowedOrigins=${ALLOWED_ORIGINS:-http://localhost:3000}
+      - AllowedOrigins=${ALLOWED_ORIGINS}
       - AllowedHosts=${ALLOWED_HOSTS:-*}
     ports:
       - "8080:8080"
@@ -41,7 +40,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        - VITE_API_URL=${VITE_API_URL:-http://localhost:8080}
+        - VITE_API_URL=${VITE_API_URL}
         - VITE_CONTACT_EMAIL=${VITE_CONTACT_EMAIL}
     container_name: soundfeed-frontend
     ports:
@@ -50,5 +49,23 @@ services:
       - backend
     restart: unless-stopped
 
+  caddy:
+    image: caddy:2-alpine
+    container_name: soundfeed-proxy
+    profiles: ["prod"]
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - frontend
+      - backend
+
 volumes:
   postgres_data:
+  caddy_data:
+  caddy_config:
