@@ -17,7 +17,9 @@
 
 ## About
 
-Soundfeed tracks your favorite Spotify artists and displays new releases in a clean, chronological feed.
+Soundfeed tracks your favorite Spotify artists and displays new releases in a clean, chronological feed. 
+
+No login, account or any personal detail required. 
 
 ## Features
 
