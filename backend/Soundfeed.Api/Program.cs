@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using Soundfeed.Api.Extensions;
 using Soundfeed.Api.Middlewares;
 using Soundfeed.Bll.Extensions;
+using Soundfeed.Dal;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +19,14 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
+
     app.UseHttpsRedirection();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
 }
 
 app.UseRouting();

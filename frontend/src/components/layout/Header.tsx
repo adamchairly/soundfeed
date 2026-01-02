@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Github, Shield } from 'lucide-react';
+import logo from '../../assets/logo.svg';
 
 interface HeaderProps {
   recoveryCode: string;
@@ -11,7 +12,7 @@ export const Header = ({ recoveryCode, onCodeClick }: HeaderProps) => (
     <div className="max-w-2xl mx-auto px-4 h-16 flex items-center justify-between">
       
       <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-      <img src="/src/assets/logo.svg" alt="Soundfeed Logo" className="w-10 h-10" />
+      <img src={logo} alt="Soundfeed Logo" className="w-10 h-10" />
         <h1 className="text-xl font-black text-slate-900">
           soundfeed
         </h1>

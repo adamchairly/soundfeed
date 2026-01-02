@@ -6,6 +6,7 @@ import {
   Search,
   CheckCircle2,
 } from "lucide-react";
+import screenshot from '../assets/screenshot.png';
 
 const LandingPage = () => {
   return (
@@ -70,7 +71,7 @@ const LandingPage = () => {
              <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[90%] h-full bg-slate-200/50 blur-3xl -z-10 rounded-full"></div>
              
             <img 
-              src={"/src/assets/screenshot.png"} 
+              src={screenshot} 
               alt="Soundfeed App Screenshot" 
               className="relative z-10 w-full shadow-2xl border-x-4 border-t-4 border-slate-50"
             />
