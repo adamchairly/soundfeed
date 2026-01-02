@@ -12,7 +12,9 @@ COPY . .
 
 # build application
 ARG VITE_API_URL
+ARG VITE_CONTACT_EMAIL
 ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_CONTACT_EMAIL=$VITE_CONTACT_EMAIL
 RUN npm run build
 
 # production stage

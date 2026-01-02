@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 480" width="512" height="480">
+  <g transform="translate(0 56)">
+    <!-- Main outer body -->
+    <rect x="16" y="16" width="480" height="352" rx="44" fill="#000"/>
+    <!-- Inner panel -->
+    <rect x="32" y="32" width="448" height="320" rx="36" fill="#fff"/>
+
+    <!-- Corner screws -->
+    <circle cx="76" cy="76" r="24" fill="#000"/>
+    <circle cx="436" cy="76" r="24" fill="#000"/>
+    <circle cx="76" cy="308" r="24" fill="#000"/>
+    <circle cx="436" cy="308" r="24" fill="#000"/>
+
+    <!-- Platter -->
+    <circle cx="190" cy="192" r="124" fill="#000"/>
+    <circle cx="190" cy="192" r="72" fill="#fff"/>
+    <circle cx="190" cy="192" r="22" fill="#000"/>
+
+    <!-- Tonearm head -->
+    <ellipse cx="368" cy="118" rx="26" ry="34" fill="#000"/>
+
+    <!-- Tonearm stem -->
+    <rect x="354" y="150" width="24" height="148" rx="12" fill="#000"/>
+
+    <!-- Tonearm joint -->
+    <circle cx="356" cy="300" r="26" fill="#000"/>
+
+    <!-- Tonearm link (diagonal) -->
+    <path d="M356 300 L400 272" fill="none" stroke="#000" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Right-side sliders -->
+    <rect x="418" y="190" width="54" height="12" rx="6" fill="#000"/>
+    <rect x="418" y="216" width="54" height="12" rx="6" fill="#000"/>
+    <rect x="418" y="242" width="54" height="12" rx="6" fill="#000"/>
+  </g>
+</svg>

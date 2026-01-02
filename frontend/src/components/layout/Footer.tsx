@@ -53,19 +53,21 @@ export const Footer = () => {
             </ul>
           </div>
 
-          <div>
-            <h4 className="font-black text-slate-900 mb-4">Contact</h4>
-            <ul className="space-y-3 text-sm text-slate-500">
-              <li>
-                <a 
-                  href={`mailto:${email}`} 
-                  className="hover:text-slate-900 transition-colors"
-                >
-                  {email}
-                </a>
-              </li>
-            </ul>
-          </div>
+          {email && (
+            <div>
+              <h4 className="font-black text-slate-900 mb-4">Contact</h4>
+              <ul className="space-y-3 text-sm text-slate-500">
+                <li>
+                  <a 
+                    href={`mailto:${email}`} 
+                    className="hover:text-slate-900 transition-colors"
+                  >
+                    {email}
+                  </a>
+                </li>
+              </ul>
+            </div>
+          )}
 
         </div>
       </div>
