@@ -44,5 +44,10 @@ public class AppDbContext : DbContext, IAppDbContext
 
             entity.HasIndex(t => new { t.ReleaseId, t.TrackNumber });
         });
+
+        modelBuilder.Entity<Release>()
+            .HasMany(r => r.DismissedBy)
+            .WithMany(u => u.DismissedReleases)
+            .UsingEntity(j => j.ToTable("ReleaseDismissals"));
     }
 }

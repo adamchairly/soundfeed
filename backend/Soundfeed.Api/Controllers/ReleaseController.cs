@@ -22,4 +22,17 @@ public class ReleaseController(IMediator mediator) : ControllerBase
 
         return await _mediator.Send(new GetReleasesQuery { UserId = userId });
     }
+
+    /// <summary>
+    /// Dismisses a release for the current user
+    /// </summary>
+    [HttpDelete("{releaseId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> DismissRelease(int releaseId, CancellationToken cancellationToken)
+    {
+        var userId = Request.GetRequiredUserId();
+
+        await _mediator.Send(new DismissReleaseCommand { ReleaseId = releaseId, UserId = userId }, cancellationToken);
+        return NoContent();
+    }
 }

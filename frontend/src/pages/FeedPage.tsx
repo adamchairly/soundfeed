@@ -7,7 +7,7 @@ import { RecoveryModal } from "../components/RecoveryModal";
 import { FeedList } from "../components/FeedList"; 
 
 const FeedPage = () => {
-  const { releases, loading: releasesLoading } = useReleases();
+  const { releases, loading: releasesLoading, dismissRelease } = useReleases();
   const { userCode, recoverIdentity } = useUser();
   const logic = useAddArtistLogic();
 
@@ -94,7 +94,7 @@ const FeedPage = () => {
             </div>
           )}
         </div>
-        <FeedList releases={releases} loading={releasesLoading} />
+        <FeedList releases={releases} loading={releasesLoading} onDismiss={dismissRelease} />
       </main>
 
       {showRecovery && (

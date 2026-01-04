@@ -17,4 +17,5 @@ public class Release
     public DateTime CreatedAt { get; set; }
     public Artist Artist { get; set; } = default!;
     public ICollection<Track> Tracks { get; set; } = new List<Track>();
+    public ICollection<User> DismissedBy { get; set; } = new List<User>();
 }

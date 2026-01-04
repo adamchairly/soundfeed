@@ -5,6 +5,7 @@ import { MonthDivider } from "./MonthDivider";
 interface FeedListProps {
   releases: Release[] | null;
   loading: boolean;
+  onDismiss?: (releaseId: number) => void;
 }
 
 const isSameMonth = (d1: string, d2: string) => {
@@ -16,7 +17,7 @@ const isSameMonth = (d1: string, d2: string) => {
   );
 };
 
-export const FeedList = ({ releases, loading }: FeedListProps) => {
+export const FeedList = ({ releases, loading, onDismiss }: FeedListProps) => {
   if (loading) {
     return (
       <div className="space-y-4">
@@ -58,7 +59,7 @@ export const FeedList = ({ releases, loading }: FeedListProps) => {
           <div key={release.id}>
             {showDivider && <MonthDivider date={release.releaseDate} />}
             
-            <ReleaseCard release={release} />
+            <ReleaseCard release={release} onDismiss={onDismiss} />
           </div>
         );
       })}

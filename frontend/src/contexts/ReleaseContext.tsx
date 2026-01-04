@@ -9,6 +9,7 @@ interface ReleaseContextType {
   error: string | null;
   refreshReleases: () => Promise<void>;
   addArtist: (url: string) => Promise<{ success: boolean; message: string }>;
+  dismissRelease: (releaseId: number) => Promise<void>;
 }
 
 const ReleaseContext = createContext<ReleaseContextType | undefined>(undefined);
@@ -50,13 +51,22 @@ export const ReleaseProvider = ({
     }
   };
 
+  const dismissRelease = async (releaseId: number) => {
+    try {
+      await httpClient.delete(`/api/Release/${releaseId}`);
+      await refreshReleases();
+    } catch (err) {
+      console.error("Failed to dismiss release:", err);
+    }
+  };
+
   useEffect(() => {
     refreshReleases();
   }, []);
 
   return (
     <ReleaseContext.Provider
-      value={{ releases, loading, error, refreshReleases, addArtist }}
+      value={{ releases, loading, error, refreshReleases, addArtist, dismissRelease }}
     >
       {children}
     </ReleaseContext.Provider>

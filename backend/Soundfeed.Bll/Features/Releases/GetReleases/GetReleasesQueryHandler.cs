@@ -15,7 +15,7 @@ internal sealed class GetReleasesQueryHandler(IAppDbContext context) : IRequestH
             .AsNoTracking()
             .Where(s => s.UserId == request.UserId)
             .SelectMany(s => s.Artist.Releases
-                .Where(r => r.ReleaseDate > s.CreatedAt)
+                .Where(r => r.ReleaseDate > s.CreatedAt && !r.DismissedBy.Any(u => u.Id == request.UserId))
                 .Select(r => new GetReleaseResponse
                 {
                     Id = r.Id,
