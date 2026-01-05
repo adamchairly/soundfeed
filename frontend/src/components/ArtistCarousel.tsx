@@ -14,7 +14,7 @@ export const ArtistCarousel = ({ onAddClick }: { onAddClick: () => void }) => {
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
           </svg>
         </div>
-        <span className="text-[10px] font-bold uppercase text-slate-400">Add New</span>
+        <span className="text-[10px] font-bold text-slate-400">Add new</span>
       </button>
 
       {artists.map((artist) => (

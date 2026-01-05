@@ -34,6 +34,10 @@ public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotify
             .ToListAsync(ct);
 
         await ProcessSyncAsync(artists, ct);
+
+        await _dbContext.Users
+            .Where(u => u.Id == userId)
+            .ExecuteUpdateAsync(s => s.SetProperty(u => u.LastSyncedAt, DateTime.UtcNow), ct);
     }
 
     private async Task ProcessSyncAsync(List<(int Id, string SpotifyArtistId)> artists, CancellationToken ct)
@@ -80,14 +84,13 @@ public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotify
                 {
                     _dbContext.Releases.AddRange(newReleases);
 
-                    // Update sync date
                     await _dbContext.Artists
                         .Where(a => a.Id == artist.Id)
                         .ExecuteUpdateAsync(s => s.SetProperty(a => a.LastSyncedAt, DateTime.UtcNow), ct);
 
                     await _dbContext.SaveChangesAsync(ct);
                     _logger.LogInformation("Added {Count} new releases for artist {Id}", newReleases.Count, artist.Id);
-                }
+                }    
             }
             catch (Exception ex)
             {

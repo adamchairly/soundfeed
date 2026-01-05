@@ -46,7 +46,7 @@ export const FeedList = ({ releases, loading, onDismiss }: FeedListProps) => {
 
   return (
         <section className="pb-20">
-      <div className="flex items-center gap-4 mb-2">
+      <div className="flex items-center">
       </div>
 
       {sortedReleases.map((release, index) => {

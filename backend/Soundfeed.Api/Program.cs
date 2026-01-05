@@ -34,6 +34,7 @@ app.UseRouting();
 app.UseCors("DefaultCorsPolicy");
 
 app.UseMiddleware<UserMiddleware>();
+app.UseRateLimiter();
 
 app.MapControllers();
 

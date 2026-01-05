@@ -23,6 +23,20 @@ public static class ApiServiceCollectionExtensions
                         QueueLimit = 0
                     });
             });
+
+            options.AddPolicy("sync-limit", context =>
+            {
+                var remoteIp = context.Connection.RemoteIpAddress?.ToString() ?? context.Request.Headers.Host.ToString();
+
+                return RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey: remoteIp,
+                    factory: _ => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = 1,
+                        Window = TimeSpan.FromMinutes(10),
+                        QueueLimit = 0
+                    });
+            });
         });
 
         services.AddCors(options =>
