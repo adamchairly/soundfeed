@@ -7,6 +7,7 @@ interface ArtistContextType {
   loading: boolean;
   addArtist: (url: string) => Promise<void>;
   refreshArtists: () => Promise<void>;
+  unsubscribe: (artistId: number) => Promise<void>;
 }
 
 const ArtistContext = createContext<ArtistContextType | undefined>(undefined);
@@ -30,10 +31,19 @@ export const ArtistProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     await refreshArtists();
   };
 
+  const unsubscribe = async (artistId: number) => {
+    try {
+      await httpClient.delete(`/api/Subscription/${artistId}`);
+      await refreshArtists();
+    } catch (err) {
+      console.error("Failed to unsubscribe:", err);
+    }
+  };
+
   useEffect(() => { refreshArtists(); }, []);
 
   return (
-    <ArtistContext.Provider value={{ artists, loading, addArtist, refreshArtists }}>
+    <ArtistContext.Provider value={{ artists, loading, addArtist, refreshArtists, unsubscribe }}>
       {children}
     </ArtistContext.Provider>
   );
