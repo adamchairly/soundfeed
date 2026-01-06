@@ -15,6 +15,10 @@
   [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql)](https://www.postgresql.org/)
 </div>
 
+## Activity
+
+![Alt](https://repobeats.axiom.co/api/embed/901ca3728b710d0548312c2391b642d46734a4c4.svg "Repobeats analytics image")
+
 ## About
 
 Soundfeed tracks your favorite Spotify artists and displays new releases in a clean, chronological feed. 
@@ -23,14 +27,13 @@ No login, account or any personal detail required.
 
 ## Features
 
-- **Subscribe to Spotify artists** - Add artists by pasting searching or pasting their Spotify URL
+- **Subscribe to Spotify artists** 
+   - Subscribe to artists by pasting searching or pasting their Spotify URL
+   - Unsubcribe from artists
 - **Sync existing account** - Recover your feed using a recovery code
-
-## Planned Features
-
-- Unsubscribe from artists
-- Dismiss already seen feed entries
-- Manual sync
+- **Manage your feed** 
+   - Trigger manual sync
+   - Dismiss already seen feed entries
 
 ## Getting Started
 
