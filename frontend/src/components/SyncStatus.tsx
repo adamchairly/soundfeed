@@ -21,7 +21,7 @@ export const SyncStatus = ({
     });
 
   return (
-    <div className="flex items-center justify-between mb-4 text-sm text-slate-600">
+    <div className="flex items-center justify-between mb-4 text-sm text-slate-400">
       Last synced: {lastSynced ? formatDate(lastSynced) : "Never"}
       <button
         onClick={onSync}

@@ -5,7 +5,7 @@ export const ArtistCarousel = ({ onAddClick }: { onAddClick: () => void }) => {
   const { artists, loading, unsubscribe } = useArtists();
 
   return (
-    <div className="flex items-center gap-4 overflow-x-auto scrollbar-hide">
+    <div className="flex items-center gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-100 [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-thumb]:rounded-full">
       <button 
         onClick={onAddClick}
         className="flex-shrink-0 flex flex-col items-center gap-2 group"
@@ -19,7 +19,7 @@ export const ArtistCarousel = ({ onAddClick }: { onAddClick: () => void }) => {
       </button>
 
       {artists.map((artist) => (
-        <div key={artist.id} className="flex-shrink-0 flex flex-col items-center gap-2 w-16 mt-1 relative">
+        <div key={artist.id} className="flex-shrink-0 flex flex-col items-center gap-2 w-16 mt-1 relative snap-center">
           <div className="relative">
             <img 
               src={artist.imageUrl ?? `https://ui-avatars.com/api/?name=${artist.name}`} 

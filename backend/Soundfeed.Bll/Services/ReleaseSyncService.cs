@@ -21,6 +21,9 @@ public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotify
             .ToListAsync(ct);
 
         await ProcessSyncAsync(artists, ct);
+
+        await _dbContext.Users
+        .ExecuteUpdateAsync(s => s.SetProperty(u => u.LastSyncedAt, DateTime.UtcNow), ct);
     }
 
     public async Task SyncUserArtistsAsync(string userId, CancellationToken ct = default)
@@ -90,7 +93,7 @@ public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotify
 
                     await _dbContext.SaveChangesAsync(ct);
                     _logger.LogInformation("Added {Count} new releases for artist {Id}", newReleases.Count, artist.Id);
-                }    
+                }
             }
             catch (Exception ex)
             {
