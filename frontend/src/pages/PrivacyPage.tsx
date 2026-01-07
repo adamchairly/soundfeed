@@ -1,14 +1,16 @@
+import { text, page, heading } from '../styles/tailwind';
+
 const PrivacyPage = () => {
   return (
-    <div className="min-h-screen bg-slate-50 selection:bg-slate-200 text-slate-600">
+    <div className={`${page.background} ${text.secondary}`}>
       <div className="max-w-2xl mx-auto py-20 px-6">
-        <h1 className="text-3xl md:text-5xl text-slate-900 tracking-tight mb-16">
+        <h1 className={`${heading.h1} ${text.primary} mb-16`}>
           Privacy Policy
         </h1>
 
         <div className="space-y-12">
           <section>
-            <h2 className="text-lg font-medium text-slate-900 mb-4">
+            <h2 className={`${heading.h2} ${text.primary} mb-4`}>
               1. Data Minimization
             </h2>
             <p className="leading-relaxed mb-6">
@@ -34,7 +36,7 @@ const PrivacyPage = () => {
           </section>
 
           <section>
-            <h2 className="text-lg font-medium text-slate-900 mb-4">
+            <h2 className={`${heading.h2} ${text.primary} mb-4`}>
               2. Information Usage
             </h2>
             <p className="leading-relaxed">
@@ -45,7 +47,7 @@ const PrivacyPage = () => {
           </section>
 
           <section>
-            <h2 className="text-lg font-medium text-slate-900 mb-4">
+            <h2 className={`${heading.h2} ${text.primary} mb-4`}>
               3. Third-Party Integration
             </h2>
             <p className="leading-relaxed">
@@ -56,7 +58,7 @@ const PrivacyPage = () => {
           </section>
 
           <section>
-            <h2 className="text-lg font-medium text-slate-900 mb-4">
+            <h2 className={`${heading.h2} ${text.primary} mb-4`}>
               4. Data Retention & Deletion
             </h2>
             <p className="leading-relaxed">

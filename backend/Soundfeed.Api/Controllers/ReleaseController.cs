@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Soundfeed.Api.Extensions;
+using Soundfeed.Api.Models;
 using Soundfeed.Bll.Models;
 
 namespace Soundfeed.Api.Controllers;
@@ -15,12 +16,18 @@ public class ReleaseController(IMediator mediator) : ControllerBase
     /// Gets all the new releases for the given user
     /// </summary>
     [HttpGet]
-    [ProducesResponseType(typeof(IReadOnlyList<GetReleaseResponse>), StatusCodes.Status200OK)]
-    public async Task<IReadOnlyList<GetReleaseResponse>> GetReleases(CancellationToken cancellationToken)
+    [ProducesResponseType(typeof(PageResult<GetReleaseResponse>), StatusCodes.Status200OK)]
+    public async Task<PageResult<GetReleaseResponse>> GetReleases([FromQuery] BasePaginationRequest request, CancellationToken cancellationToken = default)
     {
         var userId = Request.GetRequiredUserId();
 
-        return await _mediator.Send(new GetReleasesQuery { UserId = userId });
+        return await _mediator.Send(new GetReleasesQuery
+        {
+            UserId = userId,
+            Page = request.Page,
+            PageSize = request.PageSize,
+            SortDescending = request.SortDescending
+        });
     }
 
     /// <summary>

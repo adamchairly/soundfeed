@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp, X } from "lucide-react";
 import type { Release } from "../types/Release";
+import { button, text, border, rounded } from "../styles/tailwind";
 
 interface ReleaseCardProps {
   release: Release;
@@ -28,7 +29,9 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
   };
 
   return (
-    <div className="bg-white border border-slate-200 rounded-lg overflow-hidden hover:shadow-md transition-all mb-3 group">
+    <div
+      className={`bg-white ${border.default} ${rounded.md} overflow-hidden hover:shadow-md transition-all mb-3 group`}
+    >
       <div className="flex items-center p-3 gap-4">
         <div
           className="relative flex-shrink-0 cursor-pointer"
@@ -44,10 +47,12 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
         <div className="flex-1 min-w-0 flex flex-col justify-center h-16">
           <div className="flex items-center justify-between gap-2">
             <div className="min-w-0 cursor-pointer" onClick={toggleExpand}>
-              <h3 className="font-bold text-slate-900 truncate text-base leading-tight hover:text-slate-700 transition-colors">
+              <h3
+                className={`font-bold ${text.primary} truncate text-base leading-tight hover:text-slate-700 transition-colors`}
+              >
                 {release.title}
               </h3>
-              <p className="text-slate-600 font-semibold text-sm truncate">
+              <p className={`${text.secondary} font-semibold text-sm truncate`}>
                 {release.artistName}
               </p>
             </div>
@@ -74,7 +79,7 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
               {hasTracks && (
                 <button
                   onClick={toggleExpand}
-                  className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors"
+                  className={`flex-shrink-0 ${button.icon.size.sm} ${button.icon.base} ${button.icon.color.default} ${button.icon.rounded}`}
                 >
                   {isExpanded ? (
                     <ChevronUp size={18} />
@@ -86,7 +91,7 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
 
               <button
                 onClick={handleDismiss}
-                className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                className={`flex-shrink-0 ${button.icon.size.sm} ${button.icon.base} ${button.icon.color.red} ${button.icon.rounded}`}
                 title="Dismiss"
               >
                 <X size={16} />
@@ -95,10 +100,12 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
           </div>
 
           <div
-            className="flex items-center gap-2 text-xs text-slate-400 mt-1 cursor-pointer"
+            className={`flex items-center gap-2 text-xs ${text.muted} mt-1 cursor-pointer`}
             onClick={toggleExpand}
           >
-            <span className="font-bold uppercase tracking-wider text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">
+            <span
+              className={`font-bold uppercase tracking-wider text-[9px] bg-slate-100 ${text.mutedDark} px-1.5 py-0.5 ${rounded.sm}`}
+            >
               {release.releaseType ?? "Album"}
             </span>
             <span>•</span>
@@ -116,7 +123,9 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
       {isExpanded && hasTracks && (
         <div className="bg-slate-50/50 border-t border-slate-100 px-4 py-3 animate-in slide-in-from-top-2 duration-200">
           <div className="flex justify-between items-center mb-2">
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            <p
+              className={`text-[10px] font-black ${text.muted} uppercase tracking-widest`}
+            >
               Tracklist ({release.tracks?.length})
             </p>
           </div>
@@ -127,7 +136,7 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
               .map((track) => (
                 <li
                   key={track.trackNumber}
-                  className="text-sm text-slate-600 truncate flex items-center py-0.5 hover:text-slate-900"
+                  className={`text-sm ${text.secondary} truncate flex items-center py-0.5 hover:text-slate-900`}
                 >
                   <span className="text-slate-300 tabular-nums mr-3 text-xs font-medium w-4 text-right">
                     {track.trackNumber}

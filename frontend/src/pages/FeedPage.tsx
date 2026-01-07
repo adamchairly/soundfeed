@@ -9,9 +9,21 @@ import { RecoveryModal } from "../components/RecoveryModal";
 import { FeedList } from "../components/FeedList";
 import { SyncStatus } from "../components/SyncStatus";
 import { AddArtistDropdown } from "../components/AddArtistDropdown";
+import { page as pageStyles } from "../styles/tailwind";
 
 const FeedPage = () => {
-  const { releases, loading: releasesLoading, dismissRelease } = useReleases();
+  const {
+    releases,
+    loading: releasesLoading,
+    dismissRelease,
+    page,
+    totalPages,
+    pageSize,
+    sortDescending,
+    setPage,
+    setPageSize,
+    setSortDescending,
+  } = useReleases();
   const { lastSynced, syncReleases } = useSync();
   const { userCode, recoverIdentity } = useUser();
   const {
@@ -56,7 +68,7 @@ const FeedPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col selection:bg-slate-200">
+    <div className={`${pageStyles.background} flex flex-col`}>
       <main className="flex-1 max-w-2xl mx-auto w-full py-6 px-4">
         <div className="mb-2 relative" ref={containerRef}>
           <SyncStatus
@@ -76,13 +88,19 @@ const FeedPage = () => {
               selectArtist={selectArtist}
             />
           )}
+          <FeedList
+            releases={releases}
+            loading={releasesLoading}
+            onDismiss={dismissRelease}
+            page={page}
+            totalPages={totalPages}
+            pageSize={pageSize}
+            sortDescending={sortDescending}
+            onPageChange={setPage}
+            onPageSizeChange={setPageSize}
+            onSortChange={setSortDescending}
+          />
         </div>
-
-        <FeedList
-          releases={releases}
-          loading={releasesLoading}
-          onDismiss={dismissRelease}
-        />
       </main>
 
       {showRecovery && (

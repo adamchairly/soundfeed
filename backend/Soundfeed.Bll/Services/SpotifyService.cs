@@ -49,7 +49,7 @@ public class SpotifyService : ISpotifyService
 
         var albumIds = new HashSet<string>();
 
-        var nextUrl = $"{_options.BaseUrl}/artists/{artistId}/albums?include_groups=album,single&limit=50";
+        var nextUrl = $"{_options.BaseUrl}/artists/{artistId}/albums?include_groups=album,single&market=US&limit=50";
 
         while (!string.IsNullOrWhiteSpace(nextUrl))
         {
@@ -112,9 +112,9 @@ public class SpotifyService : ISpotifyService
 
                     Tracks = album.Tracks?.Items?.Select(t => new TrackDto
                     {
-                        Title = t.Name,
+                        Title = t.Name ?? "Unknown Track",
                         TrackNumber = t.TrackNumber,
-                        SpotifyId = t.Id
+                        SpotifyId = t.Id ?? "Unknown Track ID"
                     }).ToList() ?? []
                 });
             }

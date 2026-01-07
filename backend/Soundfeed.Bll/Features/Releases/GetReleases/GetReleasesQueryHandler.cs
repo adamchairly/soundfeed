@@ -1,17 +1,18 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Soundfeed.Bll.Extensions;
 using Soundfeed.Bll.Models;
 using Soundfeed.Dal.Abstractions;
 
 namespace Soundfeed.Bll.Features;
 
-internal sealed class GetReleasesQueryHandler(IAppDbContext context) : IRequestHandler<GetReleasesQuery, IReadOnlyList<GetReleaseResponse>>
+internal sealed class GetReleasesQueryHandler(IAppDbContext context) : IRequestHandler<GetReleasesQuery, PageResult<GetReleaseResponse>>
 {
     private readonly IAppDbContext _context = context;
 
-    public async Task<IReadOnlyList<GetReleaseResponse>> Handle(GetReleasesQuery request, CancellationToken cancellationToken)
+    public async Task<PageResult<GetReleaseResponse>> Handle(GetReleasesQuery request, CancellationToken cancellationToken)
     {
-        return await _context.UserSubscriptions
+        var query = _context.UserSubscriptions
             .AsNoTracking()
             .Where(s => s.UserId == request.UserId)
             .SelectMany(s => s.Artist.Releases
@@ -33,8 +34,12 @@ internal sealed class GetReleasesQueryHandler(IAppDbContext context) : IRequestH
                             Title = t.Title,
                             TrackNumber = t.TrackNumber
                         }).ToList()
-                }))
-            .OrderByDescending(r => r.ReleaseDate)
-            .ToListAsync(cancellationToken);
+                }));
+
+        query = request.SortDescending
+            ? query.OrderByDescending(r => r.ReleaseDate)
+            : query.OrderBy(r => r.ReleaseDate);
+
+        return await query.ToPageResultAsync(request.Page, request.PageSize, cancellationToken);
     }
 }
