@@ -28,7 +28,7 @@ public static class ServiceCollectionExtensions
             // Release sync job
             var releaseJobKey = new JobKey("ReleaseSyncJob");
             q.AddJob<ReleaseSyncJob>(opts => opts.WithIdentity(releaseJobKey));
-            var cronSchedule = configuration["Jobs:ReleaseSyncJob"] ?? "0 0/1 * 1/1 * ? *";
+            var cronSchedule = configuration["Jobs:ReleaseSyncJob"] ?? "0 0 0/4 ? * * *";
             q.AddTrigger(opts => opts
                 .ForJob(releaseJobKey)
                 .WithIdentity("ReleaseSyncJob-Trigger")
