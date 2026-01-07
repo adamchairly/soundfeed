@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Soundfeed.Bll.Abstractions;
 using Soundfeed.Dal.Abstractions;
 using Soundfeed.Dal.Entites;
@@ -6,9 +7,10 @@ using System.Security.Cryptography;
 
 namespace Soundfeed.Bll;
 
-public sealed class UserService(IAppDbContext context) : IUserService
+public sealed class UserService(IAppDbContext context, ILogger<UserService> logger) : IUserService
 {
     private readonly IAppDbContext _context = context;
+    private readonly ILogger<UserService> _logger = logger;
 
     public Task<User?> FindByIdAsync(string id, CancellationToken cancellationToken) => _context.Users.FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
 
@@ -50,6 +52,18 @@ public sealed class UserService(IAppDbContext context) : IUserService
         await CreateAsync(newUser, cancellationToken);
 
         return (newUser.Id, true);
+    }
+
+    public Task DeleteInactiveAsync(CancellationToken cancellationToken)
+    {
+        var inactiveUsers = _context.Users.AsNoTracking().Where(u => u.LastSeenAt < DateTime.UtcNow.AddMonths(-1));
+
+        _context.Users.RemoveRange(inactiveUsers);
+        _context.SaveChangesAsync(cancellationToken);
+
+        _logger.LogInformation("Deleted {Count} users last seen before {CutoffDate}", inactiveUsers, DateTime.UtcNow.AddMonths(-1));
+
+        return Task.CompletedTask;
     }
 
     private static string GenerateRecoveryCode()

@@ -25,16 +25,29 @@ public static class ServiceCollectionExtensions
 
         services.AddQuartz(q =>
         {
-            var jobKey = new JobKey("ReleaseSyncJob");
-            q.AddJob<ReleaseSyncJob>(opts => opts.WithIdentity(jobKey));
+            // sync job
+            var releaseJobKey = new JobKey("ReleaseSyncJob");
+            q.AddJob<ReleaseSyncJob>(opts => opts.WithIdentity(releaseJobKey));
 
             var cronSchedule = configuration["Jobs:ReleaseSyncJob"] ?? "0 0/1 * 1/1 * ? *";
 
             q.AddTrigger(opts => opts
-                .ForJob(jobKey)
+                .ForJob(releaseJobKey)
                 .WithIdentity("ReleaseSyncJob-Trigger")
                 .WithCronSchedule(cronSchedule));
+
+            // user deleteion job
+            var userJobKey = new JobKey("InactiveUserJob");
+            q.AddJob<InactiveUserJob>(opts => opts.WithIdentity(userJobKey));
+
+            var inactiveUserCron = configuration["Jobs:InactiveUserJob"] ?? "0 0 0 * * ?";
+            q.AddTrigger(opts => opts
+                .ForJob(userJobKey)
+                .WithIdentity("InactiveUserJob-Trigger")
+                .WithCronSchedule(inactiveUserCron));
         });
+
+
         services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
         services.Configure<SpotifyOptions>(configuration.GetSection(SpotifyOptions.SectionName));
