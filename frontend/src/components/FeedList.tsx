@@ -38,7 +38,7 @@ export const FeedList = ({
   onPageSizeChange,
   onSortChange,
 }: FeedListProps) => {
-  if (loading) {
+  if (loading && !releases) {
     return (
       <div className="space-y-4">
         {[1, 2, 3].map((i) => (

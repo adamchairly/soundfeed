@@ -6,7 +6,7 @@ export const ArtistCarousel = ({ onAddClick }: { onAddClick: () => void }) => {
   const { artists, loading, unsubscribe } = useArtists();
 
   return (
-    <div className="flex items-center gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-100 [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-thumb]:rounded-full">
+    <div className="flex items-center gap-4 py-4 overflow-x-auto snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-100 [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-thumb]:rounded-full">
       <button
         onClick={onAddClick}
         className="flex-shrink-0 flex flex-col items-center gap-2 group"
