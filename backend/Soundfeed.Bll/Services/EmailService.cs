@@ -45,14 +45,13 @@ public class EmailService : IEmailService
 
         var viewModel = new EmailViewModel
         {
-            UserName = userName,
             Releases = releases,
             FeedUrl = _options.FeedUrl,
             LogoUrl = _options.LogoUrl
         };
 
         var htmlContent = await _razorEngine.CompileRenderAsync("Soundfeed.Bll.Templates.ReleaseDigestEmail.cshtml", viewModel);
-        var plainTextContent = BuildEmailPlainText(userName, releases);
+        var plainTextContent = BuildEmailPlainText(releases);
 
         var msg = new SendGridMessage
         {
@@ -77,20 +76,16 @@ public class EmailService : IEmailService
         }
     }
 
-
-    private string BuildEmailPlainText(string userName, List<GetReleaseResponse> releases)
+    private string BuildEmailPlainText(List<GetReleaseResponse> releases)
     {
         var releasesText = string.Join("\n\n", releases.Select(r =>
         {
             var date = r.ReleaseDate.ToString("MMM d, yyyy");
-            var tracksText = r.Tracks.Count > 0
-                ? $"\nTracklist ({r.Tracks.Count}):\n" + string.Join("\n", r.Tracks.OrderBy(t => t.TrackNumber).Select(t => $"  {t.TrackNumber}. {t.Title}"))
-                : "";
-            var labelInfo = !string.IsNullOrWhiteSpace(r.Label) ? $" • {r.Label}" : "";
+            var labelInfo = !string.IsNullOrWhiteSpace(r.Label) ? $"\n{r.Label}" : "";
 
-            return $"{r.Title} by {r.ArtistName}\n{r.ReleaseType ?? "Album"} • {date}{labelInfo}\nSpotify: {r.SpotifyUrl}{tracksText}";
+            return $"{r.Title}\n{r.ArtistName}\n{date}{labelInfo}\nListen: {r.SpotifyUrl}";
         }));
 
-        return $"Here are your latest releases:\n\n{releasesText}\n\nView all releases: {_options.FeedUrl}";
+        return $"Hello there!\nYour recent releases:\n\n{releasesText}";
     }
 }
