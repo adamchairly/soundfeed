@@ -6,8 +6,8 @@ import {
   ArrowDown,
 } from "lucide-react";
 import { useState, useRef } from "react";
-import { useOnClickOutside } from "../hooks/useOnClickOutside";
-import { button, text } from "../styles/tailwind";
+import { useOnClickOutside } from "@/hooks/useOnClickOutside";
+import { button, text } from "@/styles/tailwind";
 
 interface FeedPaginationProps {
   page: number;

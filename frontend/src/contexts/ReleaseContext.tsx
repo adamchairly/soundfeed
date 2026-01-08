@@ -1,8 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
-import httpClient from "../api/HttpClient";
-import type { Release } from "../types/Release";
-import type { PageResult } from "../types/PageResult";
+import httpClient from "@/api/HttpClient";
+import type { Release } from "@/types/Release";
+import type { PageResult } from "@/types/PageResult";
 
 interface ReleaseContextType {
   releases: Release[] | null;

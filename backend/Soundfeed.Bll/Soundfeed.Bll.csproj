@@ -4,6 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,10 +15,16 @@
     <PackageReference Include="Quartz" />
     <PackageReference Include="Quartz.Extensions.Hosting" />
 	<PackageReference Include="Microsoft.Extensions.Http" />
+	<PackageReference Include="SendGrid" />
+	<PackageReference Include="RazorLight" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Soundfeed.Dal\Soundfeed.Dal.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\ReleaseDigestEmail.cshtml" />
   </ItemGroup>
 
 </Project>

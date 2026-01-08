@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Header } from './Header';
-import { Footer } from './Footer';
-import { RecoveryModal } from '../RecoveryModal';
-import { useUser } from '../../contexts/UserContext';
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
+import { RecoveryModal } from '@/components/header/RecoveryModal';
+import { useUser } from '@/contexts/UserContext';
 
 export const Layout = () => {
   const { userCode, recoverIdentity } = useUser();

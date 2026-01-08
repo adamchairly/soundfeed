@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
-import { useArtists } from "../contexts/ArtistContext";
-import { button, text, shadow } from "../styles/tailwind";
+import { useArtists } from "@/contexts/ArtistContext";
+import { button, text, shadow } from "@/styles/tailwind";
 
 export const ArtistCarousel = ({ onAddClick }: { onAddClick: () => void }) => {
   const { artists, loading, unsubscribe } = useArtists();

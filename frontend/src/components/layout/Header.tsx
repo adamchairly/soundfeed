@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Github, Shield } from 'lucide-react';
-import logo from '../../assets/logo.svg';
-import { button, text, border, rounded } from '../../styles/tailwind';
+import logo from '@/assets/logo.svg';
+import { button, text, border, rounded } from '@/styles/tailwind';
 
 interface HeaderProps {
   recoveryCode: string;

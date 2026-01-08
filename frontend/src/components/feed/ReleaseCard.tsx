@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp, X } from "lucide-react";
-import type { Release } from "../types/Release";
-import { button, text, border, rounded } from "../styles/tailwind";
+import { ChevronDown, ChevronUp, X, ExternalLink } from "lucide-react";
+import type { Release } from "@/types/Release";
+import { button, text, border, rounded } from "@/styles/tailwind";
 
 interface ReleaseCardProps {
   release: Release;
@@ -66,14 +66,7 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
                 title="Open in Spotify"
                 onClick={(e) => e.stopPropagation()}
               >
-                <svg
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  width="16"
-                  height="16"
-                >
-                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.491 17.293a.75.75 0 01-1.03.249c-2.822-1.724-6.375-2.113-10.559-1.157a.751.751 0 01-.336-1.463c4.58-1.046 8.508-.598 11.676 1.337a.75.75 0 01.249 1.034zm1.465-3.265a.939.939 0 01-1.288.309c-3.229-1.984-8.151-2.559-11.97-1.4a.94.94 0 01-.541-1.798c4.363-1.323 9.789-.675 13.491 1.601a.94.94 0 01.308 1.288zm.126-3.411c-3.873-2.3-10.258-2.511-13.935-1.395a1.125 1.125 0 11-.652-2.155c4.233-1.285 11.29-1.026 15.728 1.609a1.125 1.125 0 11-1.141 1.941z" />
-                </svg>
+                <ExternalLink size={16} />
               </a>
 
               {hasTracks && (

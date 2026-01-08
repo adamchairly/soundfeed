@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import logo from "../../assets/logo.svg";
-import { text, button } from "../../styles/tailwind";
+import logo from "@/assets/logo.svg";
+import { text, button } from "@/styles/tailwind";
 
 export const Footer = () => {
   const email = import.meta.env.VITE_CONTACT_EMAIL;

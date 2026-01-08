@@ -1,4 +1,4 @@
-import type { Track } from "./Track";
+import type { Track } from "@/types/Track";
 
 export interface Release {
   id: number;

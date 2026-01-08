@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from "react";
-import httpClient from "../api/HttpClient";
-import { useReleases } from "./ReleaseContext";
+import httpClient from "@/api/HttpClient";
+import { useReleases } from "@/contexts/ReleaseContext";
 
 interface SyncContextType {
   lastSynced: string | null;

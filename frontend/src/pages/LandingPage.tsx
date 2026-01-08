@@ -6,8 +6,8 @@ import {
   Search,
   CheckCircle2,
 } from "lucide-react";
-import screenshot from '../assets/screenshot.png';
-import { text, button, border, rounded, shadow, page, heading, badge } from '../styles/tailwind';
+import screenshot from '@/assets/screenshot.png';
+import { text, button, border, rounded, shadow, page, heading, badge } from '@/styles/tailwind';
 
 const LandingPage = () => {
   return (
@@ -34,10 +34,10 @@ const LandingPage = () => {
             <ArrowRight className="w-4 h-4" />
           </Link>
           <a
-            href="#how-it-works"
+            href="#features"
             className={`font-dsiplay w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white ${text.button} ${border.default} px-8 py-4 ${rounded.xl} font-bold text-sm hover:bg-slate-50 transition-all`}
           >
-            How it works
+            Features
           </a>
         </div>
       </div>
@@ -79,10 +79,10 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div id="how-it-works" className="max-w-5xl mx-auto px-6 py-20">
+      <div id="features" className="max-w-5xl mx-auto px-6 py-20">
         <div className="text-center mb-16">
           <h2 className={`${heading.h1} mb-6`}>
-            Simple by design
+            Features
           </h2>
         </div>
 

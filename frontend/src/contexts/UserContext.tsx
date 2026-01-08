@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import httpClient from '../api/HttpClient';
+import httpClient from '@/api/HttpClient';
 
 interface UserContextType {
   userCode: string;

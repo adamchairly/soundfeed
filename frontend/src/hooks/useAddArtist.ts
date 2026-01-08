@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useReleases } from '../contexts/ReleaseContext';
-import { useArtists } from '../contexts/ArtistContext';
-import httpClient from '../api/HttpClient';
-import type { SearchArtistResult } from '../types/SearchArtistResult';
+import { useReleases } from '@/contexts/ReleaseContext';
+import { useArtists } from '@/contexts/ArtistContext';
+import httpClient from '@/api/HttpClient';
+import type { SearchArtistResult } from '@/types/SearchArtistResult';
 
 export const useAddArtistLogic = () => {
   const { refreshReleases } = useReleases();

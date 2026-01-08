@@ -1,5 +1,5 @@
 import { RefreshCw } from "lucide-react";
-import { button, rounded, text } from "../styles/tailwind";
+import { button, rounded, text } from "@/styles/tailwind";
 
 interface SyncStatusProps {
   lastSynced: string | null;

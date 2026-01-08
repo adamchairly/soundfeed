@@ -1,5 +1,5 @@
-import type { SearchArtistResult } from "../types/SearchArtistResult";
-import { button, text, border, rounded } from "../styles/tailwind";
+import type { SearchArtistResult } from "@/types/SearchArtistResult";
+import { button, text, border, rounded } from "@/styles/tailwind";
 
 interface AddArtistProps {
   inputUrl: string;

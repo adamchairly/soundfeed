@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import httpClient from '../api/HttpClient';
-import type { Artist } from '../types/Artist';
+import httpClient from '@/api/HttpClient';
+import type { Artist } from '@/types/Artist';
 
 interface ArtistContextType {
   artists: Artist[];

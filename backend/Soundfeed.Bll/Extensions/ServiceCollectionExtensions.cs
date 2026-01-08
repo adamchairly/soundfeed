@@ -4,6 +4,7 @@ using Quartz;
 using Soundfeed.Bll.Abstractions;
 using Soundfeed.Bll.Jobs;
 using Soundfeed.Bll.Models;
+using Soundfeed.Bll.Options;
 using Soundfeed.Bll.Services;
 using Soundfeed.Dal.Extensions;
 
@@ -22,6 +23,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ITokenService, TokenService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IReleaseSyncService, ReleaseSyncService>();
+        services.AddScoped<IEmailService, EmailService>();
 
         services.AddQuartz(q =>
         {
@@ -44,12 +46,23 @@ public static class ServiceCollectionExtensions
                 .WithIdentity("InactiveUserJob-Trigger")
                 .WithCronSchedule(inactiveUserCron, x => x
                     .WithMisfireHandlingInstructionDoNothing()));
+
+            // Email job
+            var emailJobKey = new JobKey("EmailJob");
+            q.AddJob<EmailJob>(opts => opts.WithIdentity(emailJobKey));
+            var emailCron = configuration["Jobs:EmailJob"] ?? "0 0 9 * * ?";
+            q.AddTrigger(opts => opts
+                .ForJob(emailJobKey)
+                .WithIdentity("EmailJob-Trigger")
+                .WithCronSchedule(emailCron, x => x
+                    .WithMisfireHandlingInstructionDoNothing()));
         });
 
 
         services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
         services.Configure<SpotifyOptions>(configuration.GetSection(SpotifyOptions.SectionName));
+        services.Configure<EmailOptions>(configuration.GetSection(EmailOptions.SectionName));
 
         return services;
     }

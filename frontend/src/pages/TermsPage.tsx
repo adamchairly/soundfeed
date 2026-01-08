@@ -1,4 +1,4 @@
-import { text, page, heading } from '../styles/tailwind';
+import { text, page, heading } from '@/styles/tailwind';
 
 const TermsPage = () => {
     return (

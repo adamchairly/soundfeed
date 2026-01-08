@@ -1,15 +1,15 @@
 import { useRef, useState, useCallback } from "react";
-import { useReleases } from "../contexts/ReleaseContext";
-import { useSync } from "../contexts/SyncContext";
-import { useUser } from "../contexts/UserContext";
-import { useAddArtistLogic } from "../hooks/useAddArtist";
-import { useOnClickOutside } from "../hooks/useOnClickOutside";
-import { ArtistCarousel } from "../components/ArtistCarousel";
-import { RecoveryModal } from "../components/RecoveryModal";
-import { FeedList } from "../components/FeedList";
-import { SyncStatus } from "../components/SyncStatus";
-import { AddArtistDropdown } from "../components/AddArtistDropdown";
-import { page as pageStyles } from "../styles/tailwind";
+import { useReleases } from "@/contexts/ReleaseContext";
+import { useSync } from "@/contexts/SyncContext";
+import { useUser } from "@/contexts/UserContext";
+import { useAddArtistLogic } from "@/hooks/useAddArtist";
+import { useOnClickOutside } from "@/hooks/useOnClickOutside";
+import { ArtistCarousel } from "@/components/ArtistCarousel";
+import { RecoveryModal } from "@/components/header/RecoveryModal";
+import { FeedList } from "@/components/feed/FeedList";
+import { SyncStatus } from "@/components/SyncStatus";
+import { AddArtistDropdown } from "@/components/feed/AddArtistDropdown";
+import { page as pageStyles } from "@/styles/tailwind";
 
 const FeedPage = () => {
   const {

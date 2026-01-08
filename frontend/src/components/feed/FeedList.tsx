@@ -1,8 +1,8 @@
-import type { Release } from "../types/Release";
-import { ReleaseCard } from "./ReleaseCard";
-import { MonthDivider } from "./MonthDivider";
-import { FeedPagination } from "./FeedPagination";
-import { text } from "../styles/tailwind";
+import type { Release } from "@/types/Release";
+import { ReleaseCard } from "@/components/feed/ReleaseCard";
+import { MonthDivider } from "@/components/feed/MonthDivider";
+import { FeedPagination } from "@/components/feed/FeedPagination";
+import { text } from "@/styles/tailwind";
 
 interface FeedListProps {
   releases: Release[] | null;

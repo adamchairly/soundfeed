@@ -1,4 +1,4 @@
-import { text, divider } from "../styles/tailwind";
+import { text, divider } from "@/styles/tailwind";
 
 export const MonthDivider = ({ date }: { date: string }) => {
   const label = new Date(date).toLocaleDateString("en-US", {
