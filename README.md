@@ -36,10 +36,10 @@ No login, account or any personal detail required.
    - Trigger manual sync
    - Dismiss already seen feed entries
    - Order and navigate in your feed
-
+- **Email notifications**
+   - Receive optional weekly digest emails
+   
 ## Project Structure
-
-The frontend uses React Context API for state management and TypeScript for type safety, while the backend implements CQRS with MediatR and follows a layered architecture (API, Business Logic, Data Access).
 
 ```
 Soundfeed/
