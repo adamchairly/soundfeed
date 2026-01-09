@@ -25,9 +25,6 @@ const LandingPage = () => {
         >
           Soundfeed tracks your artists and displays new releases
         </p>
-        <p className={`text-lg ${text.secondary} mb-10`}>
-          Built for music lovers, against the algorithm
-        </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
@@ -51,11 +48,6 @@ const LandingPage = () => {
       >
         <div className="max-w-4xl mx-auto px-6 text-center z-10 relative">
           <h2 className={`${heading.h1} mb-6`}>Stop feeding the algorithm</h2>
-          <p
-            className={`text-lg ${text.secondary} max-w-2xl mx-auto leading-relaxed`}
-          >
-            Streaming platforms prioritize what they want to promote
-          </p>
           <p
             className={`text-lg ${text.secondary} mb-10 max-w-2xl mx-auto leading-relaxed`}
           >
@@ -115,9 +107,8 @@ const LandingPage = () => {
                   Feed Control
                 </h4>
                 <p className={`${text.secondary} text-sm leading-relaxed`}>
-                  Dismiss seen entries to keep your workspace clean. Navigate
-                  your release history chronologically without algorithmic
-                  interference.
+                  Dismiss seen releases. Navigate
+                  your release history chronologically.
                 </p>
               </li>
               <li className="group">
