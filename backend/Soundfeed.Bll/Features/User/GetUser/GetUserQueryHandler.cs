@@ -16,6 +16,11 @@ internal sealed class GetUserQueryHandler(IAppDbContext context, IUserService us
         var user = await _userService.FindByIdAsync(request.UserId, cancellationToken)
             ?? throw new EntityNotFoundException($"User with ID '{request.UserId}' was not found.");
 
-        return new GetUserResponse { RecoveryCode = user.RecoveryCode };
+        return new GetUserResponse
+        {
+            RecoveryCode = user.RecoveryCode,
+            Email = user.Email,
+            EmailNotifications = user.EmailNotifications
+        };
     }
 }

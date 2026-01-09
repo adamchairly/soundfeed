@@ -3,20 +3,27 @@ import httpClient from '@/api/HttpClient';
 
 interface UserContextType {
   userCode: string;
+  email?: string;
+  emailNotifications: boolean;
   loading: boolean;
   recoverIdentity: (code: string) => Promise<boolean>;
+  refreshUser: () => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [userCode, setUserCode] = useState<string>("");
+  const [email, setEmail] = useState<string | undefined>(undefined);
+  const [emailNotifications, setEmailNotifications] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
 
   const fetchUserStatus = async () => {
     try {
-      const { data } = await httpClient.get<{ recoveryCode: string }>('/api/User');
+      const { data } = await httpClient.get<{ recoveryCode: string; email?: string; emailNotifications: boolean }>('/api/User');
       setUserCode(data.recoveryCode);
+      setEmail(data.email);
+      setEmailNotifications(data.emailNotifications);
     } catch (err) {
       console.error("Could not fetch user identity + " + err);
     } finally {
@@ -37,7 +44,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => { fetchUserStatus(); }, []);
 
   return (
-    <UserContext.Provider value={{ userCode, loading, recoverIdentity }}>
+    <UserContext.Provider value={{ userCode, email, emailNotifications, loading, recoverIdentity, refreshUser: fetchUserStatus }}>
       {children}
     </UserContext.Provider>
   );

@@ -24,7 +24,7 @@ public class EmailJob(IServiceProvider serviceProvider, ILogger<EmailJob> logger
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
         var usersWithEmail = await dbContext.Users
-            .Where(u => u.Email != null)
+            .Where(u => u.Email != null && u.EmailNotifications)
             .ToListAsync(context.CancellationToken);
 
         _logger.LogInformation("Found {Count} users with email addresses", usersWithEmail.Count);

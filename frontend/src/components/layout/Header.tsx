@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom';
-import { Github, Shield } from 'lucide-react';
+import { Github, Shield, Mail } from 'lucide-react';
 import logo from '@/assets/logo.svg';
 import { button, text, border, rounded } from '@/styles/tailwind';
 
 interface HeaderProps {
   recoveryCode: string;
   onCodeClick: () => void;
+  onEmailClick: () => void;
 }
 
-export const Header = ({ recoveryCode, onCodeClick }: HeaderProps) => (
+export const Header = ({ recoveryCode, onCodeClick, onEmailClick }: HeaderProps) => (
   <header className="border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-[100]">
     <div className="max-w-2xl mx-auto px-4 h-16 flex items-center justify-between">
       
@@ -28,6 +29,13 @@ export const Header = ({ recoveryCode, onCodeClick }: HeaderProps) => (
           <span className={`text-[11px] font-mono font-bold ${text.secondary} tracking-wider`}>
             {recoveryCode || '--- ---'}
           </span>
+        </button>
+
+        <button 
+          onClick={onEmailClick}
+          className={`${button.link} p-2`}
+        >
+          <Mail className="w-5 h-5" />
         </button>
                 
         <a href="https://github.com/adamchairly/soundfeed" target="_blank" rel="noreferrer" className={button.link}>
