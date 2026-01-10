@@ -33,13 +33,20 @@ services:
       dockerfile: Dockerfile
     container_name: soundfeed-api
     environment:
-      - ConnectionStrings__DefaultConnection=Host=postgres;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
       - Redis__ConnectionString=redis:6379
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=${POSTGRES_>
       - Spotify__ClientId=${SPOTIFY_CLIENT_ID}
       - Spotify__ClientSecret=${SPOTIFY_CLIENT_SECRET}
       - CookieSettings__SecretKey=${COOKIE_SECRET_KEY}
       - AllowedOrigins=${ALLOWED_ORIGINS}
       - AllowedHosts=${ALLOWED_HOSTS:-*}
+      - Jobs__ReleaseSyncJob=${RELEASE_SYNC_JOB}
+      - Jobs__EmailJob=${EMAIL_JOB}
+      - Email__ApiKey=${EMAIL_API_KEY}
+      - Email__FromEmail=${EMAIL_FROM}
+      - Email__FromName=${EMAIL_FROM_NAME}
+      - Email__FeedUrl=${EMAIL_FEED_URL}
+      - Email__LogoUrl=${EMAIL_LOGO_URL}
     ports:
       - "8080:8080"
     depends_on:
