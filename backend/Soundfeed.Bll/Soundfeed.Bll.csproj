@@ -17,6 +17,7 @@
 	<PackageReference Include="Microsoft.Extensions.Http" />
 	<PackageReference Include="SendGrid" />
 	<PackageReference Include="RazorLight" />
+	<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
   </ItemGroup>
 
   <ItemGroup>

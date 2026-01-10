@@ -4,10 +4,10 @@ import { useSync } from "@/contexts/SyncContext";
 import { useUser } from "@/contexts/UserContext";
 import { useAddArtistLogic } from "@/hooks/useAddArtist";
 import { useOnClickOutside } from "@/hooks/useOnClickOutside";
-import { ArtistCarousel } from "@/components/ArtistCarousel";
+import { ArtistCarousel } from "@/components/feed/ArtistCarousel";
 import { RecoveryModal } from "@/components/header/RecoveryModal";
 import { FeedList } from "@/components/feed/FeedList";
-import { SyncStatus } from "@/components/SyncStatus";
+import { SyncStatus } from "@/components/feed/SyncStatus";
 import { AddArtistDropdown } from "@/components/feed/AddArtistDropdown";
 import { page as pageStyles } from "@/styles/tailwind";
 

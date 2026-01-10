@@ -116,9 +116,7 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
       {isExpanded && hasTracks && (
         <div className="bg-slate-50/50 border-t border-slate-100 px-4 py-3 animate-in slide-in-from-top-2 duration-200">
           <div className="flex justify-between items-center mb-2">
-            <p
-              className={`text-[10px] font-black ${text.muted} uppercase tracking-widest`}
-            >
+            <p className={`${text.muted} text-sm`}>
               Tracklist ({release.tracks?.length})
             </p>
           </div>

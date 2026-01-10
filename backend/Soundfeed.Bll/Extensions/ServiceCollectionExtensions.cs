@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Quartz;
 using Soundfeed.Bll.Abstractions;
 using Soundfeed.Bll.Jobs;
@@ -16,6 +17,12 @@ public static class ServiceCollectionExtensions
     {
         services.AddDal(configuration);
 
+        var redisConnectionString = configuration["Redis:ConnectionString"] ?? "localhost:6379";
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = redisConnectionString;
+        });
+
         services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssembly(typeof(GetArtistQuery).Assembly));
 
@@ -24,6 +31,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IReleaseSyncService, ReleaseSyncService>();
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IStatsService, StatsService>();
 
         services.AddQuartz(q =>
         {

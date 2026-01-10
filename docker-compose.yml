@@ -16,6 +16,17 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    image: redis:7-alpine
+    container_name: soundfeed-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   backend:
     build:
       context: ./backend
@@ -23,6 +34,7 @@ services:
     container_name: soundfeed-api
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      - Redis__ConnectionString=redis:6379
       - Spotify__ClientId=${SPOTIFY_CLIENT_ID}
       - Spotify__ClientSecret=${SPOTIFY_CLIENT_SECRET}
       - CookieSettings__SecretKey=${COOKIE_SECRET_KEY}
@@ -32,6 +44,8 @@ services:
       - "8080:8080"
     depends_on:
       postgres:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     restart: unless-stopped
 

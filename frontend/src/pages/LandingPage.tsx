@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { ArrowRight} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import screenshot from "@/assets/screenshot.png";
+import { useStats } from "@/contexts/StatsContext";
 import {
   text,
   button,
@@ -10,8 +11,21 @@ import {
   page,
   heading,
 } from "@/styles/tailwind";
+import { FeatureCard } from "@/components/landing/FeatureCard";
 
 const LandingPage = () => {
+  const { stats } = useStats();
+
+  const formatNumber = (num: number) => {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + "M";
+    }
+    if (num >= 1000) {
+      return (num / 1000).toFixed(1) + "K";
+    }
+    return num.toString();
+  };
+
   return (
     <div className={page.background}>
       <div className="max-w-2xl mx-auto w-full pt-10 pb-16 px-6 text-center">
@@ -21,10 +35,39 @@ const LandingPage = () => {
         </h1>
 
         <p
-          className={`text-lg ${text.secondary} leading-relaxed max-w-lg mx-auto`}
+          className={`text-lg ${text.secondary} leading-relaxed max-w-lg mx-auto mb-6`}
         >
           Soundfeed tracks your artists and displays new releases
         </p>
+
+        {stats && (
+          <div className="flex flex-wrap items-center justify-center gap-6 mb-8">
+            <div className="text-center">
+              <div className={`text-2xl font-bold ${text.primary}`}>
+                {formatNumber(stats.users)}
+              </div>
+              <div className={`text-sm ${text.secondary}`}>Users</div>
+            </div>
+            <div className="text-center">
+              <div className={`text-2xl font-bold ${text.primary}`}>
+                {formatNumber(stats.tracks)}
+              </div>
+              <div className={`text-sm ${text.secondary}`}>Tracks</div>
+            </div>
+            <div className="text-center">
+              <div className={`text-2xl font-bold ${text.primary}`}>
+                {formatNumber(stats.artists)}
+              </div>
+              <div className={`text-sm ${text.secondary}`}>Artists</div>
+            </div>
+            <div className="text-center">
+              <div className={`text-2xl font-bold ${text.primary}`}>
+                {formatNumber(stats.userSubscriptions)}
+              </div>
+              <div className={`text-sm ${text.secondary}`}>Subscriptions</div>
+            </div>
+          </div>
+        )}
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
@@ -66,73 +109,58 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div id="features" className="max-w-4xl mx-auto px-6 py-24">
-        <div className="grid md:grid-cols-2 gap-16">
-          <div>
-            <ul className="space-y-8">
-              <li className="group">
-                <h4 className="font-semibold text-slate-900 mb-1">
-                  Artist Subscriptions
-                </h4>
-                <p className={`${text.secondary} text-sm leading-relaxed`}>
-                  Follow artists by searching or pasting Spotify URLs.
-                  Unsubscribe from artists at any time.
-                </p>
-              </li>
-              <li className="group">
-                <h4 className="font-semibold text-slate-900 mb-1">
-                  Account Portability
-                </h4>
-                <p className={`${text.secondary} text-sm leading-relaxed`}>
-                  Sync your existing follows or recover your entire feed on any
-                  device using a recovery code.
-                </p>
-              </li>
-              <li className="group">
-                <h4 className="font-semibold text-slate-900 mb-1">
-                  Anonymous Usage
-                </h4>
-                <p className={`${text.secondary} text-sm leading-relaxed`}>
-                  Your usage is anonymous and we don't store any personal data. 
-                  Optionally, you can provide an email address to receive weekly digest emails, but it is not associated with your identity.
-                </p>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <ul className="space-y-8">
-              <li className="group">
-                <h4 className="font-semibold text-slate-900 mb-1">
-                  Feed Control
-                </h4>
-                <p className={`${text.secondary} text-sm leading-relaxed`}>
-                  Dismiss seen releases. Navigate
-                  your release history chronologically.
-                </p>
-              </li>
-              <li className="group">
-                <h4 className="font-semibold text-slate-900 mb-1">
-                  Automatic and Manual Synchronization
-                </h4>
-                <p className={`${text.secondary} text-sm leading-relaxed`}>
-                  While we monitor daily, you can trigger a manual sync at any
-                  time to fetch the latest releases instantly.
-                </p>
-              </li>
-              <li className="group">
-                <h4 className="font-semibold text-slate-900 mb-1">
-                  Email Notifications
-                </h4>
-                <p className={`${text.secondary} text-sm leading-relaxed`}>
-                  Receive weekly digest emails with the latest releases. You can
-                  enable or disable them at any time.
-                </p>
-              </li>
-            </ul>
-          </div>
+      <div id="features" className="max-w-5xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <FeatureCard
+            title="Follow artists"
+            description={
+              <>
+                Search or paste Spotify URLs, unfollow anytime.
+              </>
+            }
+          />
+          <FeatureCard
+            title="Get releases"
+            description={
+              <>
+                We check daily, you can sync manually whenever you want.
+              </>
+            }
+          />
+          <FeatureCard
+            title="Control your feed"
+            description={
+              <>
+                Dismiss what you've seen, browse your history.
+              </>
+            }
+          />
+          <FeatureCard
+            title="Optional emails"
+            description={
+              <>
+                Weekly digests if you want them, toggle on/off.
+              </>
+            }
+          />
+          <FeatureCard
+            title="Anonymous usage"
+            description={
+              <>
+                No login required, we don't collect personal data.
+              </>
+            }
+          />
+          <FeatureCard
+            title="Portability"
+            description={
+              <>
+                With a recovery code, access your feed from any device.
+              </>
+            }
+          />
         </div>
-      </div>
+      </div>  
     </div>
   );
 };

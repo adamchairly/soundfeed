@@ -8,6 +8,7 @@ import { UserProvider } from "@/contexts/UserContext";
 import { ReleaseProvider } from "@/contexts/ReleaseContext";
 import { SyncProvider } from "@/contexts/SyncContext";
 import { ArtistProvider } from "@/contexts/ArtistContext";
+import { StatsProvider } from "@/contexts/StatsContext";
 import { Layout } from "@/components/layout/Layout";
 import LandingPage from "@/pages/LandingPage";
 import FeedPage from "@/pages/FeedPage";
@@ -17,24 +18,26 @@ import TermsPage from "@/pages/TermsPage";
 const App = () => {
   return (
     <UserProvider>
-      <ArtistProvider>
-        <ReleaseProvider>
-          <SyncProvider>
-            <Router>
-            <Routes>
-              <Route element={<Layout />}>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/feed" element={<FeedPage />} />
-                <Route path="/privacy" element={<PrivacyPage />} />
-                <Route path="/terms" element={<TermsPage />} />
-              </Route>
+      <StatsProvider>
+        <ArtistProvider>
+          <ReleaseProvider>
+            <SyncProvider>
+              <Router>
+              <Routes>
+                <Route element={<Layout />}>
+                  <Route path="/" element={<LandingPage />} />
+                  <Route path="/feed" element={<FeedPage />} />
+                  <Route path="/privacy" element={<PrivacyPage />} />
+                  <Route path="/terms" element={<TermsPage />} />
+                </Route>
 
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </Router>
-          </SyncProvider>
-        </ReleaseProvider>
-      </ArtistProvider>
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </Router>
+            </SyncProvider>
+          </ReleaseProvider>
+        </ArtistProvider>
+      </StatsProvider>
     </UserProvider>
   );
 };
