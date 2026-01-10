@@ -53,7 +53,8 @@ Soundfeed/
 │       ├── hooks/               # Custom React hooks
 │       ├── pages/               # Page components
 │       ├── styles/              # Shared Tailwind constants
-│       └── types/               # TypeScript type definitions
+│       ├── types/               # TypeScript type definitions
+|       └── utils/               # Utility functions
 │
 └── backend/                     
     ├── Soundfeed.Api/           # API layer

@@ -54,16 +54,19 @@ public sealed class UserService(IAppDbContext context, ILogger<UserService> logg
         return (newUser.Id, true);
     }
 
-    public Task DeleteInactiveAsync(CancellationToken cancellationToken)
+    public async Task DeleteInactiveAsync(CancellationToken cancellationToken)
     {
-        var inactiveUsers = _context.Users.AsNoTracking().Where(u => u.LastSeenAt < DateTime.UtcNow.AddMonths(-1));
+        // Users last seen more than 1 month ago or with no subscriptions
+        var inactiveUsers = await _context.Users.AsNoTracking()
+            .Where(u => u.LastSeenAt < DateTime.UtcNow.AddMonths(-1) || !u.Subscriptions.Any())
+            .ToListAsync(cancellationToken);
 
         _context.Users.RemoveRange(inactiveUsers);
-        _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("Deleted {Count} users last seen before {CutoffDate}", inactiveUsers, DateTime.UtcNow.AddMonths(-1));
+        _logger.LogInformation("Deleted {Count} users last seen before {CutoffDate}", inactiveUsers.Count(), DateTime.UtcNow.AddMonths(-1));
 
-        return Task.CompletedTask;
+        return;
     }
 
     private static string GenerateRecoveryCode()

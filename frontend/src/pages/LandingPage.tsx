@@ -12,19 +12,10 @@ import {
   heading,
 } from "@/styles/tailwind";
 import { FeatureCard } from "@/components/landing/FeatureCard";
+import { formatStatNumber } from "@/utils/formatters";
 
 const LandingPage = () => {
   const { stats } = useStats();
-
-  const formatNumber = (num: number) => {
-    if (num >= 1000000) {
-      return (num / 1000000).toFixed(1) + "M";
-    }
-    if (num >= 1000) {
-      return (num / 1000).toFixed(1) + "K";
-    }
-    return num.toString();
-  };
 
   return (
     <div className={page.background}>
@@ -44,25 +35,25 @@ const LandingPage = () => {
           <div className="flex flex-wrap items-center justify-center gap-6 mb-8">
             <div className="text-center">
               <div className={`text-2xl font-bold ${text.primary}`}>
-                {formatNumber(stats.users)}
+                {formatStatNumber(stats.users)}
               </div>
               <div className={`text-sm ${text.secondary}`}>Users</div>
             </div>
             <div className="text-center">
               <div className={`text-2xl font-bold ${text.primary}`}>
-                {formatNumber(stats.tracks)}
+                {formatStatNumber(stats.tracks)}
               </div>
-              <div className={`text-sm ${text.secondary}`}>Tracks</div>
+              <div className={`text-sm ${text.secondary}`}>Releases</div>
             </div>
             <div className="text-center">
               <div className={`text-2xl font-bold ${text.primary}`}>
-                {formatNumber(stats.artists)}
+                {formatStatNumber(stats.artists)}
               </div>
               <div className={`text-sm ${text.secondary}`}>Artists</div>
             </div>
             <div className="text-center">
               <div className={`text-2xl font-bold ${text.primary}`}>
-                {formatNumber(stats.userSubscriptions)}
+                {formatStatNumber(stats.userSubscriptions)}
               </div>
               <div className={`text-sm ${text.secondary}`}>Subscriptions</div>
             </div>
