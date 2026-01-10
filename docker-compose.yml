@@ -34,7 +34,7 @@ services:
     container_name: soundfeed-api
     environment:
       - Redis__ConnectionString=redis:6379
-      - ConnectionStrings__DefaultConnection=Host=postgres;Database=${POSTGRES_>
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
       - Spotify__ClientId=${SPOTIFY_CLIENT_ID}
       - Spotify__ClientSecret=${SPOTIFY_CLIENT_SECRET}
       - CookieSettings__SecretKey=${COOKIE_SECRET_KEY}
