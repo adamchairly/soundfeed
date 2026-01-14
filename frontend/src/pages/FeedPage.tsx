@@ -2,12 +2,14 @@ import { useRef, useState, useCallback } from "react";
 import { useReleases } from "@/contexts/ReleaseContext";
 import { useSync } from "@/contexts/SyncContext";
 import { useUser } from "@/contexts/UserContext";
+import { useArtists } from "@/contexts/ArtistContext";
 import { useAddArtistLogic } from "@/hooks/useAddArtist";
 import { useOnClickOutside } from "@/hooks/useOnClickOutside";
-import { ArtistCarousel } from "@/components/feed/ArtistCarousel";
+
 import { RecoveryModal } from "@/components/header/RecoveryModal";
 import { FeedList } from "@/components/feed/FeedList";
 import { SyncStatus } from "@/components/feed/SyncStatus";
+import { ArtistGrid } from "@/components/feed/ArtistGrid";
 import { AddArtistDropdown } from "@/components/feed/AddArtistDropdown";
 import { page as pageStyles } from "@/styles/tailwind";
 
@@ -24,8 +26,12 @@ const FeedPage = () => {
     setPageSize,
     setSortDescending,
   } = useReleases();
+
   const { lastSynced, syncReleases } = useSync();
   const { userCode, recoverIdentity } = useUser();
+
+  const { artists, loading: artistsLoading, unsubscribe } = useArtists();
+
   const {
     showAdd,
     setShowAdd,
@@ -76,7 +82,16 @@ const FeedPage = () => {
             onSync={handleSync}
             isSyncing={isSyncing}
           />
-          <ArtistCarousel onAddClick={() => setShowAdd(!showAdd)} />
+
+          <ArtistGrid
+            artists={artists}
+            loading={artistsLoading}
+            onAddClick={() => setShowAdd((v) => !v)}
+            onRemoveArtist={(id) => unsubscribe(id)}
+            initialVisibleMobile={5}
+            initialVisibleDesktop={7}
+          />
+
           {showAdd && (
             <AddArtistDropdown
               inputUrl={inputUrl}
@@ -88,6 +103,7 @@ const FeedPage = () => {
               selectArtist={selectArtist}
             />
           )}
+
           <FeedList
             releases={releases}
             loading={releasesLoading}

@@ -21,11 +21,11 @@ export const AddArtistDropdown = ({
   selectArtist,
 }: AddArtistProps) => {
   return (
-    <div className="pt-6 animate-in fade-in slide-in-from-top-2 duration-200">
+    <div className="animate-in fade-in slide-in-from-top-2 duration-200">
       <div className="flex items-center gap-2">
         <div className="flex-1 relative">
           <div
-            className={`flex items-center bg-slate-50 ${rounded.lg} px-3 py-2 ${border.default} focus-within:border-slate-400 transition-all`}
+            className={`flex items-center bg-slate-50 ${rounded.md} px-3 py-2 ${border.default} focus-within:border-slate-400 transition-all`}
           >
             <input
               autoFocus
@@ -41,7 +41,7 @@ export const AddArtistDropdown = ({
 
           {isSearching && (
             <div
-              className={`absolute z-10 w-full mt-2 bg-white ${rounded.lg} ${border.default} shadow-lg px-4 py-3`}
+              className={`absolute z-10 w-full mt-2 bg-white ${rounded.md} ${border.default} shadow-lg px-4 py-3`}
             >
               <span className={`text-sm ${text.mutedDark}`}>Searching...</span>
             </div>
@@ -49,7 +49,7 @@ export const AddArtistDropdown = ({
 
           {searchResults.length > 0 && (
             <div
-              className={`absolute z-10 w-full mt-2 bg-white ${rounded.lg} ${border.default} shadow-lg max-h-64 overflow-y-auto`}
+              className={`absolute z-10 w-full mt-2 bg-white ${rounded.md} ${border.default} shadow-lg max-h-64 overflow-y-auto`}
             >
               {searchResults.map((artist, idx) => (
                 <button
