@@ -33,7 +33,7 @@ export const ArtistItem = ({
           )}`
         }
         alt={artist.name}
-        className={`w-14 h-14 object-cover ${border.default}`}
+        className={`aspect-square w-full max-w-[56px] object-cover ${border.default}`}
       />
 
       {onRemove && (
