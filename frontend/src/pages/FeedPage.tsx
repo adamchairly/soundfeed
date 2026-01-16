@@ -1,12 +1,10 @@
 import { useRef, useState, useCallback } from "react";
 import { useReleases } from "@/contexts/ReleaseContext";
 import { useSync } from "@/contexts/SyncContext";
-import { useUser } from "@/contexts/UserContext";
 import { useArtists } from "@/contexts/ArtistContext";
 import { useAddArtistLogic } from "@/hooks/useAddArtist";
 import { useOnClickOutside } from "@/hooks/useOnClickOutside";
 
-import { RecoveryModal } from "@/components/header/RecoveryModal";
 import { FeedList } from "@/components/feed/FeedList";
 import { SyncStatus } from "@/components/feed/SyncStatus";
 import { ArtistGrid } from "@/components/feed/ArtistGrid";
@@ -27,7 +25,6 @@ const FeedPage = () => {
   } = useReleases();
 
   const { lastSynced, syncReleases } = useSync();
-  const { userCode, recoverIdentity } = useUser();
 
   const { artists, loading: artistsLoading, unsubscribe } = useArtists();
 
@@ -43,7 +40,6 @@ const FeedPage = () => {
     selectArtist,
   } = useAddArtistLogic();
 
-  const [showRecovery, setShowRecovery] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -52,16 +48,6 @@ const FeedPage = () => {
   }, [setShowAdd]);
 
   useOnClickOutside(containerRef, closeAdd, showAdd);
-
-  const handleRecover = async (code: string) => {
-    const success = await recoverIdentity(code);
-    if (success) {
-      setShowRecovery(false);
-      window.location.reload();
-    } else {
-      alert("Invalid Code");
-    }
-  };
 
   const handleSync = async () => {
     setIsSyncing(true);
@@ -117,16 +103,9 @@ const FeedPage = () => {
           />
         </div>
       </main>
-
-      {showRecovery && (
-        <RecoveryModal
-          currentCode={userCode}
-          onClose={() => setShowRecovery(false)}
-          onRecover={handleRecover}
-        />
-      )}
     </div>
   );
 };
 
 export default FeedPage;
+

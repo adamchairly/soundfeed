@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import httpClient from '@/api/HttpClient';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import httpClient from "@/api/HttpClient";
 
 interface UserContextType {
   userCode: string;
@@ -8,11 +8,15 @@ interface UserContextType {
   loading: boolean;
   recoverIdentity: (code: string) => Promise<boolean>;
   refreshUser: () => Promise<void>;
+  updateEmail: (email: string) => Promise<boolean>;
+  toggleNotifications: (enabled: boolean) => Promise<boolean>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [userCode, setUserCode] = useState<string>("");
   const [email, setEmail] = useState<string | undefined>(undefined);
   const [emailNotifications, setEmailNotifications] = useState<boolean>(false);
@@ -20,7 +24,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const fetchUserStatus = async () => {
     try {
-      const { data } = await httpClient.get<{ recoveryCode: string; email?: string; emailNotifications: boolean }>('/api/User');
+      const { data } = await httpClient.get<{
+        recoveryCode: string;
+        email?: string;
+        emailNotifications: boolean;
+      }>("/api/User");
       setUserCode(data.recoveryCode);
       setEmail(data.email);
       setEmailNotifications(data.emailNotifications);
@@ -33,7 +41,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const recoverIdentity = async (code: string) => {
     try {
-      await httpClient.post('/api/User', { recoveryCode: code });
+      await httpClient.post("/api/User", { recoveryCode: code });
       return true;
     } catch (err) {
       console.error("Recovery failed: " + err);
@@ -41,10 +49,47 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  useEffect(() => { fetchUserStatus(); }, []);
+  const updateEmail = async (newEmail: string) => {
+    try {
+      await httpClient.patch("/api/Email", { Email: newEmail });
+      setEmail(newEmail);
+      return true;
+    } catch (err) {
+      console.error("Failed to update email:", err);
+      return false;
+    }
+  };
+
+  const toggleNotifications = async (enabled: boolean) => {
+    const previousValue = emailNotifications;
+    setEmailNotifications(enabled);
+    try {
+      await httpClient.patch("/api/Email", { Enabled: enabled });
+      return true;
+    } catch (err) {
+      console.error("Failed to toggle notifications:", err);
+      setEmailNotifications(previousValue);
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    fetchUserStatus();
+  }, []);
 
   return (
-    <UserContext.Provider value={{ userCode, email, emailNotifications, loading, recoverIdentity, refreshUser: fetchUserStatus }}>
+    <UserContext.Provider
+      value={{
+        userCode,
+        email,
+        emailNotifications,
+        loading,
+        recoverIdentity,
+        refreshUser: fetchUserStatus,
+        updateEmail,
+        toggleNotifications,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
