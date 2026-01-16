@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { AddArtistButton, ArtistItem } from "./AddArtistButton";
 import type { Artist } from "@/types/Artist";
-import { text } from "@/styles/tailwind";
 
 interface ArtistGridProps {
   artists: Artist[];
@@ -56,7 +55,7 @@ export const ArtistGrid = ({
       {!loading && hiddenCount > 0 && (
         <button
           onClick={() => setExpanded((v) => !v)}
-          className={`text-sm font-medium ${text.muted} hover:text-slate-600 transition-colors`}
+          className="text-sm font-medium text-slate-400 hover:text-slate-600 transition-colors"
         >
           {expanded ? "Show less" : `+${hiddenCount} more`}
         </button>

@@ -1,18 +1,17 @@
 import { X } from "lucide-react";
-import { button, text, shadow, border } from "@/styles/tailwind";
 import type { Artist } from "@/types/Artist";
 
 export const AddArtistButton = ({ onClick }: { onClick: () => void }) => (
   <button
     onClick={onClick}
-    className={`${button.base} flex flex-col items-center gap-1 group w-full`}
+    className="transition-colors flex flex-col items-center gap-1 group w-full"
   >
     <div
-      className={`aspect-square w-full max-w-[56px] flex items-center justify-center border-2 border-dashed transition-colors group-hover:border-green-500 group-hover:text-green-500 ${text.muted}`}
+      className="aspect-square w-full max-w-[56px] flex items-center justify-center border-2 border-dashed transition-colors group-hover:border-green-500 group-hover:text-green-500 text-slate-400"
     >
       +
     </div>
-    <span className={`${text.muted} text-[11px] text-center`}>Add</span>
+    <span className="text-slate-400 text-[11px] text-center">Add</span>
   </button>
 );
 
@@ -33,13 +32,13 @@ export const ArtistItem = ({
           )}`
         }
         alt={artist.name}
-        className={`aspect-square w-full max-w-[56px] object-cover ${border.default}`}
+        className="aspect-square w-full max-w-[56px] object-cover border border-slate-200"
       />
 
       {onRemove && (
         <button
           onClick={() => onRemove(Number(artist.id))}
-          className={`absolute -top-1.5 -right-1.5 z-10 bg-white ${button.icon.base} ${button.icon.size.md} ${button.icon.color.red} ${button.icon.rounded} ${shadow.sm}`}
+          className="absolute -top-1.5 -right-1.5 z-10 bg-white flex items-center justify-center transition-colors w-5 h-5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full shadow-sm"
           title={`Remove ${artist.name}`}
         >
           <X size={10} />
@@ -48,7 +47,7 @@ export const ArtistItem = ({
     </div>
 
     <span
-      className={`${text.muted} mt-1 text-[11px] text-center leading-tight line-clamp-2 w-full`}
+      className="text-slate-400 mt-1 text-[11px] text-center leading-tight line-clamp-2 w-full"
     >
       {artist.name}
     </span>

@@ -1,5 +1,4 @@
 import { RefreshCw } from "lucide-react";
-import { button, rounded, text } from "@/styles/tailwind";
 
 interface SyncStatusProps {
   lastSynced: string | null;
@@ -23,13 +22,13 @@ export const SyncStatus = ({
 
   return (
     <div
-      className={`flex items-center justify-between mb-4 text-sm ${text.muted}`}
+      className="flex items-center justify-between mb-4 text-sm text-slate-400"
     >
       Last synced: {lastSynced ? formatDate(lastSynced) : "Never"}
       <button
         onClick={onSync}
         disabled={isSyncing}
-        className={`flex items-center gap-2 px-3 py-1.5 ${button.secondary} ${rounded.md} ${button.disabled} font-medium`}
+        className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all rounded-lg disabled:opacity-50 disabled:cursor-not-allowed font-medium"
       >
         <RefreshCw size={16} className={isSyncing ? "animate-spin" : ""} />
         Sync

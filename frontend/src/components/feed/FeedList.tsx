@@ -2,7 +2,6 @@ import type { Release } from "@/types/Release";
 import { ReleaseCard } from "@/components/feed/ReleaseCard";
 import { MonthDivider } from "@/components/feed/MonthDivider";
 import { FeedPagination } from "@/components/feed/FeedPagination";
-import { text } from "@/styles/tailwind";
 
 interface FeedListProps {
   releases: Release[] | null;
@@ -53,7 +52,7 @@ export const FeedList = ({
 
   if (!releases || releases.length === 0) {
     return (
-      <div className={`text-center py-20 ${text.muted}`}>
+      <div className="text-center py-20 text-slate-400">
         <p>No releases found. Try adding some artists!</p>
       </div>
     );

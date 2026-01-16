@@ -11,7 +11,6 @@ import { FeedList } from "@/components/feed/FeedList";
 import { SyncStatus } from "@/components/feed/SyncStatus";
 import { ArtistGrid } from "@/components/feed/ArtistGrid";
 import { AddArtistDropdown } from "@/components/feed/AddArtistDropdown";
-import { page as pageStyles } from "@/styles/tailwind";
 
 const FeedPage = () => {
   const {
@@ -74,7 +73,7 @@ const FeedPage = () => {
   };
 
   return (
-    <div className={`${pageStyles.background} flex flex-col`}>
+    <div className="min-h-screen bg-slate-50 selection:bg-slate-200 flex flex-col">
       <main className="flex-1 max-w-2xl mx-auto w-full py-6 px-4">
         <div className="mb-2 relative" ref={containerRef}>
           <SyncStatus

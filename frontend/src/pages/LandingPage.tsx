@@ -2,15 +2,6 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import screenshot from "@/assets/screenshot.png";
 import { useStats } from "@/contexts/StatsContext";
-import {
-  text,
-  button,
-  border,
-  rounded,
-  shadow,
-  page,
-  heading,
-} from "@/styles/tailwind";
 import { FeatureCard } from "@/components/landing/FeatureCard";
 import { formatStatNumber } from "@/utils/formatters";
 
@@ -18,15 +9,15 @@ const LandingPage = () => {
   const { stats } = useStats();
 
   return (
-    <div className={page.background}>
+    <div className="min-h-screen bg-slate-50 selection:bg-slate-200">
       <div className="max-w-2xl mx-auto w-full pt-10 pb-16 px-6 text-center">
-        <h1 className={`${heading.h1} ${text.primary} mb-6 leading-[1.1]`}>
+        <h1 className="text-3xl md:text-5xl tracking-tight text-slate-900 mb-6 leading-[1.1]">
           Follow artists <br />
-          <span className={`italic ${text.primary}`}>you</span> want to hear
+          <span className="italic text-slate-900">you</span> want to hear
         </h1>
 
         <p
-          className={`text-lg ${text.secondary} leading-relaxed max-w-lg mx-auto mb-6`}
+          className="text-lg text-slate-600 leading-relaxed max-w-lg mx-auto mb-6"
         >
           Soundfeed tracks your artists and displays new releases
         </p>
@@ -34,28 +25,28 @@ const LandingPage = () => {
         {stats && (
           <div className="flex flex-wrap items-center justify-center gap-6 mb-8">
             <div className="text-center">
-              <div className={`text-2xl font-bold ${text.primary}`}>
+              <div className="text-2xl font-bold text-slate-900">
                 {formatStatNumber(stats.users)}
               </div>
-              <div className={`text-sm ${text.secondary}`}>Users</div>
+              <div className="text-sm text-slate-600">Users</div>
             </div>
             <div className="text-center">
-              <div className={`text-2xl font-bold ${text.primary}`}>
+              <div className="text-2xl font-bold text-slate-900">
                 {formatStatNumber(stats.tracks)}
               </div>
-              <div className={`text-sm ${text.secondary}`}>Releases</div>
+              <div className="text-sm text-slate-600">Releases</div>
             </div>
             <div className="text-center">
-              <div className={`text-2xl font-bold ${text.primary}`}>
+              <div className="text-2xl font-bold text-slate-900">
                 {formatStatNumber(stats.artists)}
               </div>
-              <div className={`text-sm ${text.secondary}`}>Artists</div>
+              <div className="text-sm text-slate-600">Artists</div>
             </div>
             <div className="text-center">
-              <div className={`text-2xl font-bold ${text.primary}`}>
+              <div className="text-2xl font-bold text-slate-900">
                 {formatStatNumber(stats.userSubscriptions)}
               </div>
-              <div className={`text-sm ${text.secondary}`}>Subscriptions</div>
+              <div className="text-sm text-slate-600">Subscriptions</div>
             </div>
           </div>
         )}
@@ -63,14 +54,14 @@ const LandingPage = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             to="/feed"
-            className={`font-dsiplay w-full sm:w-auto inline-flex items-center justify-center gap-2 ${button.primary} px-8 py-4 ${rounded.xl} font-bold text-sm active:scale-95 ${shadow.lg} shadow-slate-200`}
+            className="font-dsiplay w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-slate-900 text-white hover:bg-slate-800 transition-all px-8 py-4 rounded-2xl font-bold text-sm active:scale-95 shadow-lg shadow-slate-200"
           >
             Open my feed
             <ArrowRight className="w-4 h-4" />
           </Link>
           <a
             href="#features"
-            className={`font-dsiplay w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white ${text.button} ${border.default} px-8 py-4 ${rounded.xl} font-bold text-sm hover:bg-slate-50 transition-all`}
+            className="font-dsiplay w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white text-slate-700 border border-slate-200 px-8 py-4 rounded-2xl font-bold text-sm hover:bg-slate-50 transition-all"
           >
             Features
           </a>
@@ -78,12 +69,12 @@ const LandingPage = () => {
       </div>
 
       <div
-        className={`bg-white border-y ${border.default} pt-20 pb-0 overflow-hidden relative`}
+        className="bg-white border-y border border-slate-200 pt-20 pb-0 overflow-hidden relative"
       >
         <div className="max-w-4xl mx-auto px-6 text-center z-10 relative">
-          <h2 className={`${heading.h1} mb-6`}>Stop feeding the algorithm</h2>
+          <h2 className="text-3xl md:text-5xl tracking-tight mb-6">Stop feeding the algorithm</h2>
           <p
-            className={`text-lg ${text.secondary} mb-10 max-w-2xl mx-auto leading-relaxed`}
+            className="text-lg text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed"
           >
             Cut through the noise and get the releases you want to hear
           </p>
