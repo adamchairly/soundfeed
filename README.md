@@ -10,14 +10,12 @@
   
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
   [![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+  [![C#](https://img.shields.io/badge/C%23-13-239120?logo=csharp)](https://docs.microsoft.com/en-us/dotnet/csharp/)
   [![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react)](https://react.dev/)
   [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
   [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql)](https://www.postgresql.org/)
+  [![Redis](https://img.shields.io/badge/Redis-7.2-DC382D?logo=redis)](https://redis.io/)
 </div>
-
-## Activity
-
-![Alt](https://repobeats.axiom.co/api/embed/901ca3728b710d0548312c2391b642d46734a4c4.svg "Repobeats analytics image")
 
 ## About
 
