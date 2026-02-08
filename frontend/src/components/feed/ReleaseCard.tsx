@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp, X, ExternalLink } from "lucide-react";
 import type { Release } from "@/types/Release";
+import { SkeletonImage } from "@/components/common/SkeletonImage";
 
 interface ReleaseCardProps {
   release: Release;
@@ -28,15 +29,13 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
   };
 
   return (
-    <div
-      className="bg-white border border-slate-200 rounded-lg overflow-hidden hover:shadow-md transition-all mb-3 group"
-    >
+    <div className="bg-white border border-slate-200 rounded-lg overflow-hidden hover:shadow-md transition-all mb-3 group">
       <div className="flex items-center p-3 gap-4">
         <div
           className="relative flex-shrink-0 cursor-pointer"
           onClick={toggleExpand}
         >
-          <img
+          <SkeletonImage
             src={release.coverUrl ?? "https://via.placeholder.com/80"}
             alt={release.title}
             className="w-16 h-16 rounded shadow-sm object-cover border border-slate-100"
@@ -46,9 +45,7 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
         <div className="flex-1 min-w-0 flex flex-col justify-center h-16">
           <div className="flex items-center justify-between gap-2">
             <div className="min-w-0 cursor-pointer" onClick={toggleExpand}>
-              <h3
-                className="font-bold text-slate-900 truncate text-base leading-tight hover:text-slate-700 transition-colors"
-              >
+              <h3 className="font-bold text-slate-900 truncate text-base leading-tight hover:text-slate-700 transition-colors">
                 {release.title}
               </h3>
               <p className="text-slate-600 font-semibold text-sm truncate">
@@ -95,9 +92,7 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
             className="flex items-center gap-2 text-xs text-slate-400 mt-1 cursor-pointer"
             onClick={toggleExpand}
           >
-            <span
-              className="font-bold uppercase tracking-wider text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded"
-            >
+            <span className="font-bold uppercase tracking-wider text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">
               {release.releaseType ?? "Album"}
             </span>
             <span>•</span>
