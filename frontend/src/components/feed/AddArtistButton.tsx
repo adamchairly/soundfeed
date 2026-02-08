@@ -1,14 +1,13 @@
 import { X } from "lucide-react";
 import type { Artist } from "@/types/Artist";
+import { SkeletonImage } from "@/components/common/SkeletonImage";
 
 export const AddArtistButton = ({ onClick }: { onClick: () => void }) => (
   <button
     onClick={onClick}
     className="transition-colors flex flex-col items-center gap-1 group w-full"
   >
-    <div
-      className="aspect-square w-full max-w-[56px] flex items-center justify-center border-2 border-dashed transition-colors group-hover:border-green-500 group-hover:text-green-500 text-slate-400"
-    >
+    <div className="aspect-square w-full max-w-[56px] flex items-center justify-center border-2 border-dashed transition-colors group-hover:border-green-500 group-hover:text-green-500 text-slate-400">
       +
     </div>
     <span className="text-slate-400 text-[11px] text-center">Add</span>
@@ -24,11 +23,11 @@ export const ArtistItem = ({
 }) => (
   <div className="flex flex-col items-center w-full">
     <div className="relative">
-      <img
+      <SkeletonImage
         src={
           artist.imageUrl ??
           `https://ui-avatars.com/api/?name=${encodeURIComponent(
-            artist.name ?? ""
+            artist.name ?? "",
           )}`
         }
         alt={artist.name}
@@ -46,9 +45,7 @@ export const ArtistItem = ({
       )}
     </div>
 
-    <span
-      className="text-slate-400 mt-1 text-[11px] text-center leading-tight line-clamp-2 w-full"
-    >
+    <span className="text-slate-400 mt-1 text-[11px] text-center leading-tight line-clamp-2 w-full">
       {artist.name}
     </span>
   </div>

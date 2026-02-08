@@ -16,9 +16,7 @@ const LandingPage = () => {
           <span className="italic text-slate-900">you</span> want to hear
         </h1>
 
-        <p
-          className="text-lg text-slate-600 leading-relaxed max-w-lg mx-auto mb-6"
-        >
+        <p className="text-lg text-slate-600 leading-relaxed max-w-lg mx-auto mb-6">
           Soundfeed tracks your artists and displays new releases
         </p>
 
@@ -68,14 +66,12 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div
-        className="bg-white border-y border border-slate-200 pt-20 pb-0 overflow-hidden relative"
-      >
+      <div className="bg-white border-y border border-slate-200 pt-20 pb-0 overflow-hidden relative">
         <div className="max-w-4xl mx-auto px-6 text-center z-10 relative">
-          <h2 className="text-3xl md:text-5xl tracking-tight mb-6">Stop feeding the algorithm</h2>
-          <p
-            className="text-lg text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed"
-          >
+          <h2 className="text-3xl md:text-5xl tracking-tight mb-6">
+            Stop feeding the algorithm
+          </h2>
+          <p className="text-lg text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
             Cut through the noise and get the releases you want to hear
           </p>
 
@@ -96,53 +92,45 @@ const LandingPage = () => {
           <FeatureCard
             title="Follow artists"
             description={
-              <>
-                Search or paste Spotify URLs, unfollow anytime.
-              </>
+              <>Search and follow spotify artists, unfollow anytime.</>
             }
           />
           <FeatureCard
             title="Get releases"
             description={
               <>
-                We check daily, you can sync manually whenever you want.
+                We check new releases daily, you can sync manually whenever you
+                want.
               </>
             }
           />
           <FeatureCard
             title="Control your feed"
             description={
-              <>
-                Dismiss what you've seen, browse your history.
-              </>
+              <>Dismiss what you've seen, browse the history of releases.</>
             }
           />
           <FeatureCard
             title="Optional emails"
-            description={
-              <>
-                Weekly digests if you want them, toggle on/off.
-              </>
-            }
+            description={<>Weekly digests if you want them, toggle on/off.</>}
           />
           <FeatureCard
             title="Anonymous usage"
             description={
               <>
-                No login required, we don't collect personal data.
+                No login required, your data is anonymous. Optional email for
+                digests.
               </>
             }
           />
           <FeatureCard
             title="Portability"
             description={
-              <>
-                With a recovery code, access your feed from any device.
-              </>
+              <>With a recovery code, access your feed from any device.</>
             }
           />
         </div>
-      </div>  
+      </div>
     </div>
   );
 };

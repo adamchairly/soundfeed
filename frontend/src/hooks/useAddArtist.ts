@@ -1,14 +1,15 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useReleases } from '@/contexts/ReleaseContext';
-import { useArtists } from '@/contexts/ArtistContext';
-import httpClient from '@/api/HttpClient';
-import type { SearchArtistResult } from '@/types/SearchArtistResult';
+import { useState, useEffect, useCallback } from "react";
+import { useReleases } from "@/contexts/ReleaseContext";
+import { useArtists } from "@/contexts/ArtistContext";
+import httpClient from "@/api/HttpClient";
+import type { SearchArtistResult } from "@/types/SearchArtistResult";
 
 export const useAddArtistLogic = () => {
   const { refreshReleases } = useReleases();
   const { addArtist } = useArtists();
   const [showAdd, setShowAdd] = useState(false);
   const [inputUrl, setInputUrl] = useState("");
+  const [displayValue, setDisplayValue] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchArtistResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -22,9 +23,12 @@ export const useAddArtistLogic = () => {
     setSearchResults([]);
     setIsSearching(true);
     try {
-      const { data } = await httpClient.get<SearchArtistResult[]>('/api/Artists/search', {
-        params: { query }
-      });
+      const { data } = await httpClient.get<SearchArtistResult[]>(
+        "/api/Artists/search",
+        {
+          params: { query },
+        },
+      );
       setSearchResults(data);
     } catch (err) {
       console.error("Failed to search artists:", err);
@@ -35,26 +39,33 @@ export const useAddArtistLogic = () => {
   }, []);
 
   useEffect(() => {
-    if (!inputUrl.trim()) {
+    if (!displayValue.trim()) {
       setSearchResults([]);
       return;
     }
 
     // if its spotify url
-    const isUrl = inputUrl.startsWith('http://') || inputUrl.startsWith('https://');
+    const isUrl =
+      displayValue.startsWith("http://") || displayValue.startsWith("https://");
     if (isUrl) {
+      // User typed a URL directly - use it as inputUrl
+      setInputUrl(displayValue);
       setSearchResults([]);
       return;
     }
 
+    // Clear any previously set URL when typing a search query
+    setInputUrl("");
+
     const timer = setTimeout(() => {
-      searchArtists(inputUrl);
+      searchArtists(displayValue);
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [inputUrl, searchArtists]);
+  }, [displayValue, searchArtists]);
 
   const selectArtist = async (artist: SearchArtistResult) => {
+    setDisplayValue(artist.name);
     setInputUrl(artist.spotifyUrl);
     setSearchResults([]);
     await submit(artist.spotifyUrl);
@@ -67,6 +78,7 @@ export const useAddArtistLogic = () => {
     try {
       await addArtist(artistUrl);
       setInputUrl("");
+      setDisplayValue("");
       setShowAdd(false);
       setSearchResults([]);
       await refreshReleases();
@@ -80,12 +92,12 @@ export const useAddArtistLogic = () => {
   return {
     showAdd,
     setShowAdd,
-    inputUrl,
-    setInputUrl,
+    displayValue,
+    setDisplayValue,
     isSubmitting,
     submit,
     searchResults,
     isSearching,
-    selectArtist
+    selectArtist,
   };
 };

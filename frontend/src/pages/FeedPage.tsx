@@ -31,12 +31,10 @@ const FeedPage = () => {
   const {
     showAdd,
     setShowAdd,
-    inputUrl,
-    setInputUrl,
+    displayValue,
+    setDisplayValue,
     searchResults,
     isSearching,
-    isSubmitting,
-    submit,
     selectArtist,
   } = useAddArtistLogic();
 
@@ -79,12 +77,10 @@ const FeedPage = () => {
 
           {showAdd && (
             <AddArtistDropdown
-              inputUrl={inputUrl}
-              setInputUrl={setInputUrl}
+              displayValue={displayValue}
+              setDisplayValue={setDisplayValue}
               searchResults={searchResults}
               isSearching={isSearching}
-              isSubmitting={isSubmitting}
-              submit={() => submit()}
               selectArtist={selectArtist}
             />
           )}
@@ -108,4 +104,3 @@ const FeedPage = () => {
 };
 
 export default FeedPage;
-
