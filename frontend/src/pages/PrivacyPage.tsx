@@ -13,8 +13,7 @@ const PrivacyPage = () => {
             </h2>
             <p className="leading-relaxed mb-6">
               Soundfeed does not collect Personally Identifiable Information
-              (PII). We do not require names, or OAuth logins. Your email (if
-              you add one) isn't tied to your identity.
+              (PII). We do not require names, or OAuth logins.
             </p>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">

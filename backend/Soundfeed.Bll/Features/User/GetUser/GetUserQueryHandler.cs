@@ -18,9 +18,7 @@ internal sealed class GetUserQueryHandler(IAppDbContext context, IUserService us
 
         return new GetUserResponse
         {
-            RecoveryCode = user.RecoveryCode,
-            Email = user.Email,
-            EmailNotifications = user.EmailNotifications
+            RecoveryCode = user.RecoveryCode
         };
     }
 }

@@ -4,8 +4,6 @@ public class User
 {
     public required string Id { get; set; }
     public string RecoveryCode { get; set; } = null!;
-    public string? Email { get; set; }
-    public bool EmailNotifications { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime LastSeenAt { get; set; }
     public DateTime? LastSyncedAt { get; set; }

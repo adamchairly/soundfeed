@@ -34,12 +34,6 @@ services:
       - AllowedOrigins=${ALLOWED_ORIGINS}
       - AllowedHosts=${ALLOWED_HOSTS:-*}
       - Jobs__ReleaseSyncJob=${RELEASE_SYNC_JOB}
-      - Jobs__EmailJob=${EMAIL_JOB}
-      - Email__ApiKey=${EMAIL_API_KEY}
-      - Email__FromEmail=${EMAIL_FROM}
-      - Email__FromName=${EMAIL_FROM_NAME}
-      - Email__FeedUrl=${EMAIL_FEED_URL}
-      - Email__LogoUrl=${EMAIL_LOGO_URL}
     depends_on:
       postgres:
         condition: service_healthy

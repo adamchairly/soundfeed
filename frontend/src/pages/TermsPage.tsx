@@ -21,7 +21,7 @@ const TermsPage = () => {
                   Soundfeed operates on a decentralized identity model. You are solely responsible for the safekeeping of your recovery code. 
                 </p>
                 <p className="leading-relaxed">
-                  Because we do not store personal identifiers (emails or passwords), Soundfeed is technically unable to recover accounts, reset access, or retrieve artist data if a recovery code is lost.
+                  Because we do not store personal identifiers (passwords), Soundfeed is technically unable to recover accounts, reset access, or retrieve artist data if a recovery code is lost.
                 </p>
               </div>
             </section>
