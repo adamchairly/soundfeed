@@ -111,16 +111,9 @@ const LandingPage = () => {
             }
           />
           <FeatureCard
-            title="Optional emails"
-            description={<>Weekly digests if you want them, toggle on/off.</>}
-          />
-          <FeatureCard
             title="Anonymous usage"
             description={
-              <>
-                No login required, your data is anonymous. Optional email for
-                digests.
-              </>
+              <>No login required, your data is anonymous.</>
             }
           />
           <FeatureCard
