@@ -1,15 +1,12 @@
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: soundfeed-db
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 10s
@@ -18,9 +15,6 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: soundfeed-redis
-    ports:
-      - "6379:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -31,7 +25,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: soundfeed-api
     environment:
       - Redis__ConnectionString=redis:6379
       - ConnectionStrings__DefaultConnection=Host=postgres;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
@@ -47,8 +40,6 @@ services:
       - Email__FromName=${EMAIL_FROM_NAME}
       - Email__FeedUrl=${EMAIL_FEED_URL}
       - Email__LogoUrl=${EMAIL_LOGO_URL}
-    ports:
-      - "8080:8080"
     depends_on:
       postgres:
         condition: service_healthy
@@ -61,32 +52,12 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        - VITE_API_URL=${VITE_API_URL}
         - VITE_CONTACT_EMAIL=${VITE_CONTACT_EMAIL}
-    container_name: soundfeed-frontend
-    ports:
-      - "3000:80"
-    depends_on:
-      - backend
-    restart: unless-stopped
-
-  caddy:
-    image: caddy:2-alpine
-    container_name: soundfeed-proxy
-    profiles: ["prod"]
-    restart: unless-stopped
     ports:
       - "80:80"
-      - "443:443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
     depends_on:
-      - frontend
       - backend
+    restart: unless-stopped
 
 volumes:
   postgres_data:
-  caddy_data:
-  caddy_config:
