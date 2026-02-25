@@ -1,12 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import httpClient from '@/api/HttpClient';
-
-interface Stats {
-  users: number;
-  tracks: number;
-  artists: number;
-  userSubscriptions: number;
-}
+import type { Stats } from '@/types/Stats';
 
 interface StatsContextType {
   stats: Stats | null;

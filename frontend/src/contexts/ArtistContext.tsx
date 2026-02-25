@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import httpClient from '@/api/HttpClient';
-import type { Artist } from '@/types/Artist';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import httpClient from "@/api/HttpClient";
+import type { Artist } from "@/types/Artist";
 
 interface ArtistContextType {
   artists: Artist[];
@@ -12,22 +12,26 @@ interface ArtistContextType {
 
 const ArtistContext = createContext<ArtistContextType | undefined>(undefined);
 
-export const ArtistProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ArtistProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [artists, setArtists] = useState<Artist[]>([]);
   const [loading, setLoading] = useState(false);
 
   const refreshArtists = async () => {
     setLoading(true);
     try {
-      const { data } = await httpClient.get<Artist[]>('/api/Artists');
-      setArtists(data);
+      const { data } = await httpClient.get<Artist[]>("/api/Artists");
+      setArtists(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Failed to fetch artists: " + err);
     } finally {
       setLoading(false);
     }
   };
 
   const addArtist = async (artistUrl: string) => {
-    await httpClient.post('/api/Artists', null, { params: { artistUrl } });
+    await httpClient.post("/api/Artists", null, { params: { artistUrl } });
     await refreshArtists();
   };
 
@@ -40,10 +44,14 @@ export const ArtistProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   };
 
-  useEffect(() => { refreshArtists(); }, []);
+  useEffect(() => {
+    refreshArtists();
+  }, []);
 
   return (
-    <ArtistContext.Provider value={{ artists, loading, addArtist, refreshArtists, unsubscribe }}>
+    <ArtistContext.Provider
+      value={{ artists, loading, addArtist, refreshArtists, unsubscribe }}
+    >
       {children}
     </ArtistContext.Provider>
   );

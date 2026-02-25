@@ -1,13 +1,8 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import screenshot from "@/assets/screenshot.png";
-import { useStats } from "@/contexts/StatsContext";
-
-import { formatStatNumber } from "@/utils/formatters";
-
+import { StatsBar } from "@/components/landing/StatsBar";
 const LandingPage = () => {
-  const { stats } = useStats();
-
   return (
     <div className="min-h-screen bg-slate-50 selection:bg-slate-200">
       <div className="max-w-2xl mx-auto w-full pt-10 pb-16 px-6 text-center">
@@ -20,34 +15,7 @@ const LandingPage = () => {
           Soundfeed tracks your artists and displays new releases
         </p>
 
-        {stats && (
-          <div className="flex flex-wrap items-center justify-center gap-6 mb-8">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-slate-900">
-                {formatStatNumber(stats.users)}
-              </div>
-              <div className="text-sm text-slate-600">Users</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-slate-900">
-                {formatStatNumber(stats.tracks)}
-              </div>
-              <div className="text-sm text-slate-600">Releases</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-slate-900">
-                {formatStatNumber(stats.artists)}
-              </div>
-              <div className="text-sm text-slate-600">Artists</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-slate-900">
-                {formatStatNumber(stats.userSubscriptions)}
-              </div>
-              <div className="text-sm text-slate-600">Subscriptions</div>
-            </div>
-          </div>
-        )}
+        <StatsBar />
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
@@ -87,60 +55,58 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto px-6 py-8 space-y-16">
-        <section id="how-it-works" className="scroll-mt-20">
+      <div className="max-w-2xl mx-auto px-6 flex flex-col gap-6 py-12">
+        <section id="how-it-works" className="scroll-mt-20 bg-white border border-slate-200 rounded-xl p-8">
           <h2 className="text-xl font-bold text-slate-900 mb-4">
             How it works
           </h2>
-          <ul className="space-y-3 text-slate-600 leading-relaxed list-['-'] pl-4 marker:text-slate-400">
-            <li className="pl-2">
+          <div className="space-y-3 text-slate-600 leading-relaxed marker:text-slate-400">
+            <div>
               When you first visit, a unique anonymous identity is created for
               you automatically.
-            </li>
-            <li className="pl-2">
+            </div>
+            <div>
               Follow artists through the search page. Their releases will start
               showing up in your feed.
-            </li>
-            <li className="pl-2">
-              Your feed updates daily. Come back whenever you want to see
-              what's new.
-            </li>
-          </ul>
+            </div>
+            <div>
+              Inactive users are deleted after 30 days of no activity, to minimize data storage.
+            </div>
+          </div>
         </section>
 
-        <section id="features" className="scroll-mt-20">
+        <section id="features" className="scroll-mt-20 bg-white border border-slate-200 rounded-xl p-8">
           <h2 className="text-xl font-bold text-slate-900 mb-4">Features</h2>
-          <ul className="space-y-3 text-slate-600 leading-relaxed list-['-'] pl-4 marker:text-slate-400">
-            <li className="pl-2">
+          <div className="space-y-3 text-slate-600 leading-relaxed marker:text-slate-400">
+            <div>
               Search for any Spotify artist and add them to your follow list.
-            </li>
-            <li className="pl-2">
+            </div>
+            <div>
               New releases are checked daily and appear in your feed
-              automatically. You can also sync manually at any time.
-            </li>
-            <li className="pl-2">
-              Dismiss releases you've already seen, or browse your full release
-              history.
-            </li>
-          </ul>
+              automatically.
+            </div>
+            <div>
+            You can also sync manually at any time, once every 15 minutes.
+            </div>
+          </div>
         </section>
-        
-        <section id="privacy" className="scroll-mt-20">
+
+        <section id="privacy" className="scroll-mt-20 bg-white border border-slate-200 rounded-xl p-8">
           <h2 className="text-xl font-bold text-slate-900 mb-4">Privacy</h2>
-          <ul className="space-y-3 text-slate-600 leading-relaxed list-['-'] pl-4 marker:text-slate-400">
-            <li className="pl-2">
-              No login or email required. Your identity is a random token
-              stored in your browser.
-            </li>
-            <li className="pl-2">
-              Save your recovery code to access your feed from another device
-              or browser.
-            </li>
-            <li className="pl-2">
-              No analytics, no cookies beyond what's needed
-              to keep your session.
-            </li>
-          </ul>
+          <div className="space-y-3 text-slate-600 leading-relaxed marker:text-slate-400">
+            <div>
+              No login or email required. Your identity is a random token stored
+              in your browser.
+            </div>
+            <div>
+              Save your recovery code to access your feed from another device or
+              browser.
+            </div>
+            <div>
+              No analytics, no cookies beyond what's needed to keep your
+              session.
+            </div>
+          </div>
         </section>
       </div>
     </div>

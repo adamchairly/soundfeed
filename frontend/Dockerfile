@@ -1,4 +1,4 @@
-FROM node:20-alpine AS build
+FROM node:20-alpine AS deps
 WORKDIR /app
 
 # copy package files
@@ -7,10 +7,10 @@ COPY package*.json ./
 # install dependencies
 RUN npm ci
 
-# copy source files
+# build stage
+FROM deps AS build
 COPY . .
 
-# build application
 ARG VITE_CONTACT_EMAIL
 ENV VITE_CONTACT_EMAIL=$VITE_CONTACT_EMAIL
 RUN npm run build
