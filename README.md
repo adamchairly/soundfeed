@@ -29,8 +29,6 @@ No login, account or any personal detail required. Optional email for weekly dig
   - Trigger manual sync
   - Dismiss already seen feed entries
   - Order and navigate in your feed
-- **Email notifications**
-  - Receive optional weekly digest emails
 
 ## Project Structure
 
