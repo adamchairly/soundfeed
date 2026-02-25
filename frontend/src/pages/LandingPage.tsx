@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import screenshot from "@/assets/screenshot.png";
 import { useStats } from "@/contexts/StatsContext";
-import { FeatureCard } from "@/components/landing/FeatureCard";
+
 import { formatStatNumber } from "@/utils/formatters";
 
 const LandingPage = () => {
@@ -58,10 +58,10 @@ const LandingPage = () => {
             <ArrowRight className="w-4 h-4" />
           </Link>
           <a
-            href="#features"
+            href="#how-it-works"
             className="font-dsiplay w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white text-slate-700 border border-slate-200 px-8 py-4 rounded-2xl font-bold text-sm hover:bg-slate-50 transition-all"
           >
-            Features
+            How it works
           </a>
         </div>
       </div>
@@ -87,42 +87,61 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div id="features" className="max-w-5xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <FeatureCard
-            title="Follow artists"
-            description={
-              <>Search and follow spotify artists, unfollow anytime.</>
-            }
-          />
-          <FeatureCard
-            title="Get releases"
-            description={
-              <>
-                We check new releases daily, you can sync manually whenever you
-                want.
-              </>
-            }
-          />
-          <FeatureCard
-            title="Control your feed"
-            description={
-              <>Dismiss what you've seen, browse the history of releases.</>
-            }
-          />
-          <FeatureCard
-            title="Anonymous usage"
-            description={
-              <>No login required, your data is anonymous.</>
-            }
-          />
-          <FeatureCard
-            title="Portability"
-            description={
-              <>With a recovery code, access your feed from any device.</>
-            }
-          />
-        </div>
+      <div className="max-w-2xl mx-auto px-6 py-8 space-y-16">
+        <section id="how-it-works" className="scroll-mt-20">
+          <h2 className="text-xl font-bold text-slate-900 mb-4">
+            How it works
+          </h2>
+          <ul className="space-y-3 text-slate-600 leading-relaxed list-['-'] pl-4 marker:text-slate-400">
+            <li className="pl-2">
+              When you first visit, a unique anonymous identity is created for
+              you automatically.
+            </li>
+            <li className="pl-2">
+              Follow artists through the search page. Their releases will start
+              showing up in your feed.
+            </li>
+            <li className="pl-2">
+              Your feed updates daily. Come back whenever you want to see
+              what's new.
+            </li>
+          </ul>
+        </section>
+
+        <section id="features" className="scroll-mt-20">
+          <h2 className="text-xl font-bold text-slate-900 mb-4">Features</h2>
+          <ul className="space-y-3 text-slate-600 leading-relaxed list-['-'] pl-4 marker:text-slate-400">
+            <li className="pl-2">
+              Search for any Spotify artist and add them to your follow list.
+            </li>
+            <li className="pl-2">
+              New releases are checked daily and appear in your feed
+              automatically. You can also sync manually at any time.
+            </li>
+            <li className="pl-2">
+              Dismiss releases you've already seen, or browse your full release
+              history.
+            </li>
+          </ul>
+        </section>
+        
+        <section id="privacy" className="scroll-mt-20">
+          <h2 className="text-xl font-bold text-slate-900 mb-4">Privacy</h2>
+          <ul className="space-y-3 text-slate-600 leading-relaxed list-['-'] pl-4 marker:text-slate-400">
+            <li className="pl-2">
+              No login or email required. Your identity is a random token
+              stored in your browser.
+            </li>
+            <li className="pl-2">
+              Save your recovery code to access your feed from another device
+              or browser.
+            </li>
+            <li className="pl-2">
+              No analytics, no cookies beyond what's needed
+              to keep your session.
+            </li>
+          </ul>
+        </section>
       </div>
     </div>
   );
