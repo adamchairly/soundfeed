@@ -53,8 +53,6 @@ services:
       dockerfile: Dockerfile
       args:
         - VITE_CONTACT_EMAIL=${VITE_CONTACT_EMAIL}
-    ports:
-      - "80:80"
     depends_on:
       - backend
     restart: unless-stopped
