@@ -11,7 +11,9 @@
   [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql)](https://www.postgresql.org/)
   [![Redis](https://img.shields.io/badge/Redis-7.2-DC382D?logo=redis)](https://redis.io/)
 </div>
-
+<div align="center">
+  [![react-doctor: 94%](https://img.shields.io/badge/react--doctor-94%25-brightgreen)](https://github.com/adamchairly/soundfeed)
+</div>
 ## About
 
 Soundfeed tracks your favorite Spotify artists and displays new releases in a clean, chronological feed.
