@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Soundfeed.Api.Extensions;
@@ -17,10 +17,13 @@ public class SyncController(IMediator mediator) : ControllerBase
     /// </summary>
     [HttpGet]
     [ProducesResponseType(typeof(DateTime?), StatusCodes.Status200OK)]
-    public async Task<DateTime?> GetLastSynced(CancellationToken cancellationToken)
+    [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetLastSynced(CancellationToken cancellationToken)
     {
         var userId = Request.GetRequiredUserId();
-        return await _mediator.Send(new GetLastSyncedQuery { UserId = userId }, cancellationToken);
+        var result = await _mediator.Send(new GetLastSyncedQuery { UserId = userId }, cancellationToken);
+        return Ok(result);
     }
 
     /// <summary>
@@ -29,6 +32,9 @@ public class SyncController(IMediator mediator) : ControllerBase
     [HttpPost]
     [EnableRateLimiting("sync-limit")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status502BadGateway)]
+    [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> SyncReleases(CancellationToken cancellationToken)
     {
         var userId = Request.GetRequiredUserId();

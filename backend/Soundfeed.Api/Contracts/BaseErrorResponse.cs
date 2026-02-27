@@ -1,15 +1,15 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Soundfeed.Api;
 
-public class BaseErrorResponse
+internal record BaseErrorResponse
 {
     [JsonPropertyName("error")]
-    public string? Error { get; init; }
+    public required ErrorCode Error { get; init; }
 
     [JsonPropertyName("message")]
-    public string? Message { get; init; }
+    public required string Message { get; init; }
 
     [JsonPropertyName("code")]
-    public int? Code { get; init; }
+    public required int Code { get; init; }
 }
