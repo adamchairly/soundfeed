@@ -9,7 +9,8 @@
   [![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
   [![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react)](https://react.dev/)
   [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql)](https://www.postgresql.org/)
-  [![Redis](https://img.shields.io/badge/Redis-7.2-DC382D?logo=redis)](https://redis.io/)
+  [![Redis](https://img.shields.io/badge/Redis-7-DC382D?logo=redis)](https://redis.io/)
+  [![React Doctor](https://www.react.doctor/share/badge?p=frontend&s=94&e=1&w=15&f=6)](https://www.react.doctor/share?p=frontend&s=94&e=1&w=15&f=6)
 </div>
 
 ## About
