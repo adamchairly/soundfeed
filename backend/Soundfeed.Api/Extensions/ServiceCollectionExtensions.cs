@@ -12,7 +12,7 @@ public static class ApiServiceCollectionExtensions
 
             options.AddPolicy("recovery-limit", context =>
             {
-                var remoteIp = context.Connection.RemoteIpAddress?.ToString() ?? context.Request.Headers.Host.ToString();
+                var remoteIp = context.Connection.RemoteIpAddress?.ToString() ?? "anonymous";
 
                 return RateLimitPartition.GetFixedWindowLimiter(
                     partitionKey: remoteIp,
@@ -26,7 +26,7 @@ public static class ApiServiceCollectionExtensions
 
             options.AddPolicy("sync-limit", context =>
             {
-                var remoteIp = context.Connection.RemoteIpAddress?.ToString() ?? context.Request.Headers.Host.ToString();
+                var remoteIp = context.Connection.RemoteIpAddress?.ToString() ?? "anonymous";
 
                 return RateLimitPartition.GetFixedWindowLimiter(
                     partitionKey: remoteIp,
@@ -46,8 +46,8 @@ public static class ApiServiceCollectionExtensions
                 var origins = configuration["AllowedOrigins"] ?? "http://localhost:8080";
                 var originsArray = origins.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
                 policy.WithOrigins(originsArray)
-                      .AllowAnyHeader()
-                      .AllowAnyMethod()
+                      .WithHeaders("Content-Type")
+                      .WithMethods("GET", "POST", "DELETE")
                       .AllowCredentials();
             });
         });

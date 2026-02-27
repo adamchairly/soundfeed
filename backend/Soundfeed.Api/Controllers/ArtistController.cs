@@ -46,6 +46,9 @@ public class ArtistsController(IMediator mediator) : ControllerBase
     {
         Request.GetRequiredUserId();
 
+        if (query.Length > 50)
+            throw new ArgumentException("Search query must not exceed 50 characters.");
+
         var result = await _mediator.Send(new SearchArtistQuery { Query = query }, cancellationToken);
         return Ok(result);
     }
