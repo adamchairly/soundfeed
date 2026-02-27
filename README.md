@@ -87,7 +87,6 @@ Contributions are welcome, please open a pull request based on the latest main b
 
 2. Create `.env` file
    - Example structure is provided in `.env.example`
-   - Sendgrid values are not neccesary for core functionality
    - Get Spotify Client ID and Client Secret [here](https://developer.spotify.com/documentation/web-api)
 
 3. Start services
