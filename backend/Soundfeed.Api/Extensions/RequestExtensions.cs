@@ -11,11 +11,6 @@ public static class RequestExtensions
             return userIdString;
         }
 
-        if (request.Cookies.TryGetValue("uid", out var cookieValue) && !string.IsNullOrWhiteSpace(cookieValue))
-        {
-            return cookieValue.Split('.')[0];
-        }
-
         throw new UnauthorizedAccessException("User context not initialized.");
     }
 }
