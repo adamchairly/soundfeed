@@ -16,6 +16,8 @@ public class SubscriptionController(IMediator mediator) : ControllerBase
     /// </summary>
     [HttpDelete("{artistId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteSubscription(int artistId, CancellationToken cancellationToken)
     {
         var userId = Request.GetRequiredUserId();

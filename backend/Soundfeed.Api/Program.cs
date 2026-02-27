@@ -29,6 +29,7 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseRouting();
 
 app.UseCors("DefaultCorsPolicy");

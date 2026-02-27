@@ -13,9 +13,10 @@ public class StatsController(IMediator mediator) : ControllerBase
 
     [HttpGet]
     [ProducesResponseType(typeof(GetStatsResponse), StatusCodes.Status200OK)]
-
-    public async Task<GetStatsResponse> GetStats(CancellationToken cancellationToken)
+    [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetStats(CancellationToken cancellationToken)
     {
-        return await _mediator.Send(new GetStatsQuery(), cancellationToken);
+        var result = await _mediator.Send(new GetStatsQuery(), cancellationToken);
+        return Ok(result);
     }
 }

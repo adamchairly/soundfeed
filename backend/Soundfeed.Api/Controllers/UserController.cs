@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Soundfeed.Api.Extensions;
@@ -17,7 +17,9 @@ public class UserController(IMediator mediator, IConfiguration config) : Control
 
     [HttpGet]
     [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetCurrentUser(CancellationToken ct)
     {
         var userId = Request.GetRequiredUserId();
@@ -27,10 +29,11 @@ public class UserController(IMediator mediator, IConfiguration config) : Control
     [HttpPost]
     [EnableRateLimiting("recovery-limit")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Recover([FromBody] RecoverUserCommand command)
+    [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Recover([FromBody] RecoverUserCommand command, CancellationToken cancellationToken)
     {
-        var userId = await _mediator.Send(command);
+        var userId = await _mediator.Send(command, cancellationToken);
 
         var secret = _config["CookieSettings:SecretKey"]
                  ?? throw new Exception("Secret configuration missing");
