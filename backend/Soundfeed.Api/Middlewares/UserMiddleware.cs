@@ -39,7 +39,10 @@ public sealed class UserMiddleware
                 var userCookieId = parts[0];
                 var signature = parts[1];
 
-                if (CalculateSignature(userCookieId, secret) == signature)
+                var expected = CalculateSignature(userCookieId, secret);
+                if (CryptographicOperations.FixedTimeEquals(
+                    Encoding.UTF8.GetBytes(expected),
+                    Encoding.UTF8.GetBytes(signature)))
                 {
                     validatedUserId = userCookieId;
                     _logger.LogInformation("User validated: {UserId}", validatedUserId);
