@@ -1,7 +1,7 @@
 <div align="center">
   <img src="frontend/public/logo.svg" alt="Soundfeed" width="120" height="120">
   
-  # Soundfeed
+  # Soundfeed ![version](https://img.shields.io/github/package-json/v/adamchairly/soundfeed?filename=frontend/package.json&label=&color=gray&style=flat-square)
   
   Follow artists *you* want to hear
   
