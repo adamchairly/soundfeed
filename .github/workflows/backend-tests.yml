@@ -1,0 +1,30 @@
+name: Backend Tests
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+  pull_request:
+    paths:
+      - 'backend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore backend/Soundfeed.Bll.Tests/Soundfeed.Bll.Tests.csproj
+
+      - name: Build
+        run: dotnet build backend/Soundfeed.Bll.Tests/Soundfeed.Bll.Tests.csproj --no-restore
+
+      - name: Test
+        run: dotnet test backend/Soundfeed.Bll.Tests/Soundfeed.Bll.Tests.csproj --no-build --verbosity normal
