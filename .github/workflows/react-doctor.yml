@@ -22,12 +22,12 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        working-directory: Frontend
+        working-directory: frontend
         run: npm ci
 
       - name: Run React Doctor
         id: scan
-        working-directory: Frontend
+        working-directory: frontend
         env:
           NO_COLOR: "1"
           FORCE_COLOR: "0"

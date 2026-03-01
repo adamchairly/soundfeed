@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using Soundfeed.Bll.Tests.Helpers;
 using Soundfeed.Dal.Entites;
 
 namespace Soundfeed.Bll.Tests;
