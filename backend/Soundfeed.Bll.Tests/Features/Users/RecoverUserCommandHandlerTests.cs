@@ -1,9 +1,10 @@
-using Soundfeed.Bll.Tests.Helpers;
+
 using Microsoft.EntityFrameworkCore;
 using Soundfeed.Bll.Exceptions;
 using Soundfeed.Bll.Features;
+using Soundfeed.Dal.Entites;
 
-namespace Soundfeed.Bll.Tests.Features.User;
+namespace Soundfeed.Bll.Tests;
 
 [TestFixture]
 internal sealed class RecoverUserCommandHandlerTests
@@ -12,7 +13,7 @@ internal sealed class RecoverUserCommandHandlerTests
     public async Task Handle_WhenCodeMatchesUser_ShouldReturnUserId()
     {
         using var context = TestDbContextFactory.Create();
-        var user = new Soundfeed.Dal.Entites.User
+        var user = new User
         {
             Id = "user1",
             RecoveryCode = "ABC-DEF",
@@ -34,7 +35,7 @@ internal sealed class RecoverUserCommandHandlerTests
     public async Task Handle_WhenCodeHasWhitespace_ShouldTrimAndMatch()
     {
         using var context = TestDbContextFactory.Create();
-        context.Users.Add(new Soundfeed.Dal.Entites.User
+        context.Users.Add(new User
         {
             Id = "user1",
             RecoveryCode = "ABC-DEF",
@@ -55,7 +56,7 @@ internal sealed class RecoverUserCommandHandlerTests
     public async Task Handle_WhenCodeIsLowercase_ShouldNormalizeAndMatch()
     {
         using var context = TestDbContextFactory.Create();
-        context.Users.Add(new Soundfeed.Dal.Entites.User
+        context.Users.Add(new User
         {
             Id = "user1",
             RecoveryCode = "ABC-DEF",
@@ -87,7 +88,7 @@ internal sealed class RecoverUserCommandHandlerTests
     {
         using var context = TestDbContextFactory.Create();
         var oldDate = DateTime.UtcNow.AddDays(-30);
-        context.Users.Add(new Soundfeed.Dal.Entites.User
+        context.Users.Add(new User
         {
             Id = "user1",
             RecoveryCode = "ABC-DEF",

@@ -3,7 +3,7 @@ using Soundfeed.Bll.Abstractions;
 using Soundfeed.Bll.Features;
 using Soundfeed.Bll.Models;
 
-namespace Soundfeed.Bll.Tests.Features.Artist;
+namespace Soundfeed.Bll.Tests;
 
 [TestFixture]
 internal sealed class SearchArtistQueryHandlerTests

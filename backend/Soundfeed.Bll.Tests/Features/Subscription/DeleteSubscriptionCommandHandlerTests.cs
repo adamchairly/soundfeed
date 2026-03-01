@@ -3,7 +3,7 @@ using Soundfeed.Bll.Models;
 using Soundfeed.Bll.Tests.Helpers;
 using Soundfeed.Dal.Entites;
 
-namespace Soundfeed.Bll.Tests.Features.Subscription;
+namespace Soundfeed.Bll.Tests;
 
 [TestFixture]
 internal sealed class DeleteSubscriptionCommandHandlerTests
@@ -12,8 +12,8 @@ internal sealed class DeleteSubscriptionCommandHandlerTests
     public async Task Handle_WhenSubscriptionExists_ShouldRemoveIt()
     {
         using var context = TestDbContextFactory.Create();
-        var user = new Soundfeed.Dal.Entites.User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow };
-        var artist = new Soundfeed.Dal.Entites.Artist
+        var user = new User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow };
+        var artist = new Artist
         {
             SpotifyArtistId = "artist1",
             Name = "Artist",

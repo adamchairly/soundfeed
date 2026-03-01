@@ -1,11 +1,11 @@
-using Soundfeed.Bll.Tests.Helpers;
+
 using NSubstitute;
 using Soundfeed.Bll.Abstractions;
 using Soundfeed.Bll.Features;
 using Soundfeed.Bll.Models;
 using Soundfeed.Dal.Entites;
 
-namespace Soundfeed.Bll.Tests.Features.Artist;
+namespace Soundfeed.Bll.Tests;
 
 [TestFixture]
 internal sealed class PostArtistCommandHandlerTests
@@ -22,7 +22,7 @@ internal sealed class PostArtistCommandHandlerTests
     public async Task Handle_WhenValidSpotifyUrl_ShouldCreateArtistAndReturnId()
     {
         using var context = TestDbContextFactory.Create();
-        context.Users.Add(new Soundfeed.Dal.Entites.User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow });
+        context.Users.Add(new User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow });
         await context.SaveChangesAsync();
 
         _spotifyService.GetArtistAsync("abc123", Arg.Any<CancellationToken>())
@@ -42,8 +42,8 @@ internal sealed class PostArtistCommandHandlerTests
     public async Task Handle_WhenArtistExistsInDb_ShouldNotCallSpotifyApi()
     {
         using var context = TestDbContextFactory.Create();
-        context.Users.Add(new Soundfeed.Dal.Entites.User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow });
-        context.Artists.Add(new Soundfeed.Dal.Entites.Artist
+        context.Users.Add(new User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow });
+        context.Artists.Add(new Artist
         {
             SpotifyArtistId = "existing123",
             Name = "Existing Artist",
@@ -65,8 +65,8 @@ internal sealed class PostArtistCommandHandlerTests
     public async Task Handle_WhenArtistExistsInDb_ShouldReturnExistingArtistId()
     {
         using var context = TestDbContextFactory.Create();
-        context.Users.Add(new Soundfeed.Dal.Entites.User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow });
-        var artist = new Soundfeed.Dal.Entites.Artist
+        context.Users.Add(new User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow });
+        var artist = new Artist
         {
             SpotifyArtistId = "existing123",
             Name = "Existing Artist",
@@ -102,8 +102,8 @@ internal sealed class PostArtistCommandHandlerTests
     public async Task Handle_WhenUserAlreadySubscribed_ShouldNotDuplicateSubscription()
     {
         using var context = TestDbContextFactory.Create();
-        var user = new Soundfeed.Dal.Entites.User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow };
-        var artist = new Soundfeed.Dal.Entites.Artist
+        var user = new User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow };
+        var artist = new Artist
         {
             SpotifyArtistId = "abc123",
             Name = "Test Artist",
@@ -130,8 +130,8 @@ internal sealed class PostArtistCommandHandlerTests
     public async Task Handle_WhenUserNotSubscribed_ShouldCreateSubscription()
     {
         using var context = TestDbContextFactory.Create();
-        var user = new Soundfeed.Dal.Entites.User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow };
-        var artist = new Soundfeed.Dal.Entites.Artist
+        var user = new User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow };
+        var artist = new Artist
         {
             SpotifyArtistId = "abc123",
             Name = "Test Artist",
@@ -156,7 +156,7 @@ internal sealed class PostArtistCommandHandlerTests
     public async Task Handle_WhenUrlHasQueryParameters_ShouldExtractIdCorrectly()
     {
         using var context = TestDbContextFactory.Create();
-        context.Users.Add(new Soundfeed.Dal.Entites.User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow });
+        context.Users.Add(new User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow });
         await context.SaveChangesAsync();
 
         _spotifyService.GetArtistAsync("abc123", Arg.Any<CancellationToken>())

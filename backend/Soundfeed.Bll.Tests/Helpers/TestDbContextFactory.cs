@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Soundfeed.Dal;
 
-namespace Soundfeed.Bll.Tests.Helpers;
+namespace Soundfeed.Bll.Tests;
 
 internal static class TestDbContextFactory
 {

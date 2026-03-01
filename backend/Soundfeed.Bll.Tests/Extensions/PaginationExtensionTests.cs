@@ -1,8 +1,7 @@
-using Soundfeed.Bll.Tests.Helpers;
 using Soundfeed.Bll.Extensions;
 using Soundfeed.Dal.Entites;
 
-namespace Soundfeed.Bll.Tests.Extensions;
+namespace Soundfeed.Bll.Tests;
 
 [TestFixture]
 internal sealed class PaginationExtensionTests
