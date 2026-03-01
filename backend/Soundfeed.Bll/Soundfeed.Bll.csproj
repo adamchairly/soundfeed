@@ -21,5 +21,8 @@
     <ProjectReference Include="..\Soundfeed.Dal\Soundfeed.Dal.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Soundfeed.Bll.Tests" />
+  </ItemGroup>
 
 </Project>
