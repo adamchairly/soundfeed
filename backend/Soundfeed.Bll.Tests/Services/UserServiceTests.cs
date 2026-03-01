@@ -4,7 +4,7 @@ using NSubstitute;
 using Soundfeed.Bll.Tests.Helpers;
 using Soundfeed.Dal.Entites;
 
-namespace Soundfeed.Bll.Tests.Services;
+namespace Soundfeed.Bll.Tests;
 
 [TestFixture]
 internal sealed class UserServiceTests
@@ -144,7 +144,7 @@ internal sealed class UserServiceTests
             CreatedAt = DateTime.UtcNow.AddMonths(-3),
             LastSeenAt = DateTime.UtcNow.AddMonths(-2)
         };
-        var artist = new Soundfeed.Dal.Entites.Artist
+        var artist = new Artist
         {
             SpotifyArtistId = "artist1",
             Name = "Artist",
@@ -196,7 +196,7 @@ internal sealed class UserServiceTests
             CreatedAt = DateTime.UtcNow,
             LastSeenAt = DateTime.UtcNow
         };
-        var artist = new Soundfeed.Dal.Entites.Artist
+        var artist = new Artist
         {
             SpotifyArtistId = "artist1",
             Name = "Artist",

@@ -1,10 +1,10 @@
-using Soundfeed.Bll.Tests.Helpers;
+
 using Microsoft.EntityFrameworkCore;
 using Soundfeed.Bll.Features;
 using Soundfeed.Bll.Models;
 using Soundfeed.Dal.Entites;
 
-namespace Soundfeed.Bll.Tests.Features.Releases;
+namespace Soundfeed.Bll.Tests;
 
 [TestFixture]
 internal sealed class DismissReleaseCommandHandlerTests
@@ -23,7 +23,7 @@ internal sealed class DismissReleaseCommandHandlerTests
     public async Task Handle_WhenUserNotFound_ShouldReturnSilently()
     {
         using var context = TestDbContextFactory.Create();
-        var artist = new Soundfeed.Dal.Entites.Artist
+        var artist = new Artist
         {
             SpotifyArtistId = "artist1",
             Name = "Artist",
@@ -57,8 +57,8 @@ internal sealed class DismissReleaseCommandHandlerTests
     public async Task Handle_WhenUserNotDismissed_ShouldAddToDismissedBy()
     {
         using var context = TestDbContextFactory.Create();
-        var user = new Soundfeed.Dal.Entites.User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow };
-        var artist = new Soundfeed.Dal.Entites.Artist
+        var user = new User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow };
+        var artist = new Artist
         {
             SpotifyArtistId = "artist1",
             Name = "Artist",
@@ -99,8 +99,8 @@ internal sealed class DismissReleaseCommandHandlerTests
     public async Task Handle_WhenUserAlreadyDismissed_ShouldNotDuplicate()
     {
         using var context = TestDbContextFactory.Create();
-        var user = new Soundfeed.Dal.Entites.User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow };
-        var artist = new Soundfeed.Dal.Entites.Artist
+        var user = new User { Id = "user1", RecoveryCode = "ABC-DEF", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow };
+        var artist = new Artist
         {
             SpotifyArtistId = "artist1",
             Name = "Artist",

@@ -1,6 +1,6 @@
 using Soundfeed.Bll.Models;
 
-namespace Soundfeed.Bll.Tests.Models;
+namespace Soundfeed.Bll.Tests;
 
 [TestFixture]
 internal sealed class PageResultTests

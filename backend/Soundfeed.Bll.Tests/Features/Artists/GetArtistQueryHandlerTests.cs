@@ -1,9 +1,10 @@
-using Soundfeed.Bll.Tests.Helpers;
+
 using Soundfeed.Bll.Exceptions;
 using Soundfeed.Bll.Features;
 using Soundfeed.Bll.Models;
+using Soundfeed.Dal.Entites;
 
-namespace Soundfeed.Bll.Tests.Features.Artist;
+namespace Soundfeed.Bll.Tests;
 
 [TestFixture]
 internal sealed class GetArtistQueryHandlerTests
@@ -12,7 +13,7 @@ internal sealed class GetArtistQueryHandlerTests
     public async Task Handle_WhenArtistExists_ShouldReturnMappedResponse()
     {
         using var context = TestDbContextFactory.Create();
-        var artist = new Soundfeed.Dal.Entites.Artist
+        var artist = new Artist
         {
             SpotifyArtistId = "spotify123",
             Name = "Test Artist",
