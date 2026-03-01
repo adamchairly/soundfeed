@@ -66,7 +66,7 @@ const LandingPage = () => {
               you automatically.
             </div>
             <div>
-              Follow artists through the search page. Their releases will start
+              Follow artists through the feed page. Their releases will start
               showing up in your feed.
             </div>
             <div>
