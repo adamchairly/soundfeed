@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
+import { toast } from "sonner";
 import { useReleases } from "@/contexts/ReleaseContext";
 import { useArtists } from "@/contexts/ArtistContext";
 import httpClient from "@/api/HttpClient";
 import type { SearchArtistResult } from "@/types/SearchArtistResult";
+import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 export const useAddArtistLogic = () => {
   const { refreshReleases } = useReleases();
@@ -82,8 +84,10 @@ export const useAddArtistLogic = () => {
       setShowAdd(false);
       setSearchResults([]);
       await refreshReleases();
+      toast.success("Artist added");
     } catch (err) {
       console.error("Failed to add artist:", err);
+      toast.error(getApiErrorMessage(err));
     } finally {
       setIsSubmitting(false);
     }
