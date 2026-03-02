@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install frontend dependencies
+        run: npm ci --prefix frontend
       - name: Run Snyk Frontend
         uses: snyk/actions/node@master
         env:
@@ -28,4 +30,4 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK }}
         with:
-          args: --severity-threshold=high --file=backend/Soundfeed.slnx
+          args: --severity-threshold=high --file=backend/Soundfeed.Api/Soundfeed.Api.csproj
