@@ -3,7 +3,9 @@ import {
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
+import { useEffect } from "react";
 import { UserProvider } from "@/contexts/UserContext";
 import { ReleaseProvider } from "@/contexts/ReleaseContext";
 import { SyncProvider } from "@/contexts/SyncContext";
@@ -15,6 +17,12 @@ import FeedPage from "@/pages/FeedPage";
 import PrivacyPage from "@/pages/PrivacyPage";
 import TermsPage from "@/pages/TermsPage";
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+};
+
 const App = () => {
   return (
     <UserProvider>
@@ -23,6 +31,7 @@ const App = () => {
           <ReleaseProvider>
             <SyncProvider>
               <Router>
+              <ScrollToTop />
               <Routes>
                 <Route element={<Layout />}>
                   <Route path="/" element={<LandingPage />} />
