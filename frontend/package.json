@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "private": true,
-  "version": "0.2.3",
+  "version": "0.2.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -17,6 +17,7 @@
     "react-doctor": "^0.0.29",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.12.0",
+    "sonner": "^2.0.7",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {

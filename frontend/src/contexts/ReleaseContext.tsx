@@ -1,8 +1,10 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { toast } from "sonner";
 import httpClient from "@/api/HttpClient";
 import type { Release } from "@/types/Release";
 import type { PageResult } from "@/types/PageResult";
+import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 interface ReleaseContextType {
   releases: Release[] | null;
@@ -58,10 +60,12 @@ export const ReleaseProvider = ({
       });
       if (res.status === 200 || res.status === 201) {
         await refreshReleases();
+        toast.success("Artist added");
         return { success: true, message: "Artist Added!" };
       }
       return { success: false, message: "Failed to add." };
-    } catch {
+    } catch (err) {
+      toast.error(getApiErrorMessage(err));
       return { success: false, message: "Network Error" };
     }
   };
@@ -72,6 +76,7 @@ export const ReleaseProvider = ({
       await refreshReleases();
     } catch (err) {
       console.error("Failed to dismiss release:", err);
+      toast.error(getApiErrorMessage(err));
     }
   };
 

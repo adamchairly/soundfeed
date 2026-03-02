@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { toast } from "sonner";
 import httpClient from "@/api/HttpClient";
 import type { Artist } from "@/types/Artist";
+import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 interface ArtistContextType {
   artists: Artist[];
@@ -39,8 +41,10 @@ export const ArtistProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       await httpClient.delete(`/api/Subscription/${artistId}`);
       await refreshArtists();
+      toast.success("Artist removed");
     } catch (err) {
       console.error("Failed to unsubscribe:", err);
+      toast.error(getApiErrorMessage(err));
     }
   };
 
