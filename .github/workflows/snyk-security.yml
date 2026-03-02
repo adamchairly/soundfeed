@@ -25,9 +25,9 @@ jobs:
           dotnet-version: 10.0.x
       - name: Restore .NET dependencies
         run: dotnet restore backend/Soundfeed.slnx
+      - name: Install Snyk CLI
+        run: npm install -g snyk
       - name: Run Snyk Backend
-        uses: snyk/actions/dotnet@master
+        run: snyk test --severity-threshold=high --file=backend/Soundfeed.Api/Soundfeed.Api.csproj
         env:
           SNYK_TOKEN: ${{ secrets.SNYK }}
-        with:
-          args: --severity-threshold=high --file=backend/Soundfeed.Api/Soundfeed.Api.csproj
