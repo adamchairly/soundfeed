@@ -75,22 +75,6 @@ const LandingPage = () => {
           </div>
         </section>
 
-        <section id="features" className="scroll-mt-20 bg-white border border-slate-200 rounded-xl p-8">
-          <h2 className="text-xl font-bold text-slate-900 mb-4">Features</h2>
-          <div className="space-y-3 text-slate-600 leading-relaxed marker:text-slate-400">
-            <div>
-              Search for any Spotify artist and add them to your follow list.
-            </div>
-            <div>
-              New releases are checked daily and appear in your feed
-              automatically.
-            </div>
-            <div>
-            You can also sync manually at any time, once every 15 minutes.
-            </div>
-          </div>
-        </section>
-
         <section id="privacy" className="scroll-mt-20 bg-white border border-slate-200 rounded-xl p-8">
           <h2 className="text-xl font-bold text-slate-900 mb-4">Privacy</h2>
           <div className="space-y-3 text-slate-600 leading-relaxed marker:text-slate-400">
