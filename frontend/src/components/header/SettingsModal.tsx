@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "sonner";
 import { RefreshCw, X, Copy, Check } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
 
@@ -22,6 +23,8 @@ export const SettingsModal = ({ onClose }: SettingsModalProps) => {
     const success = await recoverIdentity(inputCode);
     if (success) {
       window.location.reload();
+    } else {
+      toast.error("Invalid recovery code");
     }
   };
 

@@ -6,6 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { useEffect } from "react";
+import { Toaster } from "sonner";
 import { UserProvider } from "@/contexts/UserContext";
 import { ReleaseProvider } from "@/contexts/ReleaseContext";
 import { SyncProvider } from "@/contexts/SyncContext";
@@ -31,6 +32,7 @@ const App = () => {
           <ReleaseProvider>
             <SyncProvider>
               <Router>
+              <Toaster position="bottom-center" richColors />
               <ScrollToTop />
               <Routes>
                 <Route element={<Layout />}>

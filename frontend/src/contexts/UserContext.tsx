@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { toast } from "sonner";
 import httpClient from "@/api/HttpClient";
+import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 interface UserContextType {
   userCode: string;
@@ -35,6 +37,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       return true;
     } catch (err) {
       console.error("Recovery failed: " + err);
+      toast.error(getApiErrorMessage(err, "Recovery failed"));
       return false;
     }
   };

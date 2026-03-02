@@ -1,7 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from "react";
+import { toast } from "sonner";
 import httpClient from "@/api/HttpClient";
 import { useReleases } from "@/contexts/ReleaseContext";
+import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 interface SyncContextType {
   lastSynced: string | null;
@@ -33,8 +35,10 @@ export const SyncProvider = ({
     try {
       await httpClient.post("/api/Sync");
       await Promise.all([refreshReleases(), fetchLastSynced()]);
+      toast.success("Releases synced");
     } catch (err) {
       console.error("Failed to sync releases:", err);
+      toast.error(getApiErrorMessage(err));
     }
   };
 
