@@ -28,6 +28,7 @@ jobs:
       - name: Install Snyk CLI
         run: npm install -g snyk
       - name: Run Snyk Backend
-        run: snyk test --severity-threshold=high --file=backend/Soundfeed.Api/Soundfeed.Api.csproj
+        working-directory: backend
+        run: snyk test --severity-threshold=high --all-projects
         env:
           SNYK_TOKEN: ${{ secrets.SNYK }}
