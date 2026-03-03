@@ -8,6 +8,7 @@
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
   [![React Doctor](https://www.react.doctor/share/badge?p=frontend&s=94&e=1&w=15&f=6)](https://www.react.doctor/share?p=frontend&s=94&e=1&w=15&f=6)
   [![Backend Tests](https://github.com/adamchairly/soundfeed/actions/workflows/backend-tests.yml/badge.svg)](https://github.com/adamchairly/soundfeed/actions/workflows/backend-tests.yml)
+  [![Snyk Security](https://github.com/adamchairly/soundfeed/actions/workflows/snyk-security.yml/badge.svg)](https://github.com/adamchairly/soundfeed/actions/workflows/snyk-security.yml)
 
   [![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
   [![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react)](https://react.dev/)
