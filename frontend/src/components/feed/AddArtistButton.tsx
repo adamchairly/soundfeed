@@ -23,20 +23,30 @@ export const ArtistItem = ({
 }) => (
   <div className="flex flex-col items-center w-full">
     <div className="relative">
-      <SkeletonImage
-        src={
-          artist.imageUrl ??
-          `https://ui-avatars.com/api/?name=${encodeURIComponent(
-            artist.name ?? "",
-          )}`
-        }
-        alt={artist.name}
-        className="aspect-square w-full max-w-[56px] object-cover border border-slate-200"
-      />
+      <a
+        href={artist.spotifyUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block"
+      >
+        <SkeletonImage
+          src={
+            artist.imageUrl ??
+            `https://ui-avatars.com/api/?name=${encodeURIComponent(
+              artist.name ?? "",
+            )}`
+          }
+          alt={artist.name}
+          className="aspect-square w-full max-w-[56px] object-cover border border-slate-200"
+        />
+      </a>
 
       {onRemove && (
         <button
-          onClick={() => onRemove(Number(artist.id))}
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove(Number(artist.id));
+          }}
           className="absolute -top-1.5 -right-1.5 z-10 bg-white flex items-center justify-center transition-colors w-5 h-5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full shadow-sm"
           title={`Remove ${artist.name}`}
         >
@@ -45,8 +55,13 @@ export const ArtistItem = ({
       )}
     </div>
 
-    <span className="text-slate-400 mt-1 text-[11px] text-center leading-tight line-clamp-2 w-full">
+    <a
+      href={artist.spotifyUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-slate-400 mt-1 text-[11px] text-center leading-tight line-clamp-2 w-full hover:text-slate-600 transition-colors"
+    >
       {artist.name}
-    </span>
+    </a>
   </div>
 );
