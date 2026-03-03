@@ -1,12 +1,14 @@
 import type { Release } from "@/types/Release";
 import { ReleaseCard } from "@/components/feed/ReleaseCard";
 import { ReleaseCardSkeleton } from "@/components/common/ReleaseCardSkeleton";
+import { MockFeedPreview } from "@/components/common/MockFeedPreview";
 import { MonthDivider } from "@/components/feed/MonthDivider";
 import { FeedPagination } from "@/components/feed/FeedPagination";
 
 interface FeedListProps {
   releases: Release[] | null;
   loading: boolean;
+  hasArtists: boolean;
   page: number;
   totalPages: number;
   pageSize: number;
@@ -29,6 +31,7 @@ const isSameMonth = (d1: string, d2: string) => {
 export const FeedList = ({
   releases,
   loading,
+  hasArtists,
   onDismiss,
   page,
   totalPages,
@@ -49,15 +52,19 @@ export const FeedList = ({
   }
 
   if (!releases || releases.length === 0) {
-    return (
-      <div className="text-center py-20 text-slate-400">
-        <p>No releases found. Try adding some artists!</p>
-      </div>
-    );
+    if (!hasArtists) {
+      return (
+        <div className="text-center py-20 text-slate-400">
+          <p>No artists yet, try adding some!</p>
+        </div>
+      );
+    }
+
+    return <MockFeedPreview />;
   }
 
   return (
-    <section className="pb-20">
+    <section className="pb-5">
       <FeedPagination
         page={page}
         totalPages={totalPages}
