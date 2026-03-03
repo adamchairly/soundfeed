@@ -67,8 +67,8 @@ export const useAddArtistLogic = () => {
   }, [displayValue, searchArtists]);
 
   const selectArtist = async (artist: SearchArtistResult) => {
-    setDisplayValue(artist.name);
-    setInputUrl(artist.spotifyUrl);
+    setShowAdd(false);
+    setDisplayValue("");
     setSearchResults([]);
     await submit(artist.spotifyUrl);
   };

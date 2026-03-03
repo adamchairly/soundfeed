@@ -3,6 +3,7 @@ import { useReleases } from "@/contexts/ReleaseContext";
 import { useSync } from "@/contexts/SyncContext";
 import { useArtists } from "@/contexts/ArtistContext";
 import { useAddArtistLogic } from "@/hooks/useAddArtist";
+import { useArtistOrder } from "@/hooks/useArtistOrder";
 import { useOnClickOutside } from "@/hooks/useOnClickOutside";
 
 import { FeedList } from "@/components/feed/FeedList";
@@ -38,6 +39,9 @@ const FeedPage = () => {
     selectArtist,
   } = useAddArtistLogic();
 
+  const { orderedArtists, sensors, handleDragEnd } = useArtistOrder(artists);
+
+  const [isReordering, setIsReordering] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -56,6 +60,13 @@ const FeedPage = () => {
     }
   };
 
+  const handleToggleReorder = useCallback(() => {
+    setIsReordering((v) => {
+      if (!v) setShowAdd(false);
+      return !v;
+    });
+  }, [setShowAdd]);
+
   return (
     <div className="min-h-screen bg-slate-50 selection:bg-slate-200 flex flex-col">
       <main className="flex-1 max-w-2xl mx-auto w-full py-6 px-4">
@@ -68,12 +79,17 @@ const FeedPage = () => {
           />
 
           <ArtistGrid
-            artists={artists}
+            artists={orderedArtists}
             loading={artistsLoading}
             onAddClick={() => setShowAdd((v) => !v)}
             onRemoveArtist={(id) => unsubscribe(id)}
             initialVisibleMobile={5}
             initialVisibleDesktop={7}
+            isAddOpen={showAdd}
+            isReordering={isReordering}
+            sensors={sensors}
+            onDragEnd={handleDragEnd}
+            onToggleReorder={handleToggleReorder}
           />
 
           {showAdd && (
@@ -89,6 +105,7 @@ const FeedPage = () => {
           <FeedList
             releases={releases}
             loading={releasesLoading}
+            hasArtists={artists.length > 0}
             onDismiss={dismissRelease}
             page={page}
             totalPages={totalPages}
