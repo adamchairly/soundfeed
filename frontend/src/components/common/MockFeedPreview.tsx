@@ -15,14 +15,11 @@ const MOCK_RELEASE: Release = {
   label: "Label",
 };
 
-const OPACITY_CLASSES = ["opacity-80", "opacity-60", "opacity-40", "opacity-20"];
+const OPACITY_CLASSES = ["opacity-45", "opacity-25", "opacity-15", "opacity-5"];
 
 export const MockFeedPreview = () => {
   return (
-    <div className="text-center py-10">
-      <p className="text-sm text-slate-400 mb-3">
-        No new releases yet. They will appear like this.
-      </p>
+    <div className="py-5">
       <div className="pointer-events-none select-none">
         {OPACITY_CLASSES.map((opacity, index) => (
           <div key={index} className={opacity}>
