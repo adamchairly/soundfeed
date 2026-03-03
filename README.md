@@ -11,6 +11,7 @@
   [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql)](https://www.postgresql.org/)
   [![Redis](https://img.shields.io/badge/Redis-7-DC382D?logo=redis)](https://redis.io/)
   [![React Doctor](https://www.react.doctor/share/badge?p=frontend&s=94&e=1&w=15&f=6)](https://www.react.doctor/share?p=frontend&s=94&e=1&w=15&f=6)
+  [![Backend Tests](https://github.com/adamchairly/soundfeed/actions/workflows/backend-tests.yml/badge.svg)](https://github.com/adamchairly/soundfeed/actions/workflows/backend-tests.yml)
 </div>
 
 ## About
