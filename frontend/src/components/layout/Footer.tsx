@@ -5,10 +5,10 @@ export const Footer = () => {
   const email = import.meta.env.VITE_CONTACT_EMAIL;
 
   return (
-    <footer className="bg-white border-t border-slate-200 pt-16 pb-16">
+    <footer className="bg-white border-t border-slate-200 pt-8 pb-8">
       <div className="max-w-5xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
-          
+
           <div className="space-y-4">
             <div className="flex items-center gap-2">
                 <img src={logo} alt="Soundfeed Logo" className="w-10 h-10" />
@@ -58,8 +58,8 @@ export const Footer = () => {
               <h4 className="font-black text-slate-900 mb-4">Contact</h4>
               <ul className="space-y-3 text-sm text-slate-500">
                 <li>
-                  <a 
-                    href={`mailto:${email}`} 
+                  <a
+                    href={`mailto:${email}`}
                     className="hover:text-slate-900 transition-colors"
                   >
                     {email}

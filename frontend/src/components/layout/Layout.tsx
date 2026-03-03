@@ -8,10 +8,10 @@ export const Layout = () => {
   const [showSettings, setShowSettings] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-display">
+    <div className="bg-slate-50 flex flex-col font-display">
       <Header onSettingsClick={() => setShowSettings(true)} />
 
-      <main className="flex-1">
+      <main className="min-h-[calc(100vh-4rem)]">
         <Outlet />
       </main>
 
