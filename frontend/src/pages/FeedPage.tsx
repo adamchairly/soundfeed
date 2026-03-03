@@ -64,6 +64,7 @@ const FeedPage = () => {
             lastSynced={lastSynced}
             onSync={handleSync}
             isSyncing={isSyncing}
+            loading={artistsLoading}
           />
 
           <ArtistGrid
