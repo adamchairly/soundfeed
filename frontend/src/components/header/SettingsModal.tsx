@@ -11,6 +11,12 @@ export const SettingsModal = ({ onClose }: SettingsModalProps) => {
   const { userCode, recoverIdentity } = useUser();
 
   const [inputCode, setInputCode] = useState("");
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value.replace(/[^A-Za-z0-9]/g, "").toUpperCase();
+    const formatted = raw.length > 3 ? `${raw.slice(0, 3)}-${raw.slice(3, 6)}` : raw;
+    setInputCode(formatted);
+  };
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
@@ -74,11 +80,12 @@ export const SettingsModal = ({ onClose }: SettingsModalProps) => {
                 placeholder="Ex: EAC-ASD"
                 className="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 font-mono font-bold text-slate-800 text-lg tracking-wide outline-none focus:border-slate-400 focus:bg-white transition-all placeholder:text-slate-300 placeholder:font-sans placeholder:text-sm placeholder:font-normal placeholder:tracking-normal"
                 value={inputCode}
-                onChange={(e) => setInputCode(e.target.value.toUpperCase())}
+                maxLength={7}
+                onChange={handleInputChange}
               />
               <button
                 onClick={handleRecover}
-                disabled={!inputCode}
+                disabled={!/^[A-Z0-9]{3}-[A-Z0-9]{3}$/.test(inputCode)}
                 className="bg-slate-900 text-white px-4 rounded-lg hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center"
               >
                 <RefreshCw className="w-4 h-4" />
