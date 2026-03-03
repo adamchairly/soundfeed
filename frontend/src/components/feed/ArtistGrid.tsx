@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { AddArtistButton, ArtistItem } from "./AddArtistButton";
+import { ArtistGridSkeleton } from "@/components/common/ArtistGridSkeleton";
 import type { Artist } from "@/types/Artist";
 
 interface ArtistGridProps {
@@ -39,6 +40,8 @@ export const ArtistGrid = ({
   const [expanded, setExpanded] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 640px)");
   const limit = isDesktop ? initialVisibleDesktop : initialVisibleMobile;
+
+  if (loading && artists.length === 0) return <ArtistGridSkeleton />;
 
   const visibleArtists = expanded ? artists : artists.slice(0, limit);
   const hiddenCount = Math.max(0, artists.length - limit);

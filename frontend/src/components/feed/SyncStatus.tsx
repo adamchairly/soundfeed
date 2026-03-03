@@ -1,16 +1,20 @@
 import { RefreshCw } from "lucide-react";
+import { SyncStatusSkeleton } from "@/components/common/SyncStatusSkeleton";
 
 interface SyncStatusProps {
   lastSynced: string | null;
   onSync: () => void;
   isSyncing?: boolean;
+  loading?: boolean;
 }
 
 export const SyncStatus = ({
   lastSynced,
   onSync,
   isSyncing = false,
+  loading = false,
 }: SyncStatusProps) => {
+  if (loading) return <SyncStatusSkeleton />;
   const formatDate = (iso: string) =>
     new Date(iso).toLocaleString("en-US", {
       year: "numeric",

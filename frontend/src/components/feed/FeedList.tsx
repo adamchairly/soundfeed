@@ -1,5 +1,6 @@
 import type { Release } from "@/types/Release";
 import { ReleaseCard } from "@/components/feed/ReleaseCard";
+import { ReleaseCardSkeleton } from "@/components/common/ReleaseCardSkeleton";
 import { MonthDivider } from "@/components/feed/MonthDivider";
 import { FeedPagination } from "@/components/feed/FeedPagination";
 
@@ -41,10 +42,7 @@ export const FeedList = ({
     return (
       <div className="space-y-4">
         {[1, 2, 3].map((i) => (
-          <div
-            key={i}
-            className="h-32 bg-white border border-slate-200 rounded-lg animate-pulse"
-          />
+          <ReleaseCardSkeleton key={i} />
         ))}
       </div>
     );

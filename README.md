@@ -31,43 +31,6 @@ No login, account or any personal detail required.
   - Dismiss already seen feed entries
   - Order and navigate in your feed
 
-## Project Structure
-
-```
-Soundfeed/
-├── frontend/
-│   └── src/
-│       ├── api/
-│       ├── assets/              # Images and static assets
-│       ├── components/          # React components
-│       │   └── layout/          # Layout components
-│       ├── contexts/            # React Context providers
-│       ├── hooks/               # Custom React hooks
-│       ├── pages/               # Page components
-│       ├── styles/              # Shared Tailwind constants
-│       ├── types/               # TypeScript type definitions
-|       └── utils/               # Utility functions
-│
-└── backend/
-    ├── Soundfeed.Api/           # API layer
-    │   ├── Controllers/         # REST API endpoints
-    │   ├── Middlewares/         # Request/response middleware
-    │   └── Extensions/          # Service configuration
-    │
-    ├── Soundfeed.Bll/          # Business logic layer
-    │   ├── Features/           # Domain separated features
-    │   │   ├── Artist/
-    │   │   ├── ....
-    │   ├── Services/           # Business services
-    │   ├── Jobs/               # Background jobs
-    │   └── Models/             # DTOs and response models
-    │
-    └── Soundfeed.Dal/          # Data access layer
-        ├── Entities/           # Entities
-        ├── Contexts/           # DbContext and abstractions
-        └── Migrations/         # Database migrations
-```
-
 ## Getting Started
 
 Contributions are welcome, please open a pull request based on the latest main branch.
