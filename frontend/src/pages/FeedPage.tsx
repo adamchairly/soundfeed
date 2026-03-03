@@ -68,8 +68,8 @@ const FeedPage = () => {
   }, [setShowAdd]);
 
   return (
-    <div className="min-h-screen bg-slate-50 selection:bg-slate-200 flex flex-col">
-      <main className="flex-1 max-w-2xl mx-auto w-full py-6 px-4">
+    <div className="min-h-screen bg-slate-50 selection:bg-slate-200">
+      <main className="max-w-2xl mx-auto w-full py-6 px-4 pb-5">
         <div className="mb-2 relative" ref={containerRef}>
           <SyncStatus
             lastSynced={lastSynced}
