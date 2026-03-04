@@ -100,7 +100,7 @@ public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotify
                 _logger.LogError(ex, "Failed to sync artist {ArtistId}", artist.SpotifyArtistId);
             }
 
-            await Task.Delay(200, ct);
+            await Task.Delay(500, ct);
         }
     }
 }
