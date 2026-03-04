@@ -54,7 +54,7 @@ export const FeedList = ({
   if (!releases || releases.length === 0) {
     if (!hasArtists) {
       return (
-        <div className="text-center py-20 text-slate-400">
+        <div className="text-center py-20 text-slate-400 dark:text-slate-500">
           <p>No artists yet, try adding some!</p>
         </div>
       );

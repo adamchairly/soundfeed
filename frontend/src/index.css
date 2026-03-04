@@ -1,6 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-display: "Inter", "sans-serif";
+}
+
+@layer base {
+  html { @apply bg-slate-50 text-slate-900; }
+  html.dark { @apply bg-slate-950 text-slate-50; }
 }

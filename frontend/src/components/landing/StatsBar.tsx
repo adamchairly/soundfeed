@@ -3,10 +3,10 @@ import { formatStatNumber } from "@/utils/formatters";
 
 const StatItem = ({ value, label }: { value: number; label: string }) => (
   <div className="text-center">
-    <div className="text-2xl font-bold text-slate-900">
+    <div className="text-2xl font-bold text-slate-900 dark:text-slate-50">
       {formatStatNumber(value)}
     </div>
-    <div className="text-sm text-slate-600">{label}</div>
+    <div className="text-sm text-slate-600 dark:text-slate-400">{label}</div>
   </div>
 );
 
