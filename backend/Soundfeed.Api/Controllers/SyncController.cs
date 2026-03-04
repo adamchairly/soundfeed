@@ -38,7 +38,7 @@ public class SyncController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> SyncReleases(CancellationToken cancellationToken)
     {
         var userId = Request.GetRequiredUserId();
-        await _mediator.Send(new SyncReleasesCommand { UserId = userId }, cancellationToken);
+        await _mediator.Send(new SyncReleasesCommand { UserId = userId }, CancellationToken.None);
         return NoContent();
     }
 }

@@ -200,7 +200,7 @@ public class SpotifyService : ISpotifyService
                         ?? TimeSpan.FromSeconds(Math.Pow(2, attempt) * DefaultRetryDelay.TotalSeconds);
 
             response.Dispose();
-            await Task.Delay(delay, ct);
+            await Task.Delay(delay, CancellationToken.None);
         }
 
         throw new InvalidOperationException("Retry loop exited unexpectedly.");

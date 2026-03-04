@@ -94,13 +94,16 @@ public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotify
                     await _dbContext.SaveChangesAsync(ct);
                     _logger.LogInformation("Added {Count} new releases for artist {Id}", newReleases.Count, artist.Id);
                 }
+
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to sync artist {ArtistId}", artist.SpotifyArtistId);
             }
-
-            await Task.Delay(500, ct);
+            finally
+            {
+                await Task.Delay(500, CancellationToken.None);
+            }
         }
     }
 }
