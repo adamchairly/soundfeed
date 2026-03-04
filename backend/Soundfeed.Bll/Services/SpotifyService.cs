@@ -12,12 +12,15 @@ public class SpotifyService : ISpotifyService
 {
     private const int MaxRetries = 3;
     private static readonly TimeSpan DefaultRetryDelay = TimeSpan.FromSeconds(2);
+    private static readonly TimeSpan MinRequestInterval = TimeSpan.FromMilliseconds(150);
 
     private readonly HttpClient _http;
     private readonly SpotifyOptions _options;
 
     private string? _accessToken;
     private DateTime _accessTokenExpiresAtUtc;
+    private DateTime _lastRequestTimeUtc = DateTime.MinValue;
+    private TimeSpan _currentRequestInterval = MinRequestInterval;
 
     public SpotifyService(HttpClient http, IOptions<SpotifyOptions> options)
     {
@@ -179,9 +182,14 @@ public class SpotifyService : ISpotifyService
     {
         for (var attempt = 0; attempt <= MaxRetries; attempt++)
         {
+            var elapsed = DateTime.UtcNow - _lastRequestTimeUtc;
+            if (elapsed < _currentRequestInterval)
+                await Task.Delay(_currentRequestInterval - elapsed, ct);
+
             using var clone = new HttpRequestMessage(request.Method, request.RequestUri);
             clone.Headers.Authorization = request.Headers.Authorization;
 
+            _lastRequestTimeUtc = DateTime.UtcNow;
             var response = await _http.SendAsync(clone, ct);
 
             if (response.StatusCode != HttpStatusCode.TooManyRequests)
@@ -196,11 +204,13 @@ public class SpotifyService : ISpotifyService
                 return response;
             }
 
-            var delay = response.Headers.RetryAfter?.Delta
-                        ?? TimeSpan.FromSeconds(Math.Pow(2, attempt) * DefaultRetryDelay.TotalSeconds);
+            var retryAfter = response.Headers.RetryAfter?.Delta
+                             ?? TimeSpan.FromSeconds(Math.Pow(2, attempt) * DefaultRetryDelay.TotalSeconds);
+
+            _currentRequestInterval = retryAfter;
 
             response.Dispose();
-            await Task.Delay(delay, CancellationToken.None);
+            await Task.Delay(retryAfter, CancellationToken.None);
         }
 
         throw new InvalidOperationException("Retry loop exited unexpectedly.");
