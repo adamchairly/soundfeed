@@ -70,7 +70,7 @@ export const ArtistGrid = ({
       <div className="flex flex-col items-center">
         <AddArtistButton onClick={onAddClick} />
         {artists.length === 0 && !isAddOpen && (
-          <ArrowUp size={24} className="text-slate-400 animate-bounce mt-4" />
+          <ArrowUp size={24} className="text-slate-400 dark:text-slate-500 animate-bounce mt-4" />
         )}
       </div>
       {visibleArtists.map((a) => (
@@ -108,7 +108,7 @@ export const ArtistGrid = ({
         {!loading && !isReordering && hiddenCount > 0 && (
           <button
             onClick={() => setExpanded((v) => !v)}
-            className="text-sm font-medium text-slate-400 hover:text-slate-600 transition-colors"
+            className="text-sm font-medium text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-400 transition-colors"
           >
             {expanded ? "Show less" : `+${hiddenCount} more`}
           </button>
@@ -117,7 +117,7 @@ export const ArtistGrid = ({
         {artists.length >= 2 && (
           <button
             onClick={onToggleReorder}
-            className="text-sm font-medium text-slate-400 hover:text-slate-600 transition-colors flex items-center gap-1"
+            className="text-sm font-medium text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-400 transition-colors flex items-center gap-1"
           >
             {isReordering ? (
               <>

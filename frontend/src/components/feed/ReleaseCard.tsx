@@ -29,7 +29,7 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
   };
 
   return (
-    <div className="bg-white border border-slate-200 rounded-lg overflow-hidden hover:shadow-md transition-all mb-3 group">
+    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden hover:shadow-md transition-all mb-3 group">
       <div className="flex items-center p-3 gap-4">
         <div
           className="relative flex-shrink-0 cursor-pointer"
@@ -38,17 +38,17 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
           <SkeletonImage
             src={release.coverUrl ?? "https://via.placeholder.com/80"}
             alt={release.title}
-            className="w-16 h-16 rounded shadow-sm object-cover border border-slate-100"
+            className="w-16 h-16 rounded shadow-sm object-cover border border-slate-100 dark:border-slate-800"
           />
         </div>
 
         <div className="flex-1 min-w-0 flex flex-col justify-center h-16">
           <div className="flex items-center justify-between gap-2">
             <div className="min-w-0 cursor-pointer" onClick={toggleExpand}>
-              <h3 className="font-bold text-slate-900 truncate text-base leading-tight hover:text-slate-700 transition-colors">
+              <h3 className="font-bold text-slate-900 dark:text-slate-50 truncate text-base leading-tight hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
                 {release.title}
               </h3>
-              <p className="text-slate-600 font-semibold text-sm truncate">
+              <p className="text-slate-600 dark:text-slate-400 font-semibold text-sm truncate">
                 {release.artistName}
               </p>
             </div>
@@ -58,7 +58,7 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
                 href={release.spotifyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 text-green-600 hover:bg-green-50 rounded-full border border-slate-100 transition-colors"
+                className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 text-green-600 hover:bg-green-50 dark:hover:bg-green-950 rounded-full border border-slate-100 dark:border-slate-800 transition-colors"
                 title="Open in Spotify"
                 onClick={(e) => e.stopPropagation()}
               >
@@ -68,7 +68,7 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
               {hasTracks && (
                 <button
                   onClick={toggleExpand}
-                  className="flex-shrink-0 w-8 h-8 flex items-center justify-center transition-colors text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full"
+                  className="flex-shrink-0 w-8 h-8 flex items-center justify-center transition-colors text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full"
                 >
                   {isExpanded ? (
                     <ChevronUp size={18} />
@@ -80,7 +80,7 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
 
               <button
                 onClick={handleDismiss}
-                className="flex-shrink-0 w-8 h-8 flex items-center justify-center transition-colors text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full"
+                className="flex-shrink-0 w-8 h-8 flex items-center justify-center transition-colors text-slate-400 dark:text-slate-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950 rounded-full"
                 title="Dismiss"
               >
                 <X size={16} />
@@ -89,10 +89,10 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
           </div>
 
           <div
-            className="flex items-center gap-2 text-xs text-slate-400 mt-1 cursor-pointer"
+            className="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500 mt-1 cursor-pointer"
             onClick={toggleExpand}
           >
-            <span className="font-bold uppercase tracking-wider text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">
+            <span className="font-bold uppercase tracking-wider text-[9px] bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-1.5 py-0.5 rounded">
               {release.releaseType ?? "Album"}
             </span>
             <span>•</span>
@@ -108,9 +108,9 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
       </div>
 
       {isExpanded && hasTracks && (
-        <div className="bg-slate-50/50 border-t border-slate-100 px-4 py-3 animate-in slide-in-from-top-2 duration-200">
+        <div className="bg-slate-50/50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 px-4 py-3 animate-in slide-in-from-top-2 duration-200">
           <div className="flex justify-between items-center mb-2">
-            <p className="text-slate-400 text-sm">
+            <p className="text-slate-400 dark:text-slate-500 text-sm">
               Tracklist ({release.tracks?.length})
             </p>
           </div>
@@ -121,9 +121,9 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
               .map((track) => (
                 <li
                   key={track.trackNumber}
-                  className="text-sm text-slate-600 truncate flex items-center py-0.5 hover:text-slate-900"
+                  className="text-sm text-slate-600 dark:text-slate-400 truncate flex items-center py-0.5 hover:text-slate-900 dark:hover:text-slate-50"
                 >
-                  <span className="text-slate-300 tabular-nums mr-3 text-xs font-medium w-4 text-right">
+                  <span className="text-slate-300 dark:text-slate-600 tabular-nums mr-3 text-xs font-medium w-4 text-right">
                     {track.trackNumber}
                   </span>
                   <span className="truncate">{track.title}</span>

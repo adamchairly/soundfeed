@@ -68,7 +68,7 @@ const FeedPage = () => {
   }, [setShowAdd]);
 
   return (
-    <div className="bg-slate-50 selection:bg-slate-200">
+    <div className="bg-slate-50 dark:bg-slate-950 selection:bg-slate-200 dark:selection:bg-slate-700">
       <main className="max-w-2xl mx-auto w-full py-6 px-4">
         <div className="mb-2 relative" ref={containerRef}>
           <SyncStatus
