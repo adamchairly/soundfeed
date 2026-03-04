@@ -23,9 +23,10 @@ No login, account or any personal detail required.
 
 ## Features
 
-- **Subscribe to Spotify artists**
-  - Subscribe to artists by pasting searching or pasting their Spotify URL
+- **Follow Spotify artists**
+  - Follow artists by searching
   - Unsubcribe from artists
+  - Reorder followed artist in the grid
 - **Sync existing account**
   - Recover your feed using a recovery code
 - **Manage your feed**
