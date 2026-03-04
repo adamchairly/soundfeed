@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Soundfeed.Bll.Abstractions;
 using Soundfeed.Bll.Models;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
@@ -9,6 +10,9 @@ namespace Soundfeed.Bll;
 
 public class SpotifyService : ISpotifyService
 {
+    private const int MaxRetries = 3;
+    private static readonly TimeSpan DefaultRetryDelay = TimeSpan.FromSeconds(2);
+
     private readonly HttpClient _http;
     private readonly SpotifyOptions _options;
 
@@ -30,8 +34,7 @@ public class SpotifyService : ISpotifyService
         using var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
 
-        using var response = await _http.SendAsync(request, cancellationToken);
-        response.EnsureSuccessStatusCode();
+        using var response = await SendWithRetryAsync(request, cancellationToken);
 
         var json = await response.Content.ReadFromJsonAsync<SpotifyArtistDetailResponse>(cancellationToken: cancellationToken)
                    ?? throw new InvalidOperationException("Empty response from Spotify artist endpoint.");
@@ -56,8 +59,7 @@ public class SpotifyService : ISpotifyService
             using var request = new HttpRequestMessage(HttpMethod.Get, nextUrl);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
 
-            using var response = await _http.SendAsync(request, cancellationToken);
-            response.EnsureSuccessStatusCode();
+            using var response = await SendWithRetryAsync(request, cancellationToken);
 
             var page = await response.Content.ReadFromJsonAsync<SpotifyPagedResponse<SpotifyAlbum>>(cancellationToken: cancellationToken);
 
@@ -88,8 +90,7 @@ public class SpotifyService : ISpotifyService
             using var batchRequest = new HttpRequestMessage(HttpMethod.Get, detailsUrl);
             batchRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
 
-            using var batchResponse = await _http.SendAsync(batchRequest, cancellationToken);
-            batchResponse.EnsureSuccessStatusCode();
+            using var batchResponse = await SendWithRetryAsync(batchRequest, cancellationToken);
 
             var details = await batchResponse.Content.ReadFromJsonAsync<SpotifyBatchAlbumResponse>(cancellationToken: cancellationToken);
 
@@ -160,8 +161,7 @@ public class SpotifyService : ISpotifyService
         using var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
 
-        using var response = await _http.SendAsync(request, cancellationToken);
-        response.EnsureSuccessStatusCode();
+        using var response = await SendWithRetryAsync(request, cancellationToken);
 
         var json = await response.Content.ReadFromJsonAsync<SpotifySearchResponse>(cancellationToken: cancellationToken)
                    ?? throw new InvalidOperationException("Empty response from Spotify search endpoint.");
@@ -173,6 +173,37 @@ public class SpotifyService : ISpotifyService
                 SpotifyUrl = $"https://open.spotify.com/artist/{a.Id}",
                 ImageUrl = a.Images?.FirstOrDefault()?.Url
             }).ToList() ?? [];
+    }
+
+    private async Task<HttpResponseMessage> SendWithRetryAsync(HttpRequestMessage request, CancellationToken ct)
+    {
+        for (var attempt = 0; attempt <= MaxRetries; attempt++)
+        {
+            using var clone = new HttpRequestMessage(request.Method, request.RequestUri);
+            clone.Headers.Authorization = request.Headers.Authorization;
+
+            var response = await _http.SendAsync(clone, ct);
+
+            if (response.StatusCode != HttpStatusCode.TooManyRequests)
+            {
+                response.EnsureSuccessStatusCode();
+                return response;
+            }
+
+            if (attempt == MaxRetries)
+            {
+                response.EnsureSuccessStatusCode();
+                return response;
+            }
+
+            var delay = response.Headers.RetryAfter?.Delta
+                        ?? TimeSpan.FromSeconds(Math.Pow(2, attempt) * DefaultRetryDelay.TotalSeconds);
+
+            response.Dispose();
+            await Task.Delay(delay, ct);
+        }
+
+        throw new InvalidOperationException("Retry loop exited unexpectedly.");
     }
 
     private static DateTime ParseSpotifyDate(string? dateStr)
