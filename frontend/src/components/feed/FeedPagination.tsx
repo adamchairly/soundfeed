@@ -133,7 +133,7 @@ export const FeedPagination = ({
                 key={p}
                 onClick={() => onPageChange(p as number)}
                 className={`px-2 py-1 min-w-[32px] rounded transition-colors ${
-                  p === page ? "bg-slate-900 dark:bg-slate-50 text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-200 transition-all" : "hover:text-slate-600 dark:hover:text-slate-400"
+                  p === page ? "bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all" : "hover:text-slate-600 dark:hover:text-slate-400"
                 }`}
                 aria-label={`Page ${p}`}
                 aria-current={p === page ? "page" : undefined}
