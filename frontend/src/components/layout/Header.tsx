@@ -28,7 +28,7 @@ export const Header = ({ onSettingsClick }: HeaderProps) => (
           <Settings className="w-5 h-5" />
         </button>
 
-        <a href="https://github.com/adamchairly/soundfeed" target="_blank" rel="noreferrer" className="hover:text-slate-900 dark:hover:text-slate-50 transition-colors">
+        <a href="https://github.com/adamchairly/soundfeed" target="_blank" rel="noreferrer" className="hover:text-slate-900 dark:hover:text-slate-50 transition-colors p-2">
           <Github className="w-5 h-5" />
         </a>
       </div>
