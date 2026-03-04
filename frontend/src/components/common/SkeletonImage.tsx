@@ -31,7 +31,7 @@ export const SkeletonImage = ({
     <div className={`relative ${className}`}>
       {isLoading && (
         <div
-          className={`absolute inset-0 bg-slate-200 animate-pulse ${className}`}
+          className={`absolute inset-0 bg-slate-200 dark:bg-slate-700 animate-pulse ${className}`}
         />
       )}
       <img

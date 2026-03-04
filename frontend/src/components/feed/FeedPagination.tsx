@@ -70,12 +70,12 @@ export const FeedPagination = ({
 
   return (
     <div
-      className="flex items-center justify-between text-sm text-slate-400 mt-6"
+      className="flex items-center justify-between text-sm text-slate-400 dark:text-slate-500 mt-6"
     >
       <div className="flex items-center gap-4">
         <button
           onClick={() => onSortChange(!sortDescending)}
-          className="flex items-center gap-2 transition-colors hover:text-slate-600"
+          className="flex items-center gap-2 transition-colors hover:text-slate-600 dark:hover:text-slate-400"
           aria-label={sortDescending ? "Sort ascending" : "Sort descending"}
         >
           {sortDescending ? <ArrowUp size={14} /> : <ArrowDown size={14} />}
@@ -84,7 +84,7 @@ export const FeedPagination = ({
         <div className="relative" ref={pageSizeMenuRef}>
           <button
             onClick={() => setShowPageSizeMenu(!showPageSizeMenu)}
-            className="flex items-center gap-1 transition-colors hover:text-slate-600"
+            className="flex items-center gap-1 transition-colors hover:text-slate-600 dark:hover:text-slate-400"
             aria-label="Change page size"
             aria-expanded={showPageSizeMenu}
           >
@@ -93,15 +93,15 @@ export const FeedPagination = ({
           </button>
 
           {showPageSizeMenu && (
-            <div className="absolute bottom-full left-0 mb-2 bg-white border border-slate-200 rounded-lg shadow-lg z-10 min-w-[80px]">
+            <div className="absolute bottom-full left-0 mb-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg z-10 min-w-[80px]">
               {PAGE_SIZE_OPTIONS.map((size) => (
                 <button
                   key={size}
                   onClick={() => handlePageSizeSelect(size)}
-                  className={`w-full px-4 py-2 text-left transition-colors hover:bg-slate-50 ${
+                  className={`w-full px-4 py-2 text-left transition-colors hover:bg-slate-50 dark:hover:bg-slate-700 ${
                     size === pageSize
-                      ? "bg-slate-100 text-slate-900"
-                      : "text-slate-600"
+                      ? "bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-50"
+                      : "text-slate-600 dark:text-slate-400"
                   }`}
                 >
                   {size}
@@ -116,7 +116,7 @@ export const FeedPagination = ({
         <button
           onClick={() => onPageChange(page - 1)}
           disabled={page === 1}
-          className="p-1 transition-colors hover:text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-1 transition-colors hover:text-slate-600 dark:hover:text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Previous page"
         >
           <ChevronLeft size={16} />
@@ -133,7 +133,7 @@ export const FeedPagination = ({
                 key={p}
                 onClick={() => onPageChange(p as number)}
                 className={`px-2 py-1 min-w-[32px] rounded transition-colors ${
-                  p === page ? "bg-slate-900 text-white hover:bg-slate-800 transition-all" : "hover:text-slate-600"
+                  p === page ? "bg-slate-900 dark:bg-slate-50 text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-200 transition-all" : "hover:text-slate-600 dark:hover:text-slate-400"
                 }`}
                 aria-label={`Page ${p}`}
                 aria-current={p === page ? "page" : undefined}
@@ -147,7 +147,7 @@ export const FeedPagination = ({
         <button
           onClick={() => onPageChange(page + 1)}
           disabled={page === totalPages}
-          className="p-1 transition-colors hover:text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-1 transition-colors hover:text-slate-600 dark:hover:text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Next page"
         >
           <ChevronRight size={16} />
