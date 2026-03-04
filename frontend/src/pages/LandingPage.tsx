@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
-import screenshot from "@/assets/screenshot.png";
+import { ArrowRight, Rss, Clock, Shield, KeyRound, EyeOff } from "lucide-react";
+import screenshotLight from "@/assets/screen_light.png";
+import screenshotDark from "@/assets/screen_dark.png";
 import { StatsBar } from "@/components/landing/StatsBar";
 const LandingPage = () => {
   return (
@@ -34,7 +35,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 border-y border border-slate-200 dark:border-slate-800 pt-20 pb-0 overflow-hidden relative">
+      <div className="bg-white dark:bg-slate-900 border-y border border-slate-200 dark:border-slate-800 pt-10 pb-0 overflow-hidden relative">
         <div className="max-w-4xl mx-auto px-6 text-center z-10 relative">
           <h2 className="text-3xl md:text-5xl tracking-tight text-slate-900 dark:text-slate-50 mb-6">
             Stop feeding the algorithm
@@ -47,52 +48,43 @@ const LandingPage = () => {
             <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[90%] h-full bg-slate-200/50 dark:bg-slate-700/50 blur-3xl -z-10 rounded-full"></div>
 
             <img
-              src={screenshot}
+              src={screenshotLight}
               alt="Soundfeed App Screenshot"
-              className="relative z-10 w-full shadow-2xl border-x-4 border-t-4 border-slate-50 dark:border-slate-950"
+              className="relative z-10 w-full shadow-2xl border-x-4 border-t-4 border-slate-50 dark:hidden"
+            />
+            <img
+              src={screenshotDark}
+              alt="Soundfeed App Screenshot"
+              className="relative z-10 w-full shadow-2xl border-x-4 border-t-4 border-slate-950 hidden dark:block"
             />
           </div>
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto px-6 flex flex-col gap-6 py-12">
-        <section id="how-it-works" className="scroll-mt-20 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-8">
-          <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-4">
-            How it works
-          </h2>
-          <div className="space-y-3 text-slate-600 dark:text-slate-400 leading-relaxed marker:text-slate-400">
-            <div>
-              When you first visit, a unique anonymous identity is created for
-              you automatically.
-            </div>
-            <div>
-              Follow artists through the feed page. Their releases will start
-              showing up in your feed.
-            </div>
-            <div>
-              Inactive users are deleted after 30 days of no activity, to minimize data storage.
-            </div>
+      <section id="how-it-works" className="scroll-mt-20 py-12 flex justify-center px-6">
+        <div className="space-y-5">
+          <div className="flex items-start gap-3">
+            <Shield size={18} className="text-slate-400 dark:text-slate-500 mt-0.5 flex-shrink-0" />
+            <span className="text-slate-600 dark:text-slate-400">Anonymous identity created on your first visit, no login needed</span>
           </div>
-        </section>
-
-        <section id="privacy" className="scroll-mt-20 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-8">
-          <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-4">Privacy</h2>
-          <div className="space-y-3 text-slate-600 dark:text-slate-400 leading-relaxed marker:text-slate-400">
-            <div>
-              No login or email required. Your identity is a random token stored
-              in your browser.
-            </div>
-            <div>
-              Save your recovery code to access your feed from another device or
-              browser.
-            </div>
-            <div>
-              No analytics, no cookies beyond what's needed to keep your
-              session.
-            </div>
+          <div className="flex items-start gap-3">
+            <Rss size={18} className="text-slate-400 dark:text-slate-500 mt-0.5 flex-shrink-0" />
+            <span className="text-slate-600 dark:text-slate-400">Follow artists and their new releases appear in your feed</span>
           </div>
-        </section>
-      </div>
+          <div className="flex items-start gap-3">
+            <KeyRound size={18} className="text-slate-400 dark:text-slate-500 mt-0.5 flex-shrink-0" />
+            <span className="text-slate-600 dark:text-slate-400">Save your recovery code to sync across devices</span>
+          </div>
+          <div className="flex items-start gap-3">
+            <Clock size={18} className="text-slate-400 dark:text-slate-500 mt-0.5 flex-shrink-0" />
+            <span className="text-slate-600 dark:text-slate-400">Inactive accounts are cleaned up after 30 days</span>
+          </div>
+          <div className="flex items-start gap-3">
+            <EyeOff size={18} className="text-slate-400 dark:text-slate-500 mt-0.5 flex-shrink-0" />
+            <span className="text-slate-600 dark:text-slate-400">No analytics, no tracking cookies</span>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
