@@ -34,10 +34,7 @@ public class SpotifyService : ISpotifyService
 
         var url = $"{_options.BaseUrl}/artists/{artistId}";
 
-        using var request = new HttpRequestMessage(HttpMethod.Get, url);
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
-
-        using var response = await SendWithRetryAsync(request, cancellationToken);
+        using var response = await SendWithRetryAsync(url, cancellationToken);
 
         var json = await response.Content.ReadFromJsonAsync<SpotifyArtistDetailResponse>(cancellationToken: cancellationToken)
                    ?? throw new InvalidOperationException("Empty response from Spotify artist endpoint.");
@@ -59,10 +56,7 @@ public class SpotifyService : ISpotifyService
 
         while (!string.IsNullOrWhiteSpace(nextUrl))
         {
-            using var request = new HttpRequestMessage(HttpMethod.Get, nextUrl);
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
-
-            using var response = await SendWithRetryAsync(request, cancellationToken);
+            using var response = await SendWithRetryAsync(nextUrl, cancellationToken);
 
             var page = await response.Content.ReadFromJsonAsync<SpotifyPagedResponse<SpotifyAlbum>>(cancellationToken: cancellationToken);
 
@@ -90,10 +84,7 @@ public class SpotifyService : ISpotifyService
             var idsCsv = string.Join(",", chunk);
             var detailsUrl = $"{_options.BaseUrl}/albums?ids={idsCsv}";
 
-            using var batchRequest = new HttpRequestMessage(HttpMethod.Get, detailsUrl);
-            batchRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
-
-            using var batchResponse = await SendWithRetryAsync(batchRequest, cancellationToken);
+            using var batchResponse = await SendWithRetryAsync(detailsUrl, cancellationToken);
 
             var details = await batchResponse.Content.ReadFromJsonAsync<SpotifyBatchAlbumResponse>(cancellationToken: cancellationToken);
 
@@ -161,10 +152,7 @@ public class SpotifyService : ISpotifyService
         var encodedQuery = Uri.EscapeDataString(query);
         var url = $"{_options.BaseUrl}/search?q={encodedQuery}&type=artist&limit=5";
 
-        using var request = new HttpRequestMessage(HttpMethod.Get, url);
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
-
-        using var response = await SendWithRetryAsync(request, cancellationToken);
+        using var response = await SendWithRetryAsync(url, cancellationToken);
 
         var json = await response.Content.ReadFromJsonAsync<SpotifySearchResponse>(cancellationToken: cancellationToken)
                    ?? throw new InvalidOperationException("Empty response from Spotify search endpoint.");
@@ -178,7 +166,7 @@ public class SpotifyService : ISpotifyService
             }).ToList() ?? [];
     }
 
-    private async Task<HttpResponseMessage> SendWithRetryAsync(HttpRequestMessage request, CancellationToken ct)
+    private async Task<HttpResponseMessage> SendWithRetryAsync(string url, CancellationToken ct)
     {
         for (var attempt = 0; attempt <= MaxRetries; attempt++)
         {
@@ -186,11 +174,11 @@ public class SpotifyService : ISpotifyService
             if (elapsed < _currentRequestInterval)
                 await Task.Delay(_currentRequestInterval - elapsed, ct);
 
-            using var clone = new HttpRequestMessage(request.Method, request.RequestUri);
-            clone.Headers.Authorization = request.Headers.Authorization;
+            using var request = new HttpRequestMessage(HttpMethod.Get, url);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
 
             _lastRequestTimeUtc = DateTime.UtcNow;
-            var response = await _http.SendAsync(clone, ct);
+            var response = await _http.SendAsync(request, ct);
 
             if (response.StatusCode != HttpStatusCode.TooManyRequests)
             {
