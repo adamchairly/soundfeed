@@ -1,15 +1,15 @@
 const PrivacyPage = () => {
   return (
-    <div className="min-h-screen bg-slate-50 selection:bg-slate-200 text-slate-600">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 selection:bg-slate-200 dark:selection:bg-slate-700 text-slate-600 dark:text-slate-400">
       <div className="max-w-2xl mx-auto py-12 px-6">
-        <h1 className="text-3xl md:text-5xl tracking-tight text-slate-900 mb-4">
+        <h1 className="text-3xl md:text-5xl tracking-tight text-slate-900 dark:text-slate-50 mb-4">
           Privacy Policy
         </h1>
         <p className="text-sm text-slate-400 mb-16">Last updated: 25/02/2026</p>
 
         <div className="space-y-12">
           <section>
-            <h2 className="text-lg font-medium text-slate-900 mb-4">
+            <h2 className="text-lg font-medium text-slate-900 dark:text-slate-50 mb-4">
               1. Data Minimization
             </h2>
             <p className="leading-relaxed mb-6">
@@ -35,7 +35,7 @@ const PrivacyPage = () => {
           </section>
 
           <section>
-            <h2 className="text-lg font-medium text-slate-900 mb-4">
+            <h2 className="text-lg font-medium text-slate-900 dark:text-slate-50 mb-4">
               2. Information Usage
             </h2>
             <p className="leading-relaxed">
@@ -46,7 +46,7 @@ const PrivacyPage = () => {
           </section>
 
           <section>
-            <h2 className="text-lg font-medium text-slate-900 mb-4">
+            <h2 className="text-lg font-medium text-slate-900 dark:text-slate-50 mb-4">
               3. Third-Party Integration
             </h2>
             <p className="leading-relaxed">
@@ -57,7 +57,7 @@ const PrivacyPage = () => {
           </section>
 
           <section>
-            <h2 className="text-lg font-medium text-slate-900 mb-4">
+            <h2 className="text-lg font-medium text-slate-900 dark:text-slate-50 mb-4">
               4. Data Retention & Deletion
             </h2>
             <p className="leading-relaxed">
