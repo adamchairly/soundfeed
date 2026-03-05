@@ -12,8 +12,6 @@ public class AppDbContext : DbContext, IAppDbContext
     public DbSet<Artist> Artists { get; set; }
     public DbSet<Release> Releases { get; set; }
     public DbSet<UserSubscription> UserSubscriptions { get; set; }
-    public DbSet<Track> Tracks { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -32,18 +30,6 @@ public class AppDbContext : DbContext, IAppDbContext
         modelBuilder.Entity<UserSubscription>()
             .HasIndex(us => new { us.UserId, us.ArtistId })
             .IsUnique();
-
-        modelBuilder.Entity<Track>(entity =>
-        {
-            entity.HasKey(t => t.Id);
-
-            entity.HasOne(t => t.Release)
-                .WithMany(r => r.Tracks)
-                .HasForeignKey(t => t.ReleaseId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            entity.HasIndex(t => new { t.ReleaseId, t.TrackNumber });
-        });
 
         modelBuilder.Entity<Release>()
             .HasMany(r => r.DismissedBy)

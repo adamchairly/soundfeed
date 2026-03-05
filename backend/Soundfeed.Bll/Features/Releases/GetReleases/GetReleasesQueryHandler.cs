@@ -25,15 +25,7 @@ internal sealed class GetReleasesQueryHandler(IAppDbContext context) : IRequestH
                     ReleaseDate = r.ReleaseDate,
                     CoverUrl = r.CoverUrl,
                     SpotifyUrl = r.SpotifyReleaseUrl,
-                    Label = r.Label,
                     ReleaseType = r.ReleaseType,
-                    Tracks = r.Tracks
-                        .OrderBy(t => t.TrackNumber)
-                        .Select(t => new TrackResponse
-                        {
-                            Title = t.Title,
-                            TrackNumber = t.TrackNumber
-                        }).ToList()
                 }));
 
         query = request.SortDescending
