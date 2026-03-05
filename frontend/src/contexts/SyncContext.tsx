@@ -2,7 +2,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 import httpClient from "@/api/HttpClient";
-import { useReleases } from "@/contexts/ReleaseContext";
 import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 interface SyncContextType {
@@ -18,7 +17,6 @@ export const SyncProvider = ({
   children: React.ReactNode;
 }) => {
   const [lastSynced, setLastSynced] = useState<string | null>(null);
-  const { refreshReleases } = useReleases();
 
   const fetchLastSynced = async () => {
     try {
