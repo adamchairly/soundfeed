@@ -8,6 +8,8 @@ namespace Soundfeed.Bll.Services;
 
 public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotifyService, ILogger<ReleaseSyncService> logger) : IReleaseSyncService
 {
+    private static readonly TimeSpan SyncCooldown = TimeSpan.FromHours(3.5);
+
     private readonly IAppDbContext _dbContext = dbContext;
     private readonly ISpotifyService _spotifyService = spotifyService;
     private readonly ILogger<ReleaseSyncService> _logger = logger;
@@ -17,7 +19,7 @@ public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotify
         _logger.LogInformation("Starting scheduled sync");
 
         var artists = await _dbContext.Artists
-            .Select(a => new ValueTuple<int, string, string>(a.Id, a.SpotifyArtistId, a.Name))
+            .Select(a => new ValueTuple<int, string, string, DateTime?>(a.Id, a.SpotifyArtistId, a.Name, a.LastSyncedAt))
             .ToListAsync(ct);
 
         await ProcessSyncAsync(artists, ct);
@@ -33,7 +35,7 @@ public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotify
         var artists = await _dbContext.UserSubscriptions
             .Include(x => x.Artist)
                 .Where(s => s.UserId == userId)
-                .Select(a => new ValueTuple<int, string, string>(a.ArtistId, a.Artist.SpotifyArtistId, a.Artist.Name))
+                .Select(a => new ValueTuple<int, string, string, DateTime?>(a.ArtistId, a.Artist.SpotifyArtistId, a.Artist.Name, a.Artist.LastSyncedAt))
             .ToListAsync(ct);
 
         await ProcessSyncAsync(artists, ct);
@@ -43,13 +45,20 @@ public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotify
             .ExecuteUpdateAsync(s => s.SetProperty(u => u.LastSyncedAt, DateTime.UtcNow), ct);
     }
 
-    private async Task ProcessSyncAsync(List<(int Id, string SpotifyArtistId, string Name)> artists, CancellationToken ct)
+    private async Task ProcessSyncAsync(List<(int Id, string SpotifyArtistId, string Name, DateTime? LastSyncedAt)> artists, CancellationToken ct)
     {
         _logger.LogInformation("Syncing {Count} artists", artists.Count);
 
         foreach (var artist in artists)
         {
             if (ct.IsCancellationRequested) break;
+
+            // Skip artist that was synced recently, by a job or any user manually
+            if (artist.LastSyncedAt is not null && DateTime.UtcNow - artist.LastSyncedAt.Value < SyncCooldown)
+            {
+                _logger.LogInformation("Skipping {ArtistName}: synced recently at {LastSyncedAt}", artist.Name, artist.LastSyncedAt.Value);
+                continue;
+            }
 
             try
             {
@@ -72,14 +81,13 @@ public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotify
                     })
                     .ToList();
 
+                await _dbContext.Artists
+                    .Where(a => a.Id == artist.Id)
+                    .ExecuteUpdateAsync(s => s.SetProperty(a => a.LastSyncedAt, DateTime.UtcNow), ct);
+
                 if (newReleases.Count != 0)
                 {
                     _dbContext.Releases.AddRange(newReleases);
-
-                    await _dbContext.Artists
-                        .Where(a => a.Id == artist.Id)
-                        .ExecuteUpdateAsync(s => s.SetProperty(a => a.LastSyncedAt, DateTime.UtcNow), ct);
-
                     await _dbContext.SaveChangesAsync(ct);
                     _logger.LogInformation("Synced {ArtistName}: {Count} new releases", artist.Name, newReleases.Count);
                 }

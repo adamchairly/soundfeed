@@ -21,6 +21,9 @@ Soundfeed tracks your favorite Spotify artists and displays new releases in a cl
 
 No login, account or any personal detail required.
 
+> [!WARNING]
+> As of February 6, 2026, Spotify [introduced heavy limiting to their API](https://developer.spotify.com/documentation/web-api/tutorials/february-2026-migration-guide), and access is now tied to a premium subscription.
+
 ## Features
 
 - **Follow Spotify artists**

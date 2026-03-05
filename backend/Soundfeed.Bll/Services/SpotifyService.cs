@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Soundfeed.Bll.Abstractions;
 using Soundfeed.Bll.Models;
 using System.Net;
@@ -16,16 +17,18 @@ public class SpotifyService : ISpotifyService
 
     private readonly HttpClient _http;
     private readonly SpotifyOptions _options;
+    private readonly ILogger<SpotifyService> _logger;
 
     private string? _accessToken;
     private DateTime _accessTokenExpiresAtUtc;
     private DateTime _lastRequestTimeUtc = DateTime.MinValue;
     private TimeSpan _currentRequestInterval = MinRequestInterval;
 
-    public SpotifyService(HttpClient http, IOptions<SpotifyOptions> options)
+    public SpotifyService(HttpClient http, IOptions<SpotifyOptions> options, ILogger<SpotifyService> logger)
     {
         _http = http;
         _options = options.Value;
+        _logger = logger;
     }
 
     /// <inheritdoc />
@@ -50,55 +53,32 @@ public class SpotifyService : ISpotifyService
     /// <inheritdoc />
     public async Task<IReadOnlyList<ReleaseDto>> GetReleasesForArtistAsync(string artistId, IReadOnlySet<string> knownSpotifyIds, CancellationToken cancellationToken)
     {
+        _logger.LogDebug("Fetching latest release for artist {ArtistId}", artistId);
         await EnsureAccessTokenAsync(cancellationToken);
 
-        var releases = new List<ReleaseDto>();
-        var seenIds = new HashSet<string>();
+        var url = $"{_options.BaseUrl}/artists/{artistId}/albums?include_groups=album,single&market=US&limit=1";
 
-        var nextUrl = $"{_options.BaseUrl}/artists/{artistId}/albums?include_groups=album,single&market=US&limit=10";
+        using var response = await SendWithRetryAsync(url, cancellationToken);
 
-        while (!string.IsNullOrWhiteSpace(nextUrl))
-        {
-            using var response = await SendWithRetryAsync(nextUrl, cancellationToken);
+        var page = await response.Content.ReadFromJsonAsync<SpotifyPagedResponse<SpotifyAlbum>>(cancellationToken: cancellationToken);
 
-            var page = await response.Content.ReadFromJsonAsync<SpotifyPagedResponse<SpotifyAlbum>>(cancellationToken: cancellationToken);
+        var album = page?.Items?.FirstOrDefault();
+        if (album is null || string.IsNullOrEmpty(album.Id) || knownSpotifyIds.Contains(album.Id))
+            return [];
 
-            var stopPaginating = false;
-
-            if (page?.Items != null)
+        return
+        [
+            new ReleaseDto
             {
-                foreach (var album in page.Items)
-                {
-                    if (string.IsNullOrEmpty(album.Id) || !seenIds.Add(album.Id))
-                        continue;
-
-                    // Whem we reach the first album that we already know we stop
-                    // Spotify returns in reverse chronological order (newest first)
-                    if (knownSpotifyIds.Contains(album.Id))
-                    {
-                        stopPaginating = true;
-                        continue;
-                    }
-
-                    releases.Add(new ReleaseDto
-                    {
-                        Id = album.Id,
-                        Artist = album.Artists?.FirstOrDefault()?.Name ?? "Unknown Artist",
-                        Title = album.Name ?? "Unknown Title",
-                        ReleaseDate = ParseSpotifyDate(album.ReleaseDate),
-                        ImageUrl = album.Images?.FirstOrDefault()?.Url ?? string.Empty,
-                        SpotifyUrl = album.ExternalUrls?.Spotify ?? string.Empty,
-                        ReleaseType = album.AlbumType ?? "Unknown Release Type",
-                    });
-                }
+                Id = album.Id,
+                Artist = album.Artists?.FirstOrDefault()?.Name ?? "Unknown Artist",
+                Title = album.Name ?? "Unknown Title",
+                ReleaseDate = ParseSpotifyDate(album.ReleaseDate),
+                ImageUrl = album.Images?.FirstOrDefault()?.Url ?? string.Empty,
+                SpotifyUrl = album.ExternalUrls?.Spotify ?? string.Empty,
+                ReleaseType = album.AlbumType ?? "Unknown Release Type",
             }
-
-            if (stopPaginating) break;
-
-            nextUrl = page?.Next;
-        }
-
-        return releases;
+        ];
     }
 
     /// <inheritdoc />
@@ -178,6 +158,8 @@ public class SpotifyService : ISpotifyService
 
             var retryAfter = response.Headers.RetryAfter?.Delta
                              ?? TimeSpan.FromSeconds(Math.Pow(2, attempt) * DefaultRetryDelay.TotalSeconds);
+
+            _logger.LogWarning("Spotify 429 rate-limited on attempt {Attempt}/{MaxRetries}. Retrying after {RetryAfterSeconds:F1}s", attempt + 1, MaxRetries, retryAfter.TotalSeconds);
 
             _currentRequestInterval = retryAfter;
 
