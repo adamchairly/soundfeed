@@ -34,10 +34,9 @@ export const SyncProvider = ({
   const syncReleases = async () => {
     try {
       await httpClient.post("/api/Sync");
-      await Promise.all([refreshReleases(), fetchLastSynced()]);
-      toast.success("Releases synced");
+      toast.success("Sync started successfully");
     } catch (err) {
-      console.error("Failed to sync releases:", err);
+      console.error("Failed to start sync:", err);
       toast.error(getApiErrorMessage(err));
     }
   };
