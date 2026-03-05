@@ -31,14 +31,13 @@ public class SyncController(IMediator mediator) : ControllerBase
     /// </summary>
     [HttpPost]
     [EnableRateLimiting("sync-limit")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status502BadGateway)]
     [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> SyncReleases(CancellationToken cancellationToken)
     {
         var userId = Request.GetRequiredUserId();
-        await _mediator.Send(new SyncReleasesCommand { UserId = userId }, CancellationToken.None);
-        return NoContent();
+        await _mediator.Send(new SyncReleasesCommand { UserId = userId }, cancellationToken);
+        return Accepted();
     }
 }
