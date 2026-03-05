@@ -32,7 +32,7 @@ export const SyncProvider = ({
   const syncReleases = async () => {
     try {
       await httpClient.post("/api/Sync");
-      toast.success("Sync started successfully");
+      toast.success("Syncing successfully started in the background");
     } catch (err) {
       console.error("Failed to start sync:", err);
       toast.error(getApiErrorMessage(err));
