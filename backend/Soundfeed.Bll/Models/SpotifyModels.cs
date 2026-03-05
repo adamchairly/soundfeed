@@ -11,9 +11,6 @@ public sealed class SpotifyAlbum
     [JsonPropertyName("name")]
     public string? Name { get; init; }
 
-    [JsonPropertyName("label")]
-    public string? Label { get; init; }
-
     [JsonPropertyName("release_date")]
     public string? ReleaseDate { get; init; }
 
@@ -28,9 +25,6 @@ public sealed class SpotifyAlbum
 
     [JsonPropertyName("album_type")]
     public string? AlbumType { get; init; }
-
-    [JsonPropertyName("tracks")]
-    public SpotifyPagedResponse<SpotifyTrack>? Tracks { get; init; }
 }
 
 public sealed class SpotifyArtist
@@ -63,14 +57,3 @@ public sealed class SpotifyExternalUrls
     public string? Spotify { get; init; }
 }
 
-public sealed class SpotifyTrack
-{
-    [JsonPropertyName("id")]
-    public string? Id { get; init; }
-
-    [JsonPropertyName("name")]
-    public string? Name { get; init; }
-
-    [JsonPropertyName("track_number")]
-    public int TrackNumber { get; init; }
-}

@@ -28,6 +28,7 @@ public class SpotifyService : ISpotifyService
         _options = options.Value;
     }
 
+    /// <inheritdoc />
     public async Task<ArtistDto> GetArtistAsync(string artistId, CancellationToken cancellationToken = default)
     {
         await EnsureAccessTokenAsync(cancellationToken);
@@ -46,13 +47,15 @@ public class SpotifyService : ISpotifyService
         };
     }
 
-    public async Task<IReadOnlyList<ReleaseDto>> GetReleasesForArtistAsync(string artistId, CancellationToken cancellationToken)
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<ReleaseDto>> GetReleasesForArtistAsync(string artistId, IReadOnlySet<string> knownSpotifyIds, CancellationToken cancellationToken)
     {
         await EnsureAccessTokenAsync(cancellationToken);
 
-        var albumIds = new HashSet<string>();
+        var releases = new List<ReleaseDto>();
+        var seenIds = new HashSet<string>();
 
-        var nextUrl = $"{_options.BaseUrl}/artists/{artistId}/albums?include_groups=album,single&market=US&limit=50";
+        var nextUrl = $"{_options.BaseUrl}/artists/{artistId}/albums?include_groups=album,single&market=US&limit=10";
 
         while (!string.IsNullOrWhiteSpace(nextUrl))
         {
@@ -60,62 +63,64 @@ public class SpotifyService : ISpotifyService
 
             var page = await response.Content.ReadFromJsonAsync<SpotifyPagedResponse<SpotifyAlbum>>(cancellationToken: cancellationToken);
 
+            var stopPaginating = false;
+
             if (page?.Items != null)
             {
-                foreach (var item in page.Items)
+                foreach (var album in page.Items)
                 {
-                    if (!string.IsNullOrEmpty(item.Id))
+                    if (string.IsNullOrEmpty(album.Id) || !seenIds.Add(album.Id))
+                        continue;
+
+                    // Whem we reach the first album that we already know we stop
+                    // Spotify returns in reverse chronological order (newest first)
+                    if (knownSpotifyIds.Contains(album.Id))
                     {
-                        albumIds.Add(item.Id);
+                        stopPaginating = true;
+                        continue;
                     }
+
+                    releases.Add(new ReleaseDto
+                    {
+                        Id = album.Id,
+                        Artist = album.Artists?.FirstOrDefault()?.Name ?? "Unknown Artist",
+                        Title = album.Name ?? "Unknown Title",
+                        ReleaseDate = ParseSpotifyDate(album.ReleaseDate),
+                        ImageUrl = album.Images?.FirstOrDefault()?.Url ?? string.Empty,
+                        SpotifyUrl = album.ExternalUrls?.Spotify ?? string.Empty,
+                        ReleaseType = album.AlbumType ?? "Unknown Release Type",
+                    });
                 }
             }
+
+            if (stopPaginating) break;
+
             nextUrl = page?.Next;
         }
 
-        if (albumIds.Count == 0) return Array.Empty<ReleaseDto>();
-
-        // Fetch album details in batches
-        var releases = new List<ReleaseDto>();
-        var chunks = albumIds.Chunk(20);
-
-        foreach (var chunk in chunks)
-        {
-            var idsCsv = string.Join(",", chunk);
-            var detailsUrl = $"{_options.BaseUrl}/albums?ids={idsCsv}";
-
-            using var batchResponse = await SendWithRetryAsync(detailsUrl, cancellationToken);
-
-            var details = await batchResponse.Content.ReadFromJsonAsync<SpotifyBatchAlbumResponse>(cancellationToken: cancellationToken);
-
-            if (details?.Albums == null) continue;
-
-            foreach (var album in details.Albums)
-            {
-                if (album == null || string.IsNullOrEmpty(album.Id)) continue;
-
-                releases.Add(new ReleaseDto
-                {
-                    Id = album.Id,
-                    Artist = album.Artists?.FirstOrDefault()?.Name ?? "Unknown Artist",
-                    Title = album.Name ?? "Unknown Title",
-                    Label = album.Label ?? "Unknown Label",
-                    ReleaseDate = ParseSpotifyDate(album.ReleaseDate),
-                    ImageUrl = album.Images?.FirstOrDefault()?.Url ?? string.Empty,
-                    SpotifyUrl = album.ExternalUrls?.Spotify ?? string.Empty,
-                    ReleaseType = album.AlbumType ?? "Unknow Release Type",
-
-                    Tracks = album.Tracks?.Items?.Select(t => new TrackDto
-                    {
-                        Title = t.Name ?? "Unknown Track",
-                        TrackNumber = t.TrackNumber,
-                        SpotifyId = t.Id ?? "Unknown Track ID"
-                    }).ToList() ?? []
-                });
-            }
-        }
-
         return releases;
+    }
+
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<ArtistDto>> SearchArtistsAsync(string query, CancellationToken cancellationToken = default)
+    {
+        await EnsureAccessTokenAsync(cancellationToken);
+
+        var encodedQuery = Uri.EscapeDataString(query);
+        var url = $"{_options.BaseUrl}/search?q={encodedQuery}&type=artist&limit=5";
+
+        using var response = await SendWithRetryAsync(url, cancellationToken);
+
+        var json = await response.Content.ReadFromJsonAsync<SpotifySearchResponse>(cancellationToken: cancellationToken)
+                   ?? throw new InvalidOperationException("Empty response from Spotify search endpoint.");
+
+        return json.Artists?.Items?.Where(a => !string.IsNullOrEmpty(a.Id) && !string.IsNullOrEmpty(a.Name))
+            .Select(a => new ArtistDto
+            {
+                Name = a.Name!,
+                SpotifyUrl = $"https://open.spotify.com/artist/{a.Id}",
+                ImageUrl = a.Images?.FirstOrDefault()?.Url
+            }).ToList() ?? [];
     }
 
     private async Task EnsureAccessTokenAsync(CancellationToken cancellationToken)
@@ -143,27 +148,6 @@ public class SpotifyService : ISpotifyService
 
         _accessToken = tokenResponse.AccessToken;
         _accessTokenExpiresAtUtc = DateTime.UtcNow.AddSeconds(tokenResponse.ExpiresIn - 60);
-    }
-
-    public async Task<IReadOnlyList<ArtistDto>> SearchArtistsAsync(string query, CancellationToken cancellationToken = default)
-    {
-        await EnsureAccessTokenAsync(cancellationToken);
-
-        var encodedQuery = Uri.EscapeDataString(query);
-        var url = $"{_options.BaseUrl}/search?q={encodedQuery}&type=artist&limit=5";
-
-        using var response = await SendWithRetryAsync(url, cancellationToken);
-
-        var json = await response.Content.ReadFromJsonAsync<SpotifySearchResponse>(cancellationToken: cancellationToken)
-                   ?? throw new InvalidOperationException("Empty response from Spotify search endpoint.");
-
-        return json.Artists?.Items?.Where(a => !string.IsNullOrEmpty(a.Id) && !string.IsNullOrEmpty(a.Name))
-            .Select(a => new ArtistDto
-            {
-                Name = a.Name!,
-                SpotifyUrl = $"https://open.spotify.com/artist/{a.Id}",
-                ImageUrl = a.Images?.FirstOrDefault()?.Url
-            }).ToList() ?? [];
     }
 
     private async Task<HttpResponseMessage> SendWithRetryAsync(string url, CancellationToken ct)

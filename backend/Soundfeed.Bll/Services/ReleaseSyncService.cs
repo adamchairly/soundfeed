@@ -53,33 +53,22 @@ public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotify
 
             try
             {
-                var spotifyReleases = await _spotifyService.GetReleasesForArtistAsync(artist.SpotifyArtistId, ct);
-
                 var existingIds = await _dbContext.Releases
                     .Where(r => r.ArtistId == artist.Id)
                     .Select(r => r.SpotifyReleaseId)
-                    .ToListAsync(ct);
+                    .ToHashSetAsync(ct);
 
-                var newReleases = spotifyReleases
-                    .Where(r => !existingIds.Contains(r.Id))
+                var newReleases = (await _spotifyService.GetReleasesForArtistAsync(artist.SpotifyArtistId, existingIds, ct))
                     .Select(r => new Release
                     {
                         ArtistId = artist.Id,
                         SpotifyReleaseId = r.Id,
                         Title = r.Title,
-                        Label = r.Label,
                         ReleaseDate = r.ReleaseDate,
                         CoverUrl = r.ImageUrl,
                         SpotifyReleaseUrl = r.SpotifyUrl,
                         ReleaseType = r.ReleaseType,
                         CreatedAt = DateTime.UtcNow,
-
-                        Tracks = r.Tracks.Select(t => new Track
-                        {
-                            Title = t.Title,
-                            TrackNumber = t.TrackNumber,
-                            SpotifyTrackId = t.SpotifyId
-                        }).ToList()
                     })
                     .ToList();
 

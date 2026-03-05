@@ -12,12 +12,6 @@ public sealed class SpotifyPagedResponse<T>
 }
 
 
-public sealed class SpotifyBatchAlbumResponse
-{
-    [JsonPropertyName("albums")]
-    public List<SpotifyAlbum>? Albums { get; init; }
-}
-
 public sealed class SpotifyArtistDetailResponse
 {
     [JsonPropertyName("name")]
