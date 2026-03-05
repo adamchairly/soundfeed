@@ -17,7 +17,7 @@ public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotify
         _logger.LogInformation("Starting scheduled sync");
 
         var artists = await _dbContext.Artists
-            .Select(a => new ValueTuple<int, string>(a.Id, a.SpotifyArtistId))
+            .Select(a => new ValueTuple<int, string, string>(a.Id, a.SpotifyArtistId, a.Name))
             .ToListAsync(ct);
 
         await ProcessSyncAsync(artists, ct);
@@ -33,7 +33,7 @@ public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotify
         var artists = await _dbContext.UserSubscriptions
             .Include(x => x.Artist)
                 .Where(s => s.UserId == userId)
-                .Select(a => new ValueTuple<int, string>(a.Id, a.Artist.SpotifyArtistId))
+                .Select(a => new ValueTuple<int, string, string>(a.ArtistId, a.Artist.SpotifyArtistId, a.Artist.Name))
             .ToListAsync(ct);
 
         await ProcessSyncAsync(artists, ct);
@@ -43,9 +43,9 @@ public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotify
             .ExecuteUpdateAsync(s => s.SetProperty(u => u.LastSyncedAt, DateTime.UtcNow), ct);
     }
 
-    private async Task ProcessSyncAsync(List<(int Id, string SpotifyArtistId)> artists, CancellationToken ct)
+    private async Task ProcessSyncAsync(List<(int Id, string SpotifyArtistId, string Name)> artists, CancellationToken ct)
     {
-        _logger.LogInformation("Starting sync for {Count} artists...", artists.Count);
+        _logger.LogInformation("Syncing {Count} artists", artists.Count);
 
         foreach (var artist in artists)
         {
@@ -81,13 +81,16 @@ public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotify
                         .ExecuteUpdateAsync(s => s.SetProperty(a => a.LastSyncedAt, DateTime.UtcNow), ct);
 
                     await _dbContext.SaveChangesAsync(ct);
-                    _logger.LogInformation("Added {Count} new releases for artist {Id}", newReleases.Count, artist.Id);
+                    _logger.LogInformation("Synced {ArtistName}: {Count} new releases", artist.Name, newReleases.Count);
                 }
-
+                else
+                {
+                    _logger.LogInformation("Synced {ArtistName}: up to date", artist.Name);
+                }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to sync artist {ArtistId}", artist.SpotifyArtistId);
+                _logger.LogError(ex, "Failed to sync {ArtistName} ({SpotifyId})", artist.Name, artist.SpotifyArtistId);
             }
             finally
             {
