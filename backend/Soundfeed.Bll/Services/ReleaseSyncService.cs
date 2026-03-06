@@ -16,39 +16,41 @@ public class ReleaseSyncService(IAppDbContext dbContext, ISpotifyService spotify
 
     public async Task SyncAllArtistsAsync(CancellationToken ct = default)
     {
-        _logger.LogInformation("Starting scheduled sync");
-
         var artists = await _dbContext.Artists
             .Select(a => new ValueTuple<int, string, string, DateTime?>(a.Id, a.SpotifyArtistId, a.Name, a.LastSyncedAt))
             .ToListAsync(ct);
+
+        _logger.LogInformation("Syncing started for {Count} artists for scheduled job", artists.Count);
 
         await ProcessSyncAsync(artists, ct);
 
         await _dbContext.Users
         .ExecuteUpdateAsync(s => s.SetProperty(u => u.LastSyncedAt, DateTime.UtcNow), ct);
+
+        _logger.LogInformation("Successfully synced {Count} artists for scheduled job", artists.Count);
     }
 
     public async Task SyncUserArtistsAsync(string userId, CancellationToken ct = default)
     {
-        _logger.LogInformation("Starting manual sync for user {UserId}", userId);
-
         var artists = await _dbContext.UserSubscriptions
             .Include(x => x.Artist)
                 .Where(s => s.UserId == userId)
                 .Select(a => new ValueTuple<int, string, string, DateTime?>(a.ArtistId, a.Artist.SpotifyArtistId, a.Artist.Name, a.Artist.LastSyncedAt))
             .ToListAsync(ct);
 
+        _logger.LogInformation("Syncing started for {Count} artists for user {UserId}", artists.Count, userId);
+
         await ProcessSyncAsync(artists, ct);
 
         await _dbContext.Users
             .Where(u => u.Id == userId)
             .ExecuteUpdateAsync(s => s.SetProperty(u => u.LastSyncedAt, DateTime.UtcNow), ct);
+
+        _logger.LogInformation("Successfully synced {Count} artists for user {UserId}", artists.Count, userId);
     }
 
     private async Task ProcessSyncAsync(List<(int Id, string SpotifyArtistId, string Name, DateTime? LastSyncedAt)> artists, CancellationToken ct)
     {
-        _logger.LogInformation("Syncing {Count} artists", artists.Count);
-
         foreach (var artist in artists)
         {
             if (ct.IsCancellationRequested) break;
