@@ -35,11 +35,8 @@ No login, account or any personal detail required.
 - **Manage your feed**
   - Trigger manual sync
   - Dismiss already seen feed entries
-  - Order and navigate in your feed
 
 ## Getting Started
-
-Contributions are welcome, please open a pull request based on the latest main branch.
 
 ### Prerequisites
 
