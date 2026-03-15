@@ -134,9 +134,7 @@ public class SpotifyService : ISpotifyService
     {
         for (var attempt = 0; attempt <= MaxRetries; attempt++)
         {
-            var elapsed = DateTime.UtcNow - _lastRequestTimeUtc;
-            if (elapsed < _currentRequestInterval)
-                await Task.Delay(_currentRequestInterval - elapsed, ct);
+            await ThrottleAsync(ct);
 
             using var request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
@@ -144,30 +142,43 @@ public class SpotifyService : ISpotifyService
             _lastRequestTimeUtc = DateTime.UtcNow;
             var response = await _http.SendAsync(request, ct);
 
-            if (response.StatusCode != HttpStatusCode.TooManyRequests)
+            switch (response.StatusCode)
             {
-                response.EnsureSuccessStatusCode();
-                return response;
+                case HttpStatusCode.Unauthorized when attempt < MaxRetries:
+                    response.Dispose();
+
+                    _logger.LogWarning("Spotify 401 on attempt {Attempt}/{MaxRetries}. Refreshing access token", attempt + 1, MaxRetries);
+                    _accessToken = null;
+                    await EnsureAccessTokenAsync(ct);
+
+                    continue;
+
+                case HttpStatusCode.TooManyRequests when attempt < MaxRetries:
+                    var retryAfter = response.Headers.RetryAfter?.Delta
+                        ?? TimeSpan.FromSeconds(Math.Pow(2, attempt) * DefaultRetryDelay.TotalSeconds);
+
+                    _logger.LogWarning("Spotify 429 on attempt {Attempt}/{MaxRetries}. Retrying after {Delay:F1}s", attempt + 1, MaxRetries, retryAfter.TotalSeconds);
+                    _currentRequestInterval = retryAfter;
+                    response.Dispose();
+
+                    await Task.Delay(retryAfter, CancellationToken.None);
+
+                    continue;
+
+                default:
+                    response.EnsureSuccessStatusCode();
+                    return response;
             }
-
-            if (attempt == MaxRetries)
-            {
-                response.EnsureSuccessStatusCode();
-                return response;
-            }
-
-            var retryAfter = response.Headers.RetryAfter?.Delta
-                             ?? TimeSpan.FromSeconds(Math.Pow(2, attempt) * DefaultRetryDelay.TotalSeconds);
-
-            _logger.LogWarning("Spotify 429 rate-limited on attempt {Attempt}/{MaxRetries}. Retrying after {RetryAfterSeconds:F1}s", attempt + 1, MaxRetries, retryAfter.TotalSeconds);
-
-            _currentRequestInterval = retryAfter;
-
-            response.Dispose();
-            await Task.Delay(retryAfter, CancellationToken.None);
         }
 
         throw new InvalidOperationException("Retry loop exited unexpectedly.");
+    }
+
+    private async Task ThrottleAsync(CancellationToken ct)
+    {
+        var elapsed = DateTime.UtcNow - _lastRequestTimeUtc;
+        if (elapsed < _currentRequestInterval)
+            await Task.Delay(_currentRequestInterval - elapsed, ct);
     }
 
     private static DateTime ParseSpotifyDate(string? dateStr)
