@@ -53,32 +53,31 @@ public class SpotifyService : ISpotifyService
     /// <inheritdoc />
     public async Task<IReadOnlyList<ReleaseDto>> GetReleasesForArtistAsync(string artistId, IReadOnlySet<string> knownSpotifyIds, CancellationToken cancellationToken)
     {
-        _logger.LogDebug("Fetching latest release for artist {ArtistId}", artistId);
+        _logger.LogDebug("Fetching latest releases for artist {ArtistId}", artistId);
         await EnsureAccessTokenAsync(cancellationToken);
 
-        var url = $"{_options.BaseUrl}/artists/{artistId}/albums?include_groups=album,single&market=US&limit=1";
+        var url = $"{_options.BaseUrl}/artists/{artistId}/albums?include_groups=album,single&limit=5";
 
         using var response = await SendWithRetryAsync(url, cancellationToken);
 
         var page = await response.Content.ReadFromJsonAsync<SpotifyPagedResponse<SpotifyAlbum>>(cancellationToken: cancellationToken);
 
-        var album = page?.Items?.FirstOrDefault();
-        if (album is null || string.IsNullOrEmpty(album.Id) || knownSpotifyIds.Contains(album.Id))
+        if (page?.Items is null)
             return [];
 
-        return
-        [
-            new ReleaseDto
+        return page.Items
+            .Where(a => !string.IsNullOrEmpty(a.Id) && !knownSpotifyIds.Contains(a.Id))
+            .Select(a => new ReleaseDto
             {
-                Id = album.Id,
-                Artist = album.Artists?.FirstOrDefault()?.Name ?? "Unknown Artist",
-                Title = album.Name ?? "Unknown Title",
-                ReleaseDate = ParseSpotifyDate(album.ReleaseDate),
-                ImageUrl = album.Images?.FirstOrDefault()?.Url ?? string.Empty,
-                SpotifyUrl = album.ExternalUrls?.Spotify ?? string.Empty,
-                ReleaseType = album.AlbumType ?? "Unknown Release Type",
-            }
-        ];
+                Id = a.Id!,
+                Artist = a.Artists?.FirstOrDefault()?.Name ?? "Unknown Artist",
+                Title = a.Name ?? "Unknown Title",
+                ReleaseDate = ParseSpotifyDate(a.ReleaseDate),
+                ImageUrl = a.Images?.FirstOrDefault()?.Url ?? string.Empty,
+                SpotifyUrl = a.ExternalUrls?.Spotify ?? string.Empty,
+                ReleaseType = a.AlbumType ?? "Unknown Release Type",
+            })
+            .ToList();
     }
 
     /// <inheritdoc />
