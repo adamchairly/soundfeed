@@ -36,6 +36,9 @@ const FeedPage = () => {
     setDisplayValue,
     searchResults,
     isSearching,
+    isLoadingMore,
+    hasMore,
+    loadMore,
     selectArtist,
   } = useAddArtistLogic();
 
@@ -98,6 +101,9 @@ const FeedPage = () => {
               setDisplayValue={setDisplayValue}
               searchResults={searchResults}
               isSearching={isSearching}
+              isLoadingMore={isLoadingMore}
+              hasMore={hasMore}
+              loadMore={loadMore}
               selectArtist={selectArtist}
             />
           )}

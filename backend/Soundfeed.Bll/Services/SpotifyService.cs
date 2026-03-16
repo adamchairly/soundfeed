@@ -81,12 +81,12 @@ public class SpotifyService : ISpotifyService
     }
 
     /// <inheritdoc />
-    public async Task<IReadOnlyList<ArtistDto>> SearchArtistsAsync(string query, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<ArtistDto>> SearchArtistsAsync(string query, int offset, CancellationToken cancellationToken = default)
     {
         await EnsureAccessTokenAsync(cancellationToken);
 
         var encodedQuery = Uri.EscapeDataString(query);
-        var url = $"{_options.BaseUrl}/search?q={encodedQuery}&type=artist&limit=5";
+        var url = $"{_options.BaseUrl}/search?q={encodedQuery}&type=artist&limit=10&offset={offset}";
 
         using var response = await SendWithRetryAsync(url, cancellationToken);
 

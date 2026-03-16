@@ -26,7 +26,7 @@ internal sealed class SearchArtistQueryHandlerTests
         var result = await _handler.Handle(query, CancellationToken.None);
 
         Assert.That(result, Is.Empty);
-        await _spotifyService.DidNotReceive().SearchArtistsAsync(Arg.Any<string>(), Arg.Any<CancellationToken>());
+        await _spotifyService.DidNotReceive().SearchArtistsAsync(Arg.Any<string>(), Arg.Any<int>(), Arg.Any<CancellationToken>());
     }
 
     [Test]
@@ -37,7 +37,7 @@ internal sealed class SearchArtistQueryHandlerTests
         var result = await _handler.Handle(query, CancellationToken.None);
 
         Assert.That(result, Is.Empty);
-        await _spotifyService.DidNotReceive().SearchArtistsAsync(Arg.Any<string>(), Arg.Any<CancellationToken>());
+        await _spotifyService.DidNotReceive().SearchArtistsAsync(Arg.Any<string>(), Arg.Any<int>(), Arg.Any<CancellationToken>());
     }
 
     [Test]
@@ -48,7 +48,7 @@ internal sealed class SearchArtistQueryHandlerTests
         var result = await _handler.Handle(query, CancellationToken.None);
 
         Assert.That(result, Is.Empty);
-        await _spotifyService.DidNotReceive().SearchArtistsAsync(Arg.Any<string>(), Arg.Any<CancellationToken>());
+        await _spotifyService.DidNotReceive().SearchArtistsAsync(Arg.Any<string>(), Arg.Any<int>(), Arg.Any<CancellationToken>());
     }
 
     [Test]
@@ -59,7 +59,7 @@ internal sealed class SearchArtistQueryHandlerTests
             new() { Name = "Artist One", ImageUrl = "https://img1.url", SpotifyUrl = "https://open.spotify.com/artist/1" },
             new() { Name = "Artist Two", ImageUrl = "https://img2.url", SpotifyUrl = "https://open.spotify.com/artist/2" }
         };
-        _spotifyService.SearchArtistsAsync("test", Arg.Any<CancellationToken>())
+        _spotifyService.SearchArtistsAsync("test", 0, Arg.Any<CancellationToken>())
             .Returns(spotifyResults);
 
         var query = new SearchArtistQuery { Query = "test" };
@@ -76,7 +76,7 @@ internal sealed class SearchArtistQueryHandlerTests
     [Test]
     public async Task Handle_WhenSpotifyReturnsEmpty_ShouldReturnEmptyList()
     {
-        _spotifyService.SearchArtistsAsync("noresults", Arg.Any<CancellationToken>())
+        _spotifyService.SearchArtistsAsync("noresults", 0, Arg.Any<CancellationToken>())
             .Returns(new List<ArtistDto>());
 
         var query = new SearchArtistQuery { Query = "noresults" };

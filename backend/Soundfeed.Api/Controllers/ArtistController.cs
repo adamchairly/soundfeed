@@ -42,14 +42,17 @@ public class ArtistsController(IMediator mediator) : ControllerBase
     [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status502BadGateway)]
     [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> SearchArtist([FromQuery] string query, CancellationToken cancellationToken)
+    public async Task<IActionResult> SearchArtist([FromQuery] string query, [FromQuery] int offset = 0, CancellationToken cancellationToken = default)
     {
         Request.GetRequiredUserId();
 
         if (query.Length > 50)
             throw new ArgumentException("Search query must not exceed 50 characters.");
 
-        var result = await _mediator.Send(new SearchArtistQuery { Query = query }, cancellationToken);
+        if (offset > 20)
+            throw new ArgumentException("Offset must not exceed 20.");
+
+        var result = await _mediator.Send(new SearchArtistQuery { Query = query, Offset = offset }, cancellationToken);
         return Ok(result);
     }
 

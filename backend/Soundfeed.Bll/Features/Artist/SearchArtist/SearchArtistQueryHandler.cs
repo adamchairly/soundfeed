@@ -12,7 +12,7 @@ internal sealed class SearchArtistQueryHandler(ISpotifyService spotifyService) :
         if (string.IsNullOrWhiteSpace(request.Query))
             return [];
 
-        var artist = await _spotifyService.SearchArtistsAsync(request.Query, cancellationToken);
+        var artist = await _spotifyService.SearchArtistsAsync(request.Query, request.Offset, cancellationToken);
 
         return artist.Select(a => new SearchArtistResponse
         {

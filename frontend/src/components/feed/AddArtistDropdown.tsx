@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import type { SearchArtistResult } from "@/types/SearchArtistResult";
 import { SkeletonImage } from "@/components/common/SkeletonImage";
 
@@ -6,6 +7,9 @@ interface AddArtistProps {
   setDisplayValue: (val: string) => void;
   searchResults: SearchArtistResult[];
   isSearching: boolean;
+  isLoadingMore: boolean;
+  hasMore: boolean;
+  loadMore: () => void;
   selectArtist: (artist: SearchArtistResult) => void;
 }
 
@@ -14,8 +18,20 @@ export const AddArtistDropdown = ({
   setDisplayValue,
   searchResults,
   isSearching,
+  isLoadingMore,
+  hasMore,
+  loadMore,
   selectArtist,
 }: AddArtistProps) => {
+  const handleScroll = useCallback(
+    (e: React.UIEvent<HTMLDivElement>) => {
+      const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+      if (scrollHeight - scrollTop - clientHeight < 50) {
+        loadMore();
+      }
+    },
+    [loadMore],
+  );
   return (
     <div className="animate-in fade-in slide-in-from-top-2 duration-200">
       <div className="flex items-center gap-2">
@@ -37,7 +53,10 @@ export const AddArtistDropdown = ({
           )}
 
           {searchResults.length > 0 && (
-            <div className="absolute z-10 w-full mt-2 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-lg max-h-64 overflow-y-auto">
+            <div
+              className="absolute z-10 w-full mt-2 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-lg max-h-64 overflow-y-auto"
+              onScroll={handleScroll}
+            >
               {searchResults.map((artist, idx) => (
                 <button
                   key={idx}
@@ -56,6 +75,11 @@ export const AddArtistDropdown = ({
                   </span>
                 </button>
               ))}
+              {isLoadingMore && (
+                <div className="px-4 py-3 text-sm text-slate-500 dark:text-slate-400 text-center">
+                  Loading more...
+                </div>
+              )}
             </div>
           )}
         </div>

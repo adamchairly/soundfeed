@@ -27,5 +27,5 @@ public interface ISpotifyService
     /// <param name="query">The query.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns></returns>
-    Task<IReadOnlyList<ArtistDto>> SearchArtistsAsync(string query, CancellationToken cancellationToken);
+    Task<IReadOnlyList<ArtistDto>> SearchArtistsAsync(string query, int offset, CancellationToken cancellationToken);
 }

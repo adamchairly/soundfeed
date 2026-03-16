@@ -37,21 +37,6 @@ export const Footer = () => {
             </ul>
           </div>
 
-          <div>
-            <h4 className="font-black text-slate-900 dark:text-slate-50 mb-4">Legal</h4>
-            <ul className="space-y-3 text-sm text-slate-500 dark:text-slate-400">
-              <li>
-                <Link to="/privacy" className="hover:text-slate-900 dark:hover:text-slate-50 transition-colors">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms" className="hover:text-slate-900 dark:hover:text-slate-50 transition-colors">
-                  Terms of Service
-                </Link>
-              </li>
-            </ul>
-          </div>
 
           {email && (
             <div>

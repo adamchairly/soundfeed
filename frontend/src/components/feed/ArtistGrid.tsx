@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import type { DragEndEvent } from "@dnd-kit/core";
 import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
-import { ArrowUp, ArrowUpDown, Check } from "lucide-react";
+import { ArrowUpDown, Check } from "lucide-react";
 import { AddArtistButton, ArtistItem } from "./AddArtistButton";
 import { SortableArtistItem } from "./SortableArtistItem";
 import { ArtistGridSkeleton } from "@/components/common/ArtistGridSkeleton";
@@ -69,9 +69,6 @@ export const ArtistGrid = ({
     <>
       <div className="flex flex-col items-center">
         <AddArtistButton onClick={onAddClick} />
-        {artists.length === 0 && !isAddOpen && (
-          <ArrowUp size={24} className="text-slate-400 dark:text-slate-500 animate-bounce mt-4" />
-        )}
       </div>
       {visibleArtists.map((a) => (
         <ArtistItem key={a.id} artist={a} onRemove={onRemoveArtist} />

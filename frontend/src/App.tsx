@@ -17,8 +17,6 @@ import { StatsProvider } from "@/contexts/StatsContext";
 import { Layout } from "@/components/layout/Layout";
 import LandingPage from "@/pages/LandingPage";
 import FeedPage from "@/pages/FeedPage";
-import PrivacyPage from "@/pages/PrivacyPage";
-import TermsPage from "@/pages/TermsPage";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -55,8 +53,6 @@ const App = () => {
                   <Route element={<Layout />}>
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/feed" element={<FeedPage />} />
-                    <Route path="/privacy" element={<PrivacyPage />} />
-                    <Route path="/terms" element={<TermsPage />} />
                   </Route>
 
                   <Route path="*" element={<Navigate to="/" replace />} />
