@@ -8,7 +8,6 @@ interface AddArtistProps {
   searchResults: SearchArtistResult[];
   isSearching: boolean;
   isLoadingMore: boolean;
-  hasMore: boolean;
   loadMore: () => void;
   selectArtist: (artist: SearchArtistResult) => void;
 }
@@ -19,7 +18,6 @@ export const AddArtistDropdown = ({
   searchResults,
   isSearching,
   isLoadingMore,
-  hasMore,
   loadMore,
   selectArtist,
 }: AddArtistProps) => {

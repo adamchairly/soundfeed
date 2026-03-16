@@ -15,7 +15,6 @@ interface ArtistGridProps {
   onRemoveArtist?: (artistId: number) => void;
   initialVisibleMobile?: number;
   initialVisibleDesktop?: number;
-  isAddOpen?: boolean;
   isReordering: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sensors: ReturnType<typeof import("@dnd-kit/core").useSensors>;
@@ -47,7 +46,6 @@ export const ArtistGrid = ({
   onRemoveArtist,
   initialVisibleMobile = 5,
   initialVisibleDesktop = 7,
-  isAddOpen = false,
   isReordering,
   sensors,
   onDragEnd,

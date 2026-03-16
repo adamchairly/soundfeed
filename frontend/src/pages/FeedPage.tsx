@@ -37,7 +37,6 @@ const FeedPage = () => {
     searchResults,
     isSearching,
     isLoadingMore,
-    hasMore,
     loadMore,
     selectArtist,
   } = useAddArtistLogic();
@@ -88,7 +87,6 @@ const FeedPage = () => {
             onRemoveArtist={(id) => unsubscribe(id)}
             initialVisibleMobile={5}
             initialVisibleDesktop={7}
-            isAddOpen={showAdd}
             isReordering={isReordering}
             sensors={sensors}
             onDragEnd={handleDragEnd}
@@ -102,7 +100,6 @@ const FeedPage = () => {
               searchResults={searchResults}
               isSearching={isSearching}
               isLoadingMore={isLoadingMore}
-              hasMore={hasMore}
               loadMore={loadMore}
               selectArtist={selectArtist}
             />
