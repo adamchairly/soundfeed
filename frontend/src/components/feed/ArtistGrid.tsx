@@ -16,7 +16,6 @@ interface ArtistGridProps {
   initialVisibleMobile?: number;
   initialVisibleDesktop?: number;
   isReordering: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sensors: ReturnType<typeof import("@dnd-kit/core").useSensors>;
   onDragEnd: (event: DragEndEvent) => void;
   onToggleReorder: () => void;
