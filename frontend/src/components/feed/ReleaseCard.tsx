@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp, X, ExternalLink } from "lucide-react";
+import { ChevronDown, ChevronUp, X } from "lucide-react";
 import type { Release } from "@/types/Release";
 import { SkeletonImage } from "@/components/common/SkeletonImage";
 
@@ -31,21 +31,23 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
   return (
     <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden hover:shadow-md transition-all mb-3 group">
       <div className="flex items-center p-3 gap-4">
-        <div
+        <a
+          href={release.spotifyUrl}
+          target="_blank"
+          rel="noopener noreferrer"
           className="relative flex-shrink-0 cursor-pointer"
-          onClick={toggleExpand}
         >
           <SkeletonImage
             src={release.coverUrl ?? "https://via.placeholder.com/80"}
             alt={release.title}
             className="w-16 h-16 rounded shadow-sm object-cover border border-slate-100 dark:border-slate-800"
           />
-        </div>
+        </a>
 
         <div className="flex-1 min-w-0 flex flex-col justify-center h-16">
           <div className="flex items-center justify-between gap-2">
-            <div className="min-w-0 cursor-pointer" onClick={toggleExpand}>
-              <h3 className="font-bold text-slate-900 dark:text-slate-50 truncate text-base leading-tight hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
+            <div className="min-w-0">
+              <h3 className="font-bold text-slate-900 dark:text-slate-50 truncate text-base leading-tight">
                 {release.title}
               </h3>
               <p className="text-slate-600 dark:text-slate-400 font-semibold text-sm truncate">
@@ -54,17 +56,6 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
             </div>
 
             <div className="flex items-center gap-2 pl-2">
-              <a
-                href={release.spotifyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 text-green-600 hover:bg-green-50 dark:hover:bg-green-950 rounded-full border border-slate-100 dark:border-slate-800 transition-colors"
-                title="Open in Spotify"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <ExternalLink size={16} />
-              </a>
-
               {hasTracks && (
                 <button
                   onClick={toggleExpand}
@@ -89,8 +80,7 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
           </div>
 
           <div
-            className="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500 mt-1 cursor-pointer"
-            onClick={toggleExpand}
+            className="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500 mt-1"
           >
             <span className="font-bold uppercase tracking-wider text-[9px] bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-1.5 py-0.5 rounded">
               {release.releaseType ?? "Album"}
