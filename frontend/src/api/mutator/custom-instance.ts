@@ -9,5 +9,3 @@ export const AXIOS_INSTANCE = Axios.create({
 export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
   return AXIOS_INSTANCE(config).then(({ data }: AxiosResponse<T>) => data);
 };
-
-export default customInstance;
