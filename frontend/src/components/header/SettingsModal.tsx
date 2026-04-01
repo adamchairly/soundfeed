@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { RefreshCw, X, Copy, Check } from "lucide-react";
-import { useGetApiUser, getGetApiUserQueryKey, usePostApiUser } from "@/api/endpoints/user/user";
+import { useGetApiUser, getGetApiUserQueryKey, usePostApiUser } from "@/api/generated";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface SettingsModalProps {

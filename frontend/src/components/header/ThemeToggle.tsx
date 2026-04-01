@@ -26,7 +26,7 @@ export const ThemeToggle = () => {
   useOnClickOutside(ref, () => setOpen(false), open);
 
   useEffect(() => {
-    setHydrated(true);
+    setHydrated(true); // eslint-disable-line react-hooks/set-state-in-effect
   }, []);
 
   const ActiveIcon = hydrated ? icons[theme] : Monitor;

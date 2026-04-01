@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { AddArtistButton, ArtistItem } from "./AddArtistButton";
 import { ArtistGridSkeleton } from "@/components/common/ArtistGridSkeleton";
-import type { GetArtistResponse } from "@/api/model";
+import type { GetArtistResponse } from "@/api/generated/model";
 
 interface ArtistGridProps {
   artists: GetArtistResponse[];

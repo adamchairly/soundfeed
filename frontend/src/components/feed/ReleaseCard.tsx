@@ -1,7 +1,7 @@
 'use client';
 
 import { X } from "lucide-react";
-import type { GetReleaseResponse } from "@/api/model";
+import type { GetReleaseResponse } from "@/api/generated/model";
 import { SkeletonImage } from "@/components/common/SkeletonImage";
 
 interface ReleaseCardProps {

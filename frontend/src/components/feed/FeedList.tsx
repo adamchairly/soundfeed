@@ -1,4 +1,4 @@
-import type { GetReleaseResponse } from "@/api/model";
+import type { GetReleaseResponse } from "@/api/generated/model";
 import { ReleaseCard } from "@/components/feed/ReleaseCard";
 import { ReleaseCardSkeleton } from "@/components/common/ReleaseCardSkeleton";
 import { MockFeedPreview } from "@/components/common/MockFeedPreview";

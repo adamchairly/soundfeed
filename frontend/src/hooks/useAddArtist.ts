@@ -1,10 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
-import { getGetApiArtistsQueryKey } from "@/api/endpoints/artists/artists";
-import { getGetApiReleaseQueryKey } from "@/api/endpoints/release/release";
+import { getGetApiArtistsQueryKey, getGetApiReleaseQueryKey } from "@/api/generated";
+import type { SearchArtistResponse } from "@/api/generated/model";
 import { AXIOS_INSTANCE } from "@/api/mutator/custom-instance";
-import type { SearchArtistResponse } from "@/api/model";
 import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 export const useAddArtistLogic = () => {

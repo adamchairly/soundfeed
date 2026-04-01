@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetApiStats } from "@/api/endpoints/stats/stats";
+import { useGetApiStats } from "@/api/generated";
 import { formatStatNumber } from "@/utils/formatters";
 
 const StatItem = ({ value, label }: { value: number; label: string }) => (

@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback } from "react";
-import type { SearchArtistResponse } from "@/api/model";
+import type { SearchArtistResponse } from "@/api/generated/model";
 import { SkeletonImage } from "@/components/common/SkeletonImage";
 
 interface AddArtistProps {

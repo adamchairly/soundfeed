@@ -6,9 +6,9 @@ export default defineConfig({
       target: './swagger.json',
     },
     output: {
-      mode: 'tags-split',
-      target: './src/api/endpoints',
-      schemas: './src/api/model',
+      mode: 'single',
+      target: './src/api/generated/index.ts',
+      schemas: './src/api/generated/model',
       client: 'react-query',
       httpClient: 'axios',
       override: {

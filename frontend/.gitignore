@@ -37,5 +37,4 @@ pnpm-debug.log*
 *.sw?
 
 # generated api (orval)
-src/api/endpoints/
-src/api/model/
+src/api/generated/

@@ -3,10 +3,12 @@
 import { useRef, useState, useCallback, useMemo } from "react";
 import { toast } from "sonner";
 import { useQueryClient, keepPreviousData } from "@tanstack/react-query";
-import { useGetApiArtists, getGetApiArtistsQueryKey } from "@/api/endpoints/artists/artists";
-import { useGetApiRelease, getGetApiReleaseQueryKey, useDeleteApiReleaseReleaseId } from "@/api/endpoints/release/release";
-import { useGetApiSync, getGetApiSyncQueryKey, usePostApiSync } from "@/api/endpoints/sync/sync";
-import { useDeleteApiSubscriptionArtistId } from "@/api/endpoints/subscription/subscription";
+import {
+  useGetApiArtists, getGetApiArtistsQueryKey,
+  useGetApiRelease, getGetApiReleaseQueryKey, useDeleteApiReleaseReleaseId,
+  useGetApiSync, getGetApiSyncQueryKey, usePostApiSync,
+  useDeleteApiSubscriptionArtistId,
+} from "@/api/generated";
 import { useAddArtistLogic } from "@/hooks/useAddArtist";
 import { useOnClickOutside } from "@/hooks/useOnClickOutside";
 import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
