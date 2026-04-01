@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Sun, Moon, Monitor } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useOnClickOutside } from "@/hooks/useOnClickOutside";
@@ -20,11 +20,16 @@ const options = [
 export const ThemeToggle = () => {
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useOnClickOutside(ref, () => setOpen(false), open);
 
-  const ActiveIcon = icons[theme];
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  const ActiveIcon = hydrated ? icons[theme] : Monitor;
 
   return (
     <div className="relative" ref={ref}>

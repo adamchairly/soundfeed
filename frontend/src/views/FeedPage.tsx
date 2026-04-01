@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useMemo } from "react";
 import { toast } from "sonner";
 import { useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import { useGetApiArtists, getGetApiArtistsQueryKey } from "@/api/endpoints/artists/artists";
@@ -24,7 +24,8 @@ const FeedPage = () => {
   const [pageSize, setPageSize] = useState(10);
   const [sortDescending, setSortDescending] = useState(true);
 
-  const { data: artists = [], isLoading: artistsLoading } = useGetApiArtists();
+  const { data: artistsData, isLoading: artistsLoading } = useGetApiArtists();
+  const artists = useMemo(() => artistsData ?? [], [artistsData]);
   const { data: releasesData, isLoading: releasesLoading } = useGetApiRelease(
     { page, pageSize, sortDescending },
     { query: { placeholderData: keepPreviousData } },
