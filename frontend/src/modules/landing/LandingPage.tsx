@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { ArrowRight, Rss, Clock, Shield, KeyRound, EyeOff } from 'lucide-react';
-import { StatsBar } from '@/components/landing/StatsBar';
+import { StatsBar } from '@/modules/landing/components/StatsBar';
 
 const LandingPage = () => {
   return (

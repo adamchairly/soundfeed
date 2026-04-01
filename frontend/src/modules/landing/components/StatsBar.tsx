@@ -1,7 +1,7 @@
 'use client';
 
 import { useGetApiStats } from "@/api/generated";
-import { formatStatNumber } from "@/utils/formatters";
+import { formatStatNumber } from "@/modules/shared/utils/formatters";
 
 const StatItem = ({ value, label }: { value: number; label: string }) => (
   <div className="text-center">

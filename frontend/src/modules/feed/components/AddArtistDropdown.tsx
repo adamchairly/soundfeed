@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 import type { SearchArtistResponse } from "@/api/generated/model";
-import { SkeletonImage } from "@/components/common/SkeletonImage";
+import { SkeletonImage } from "@/modules/shared/components/SkeletonImage";
 
 interface AddArtistProps {
   displayValue: string;

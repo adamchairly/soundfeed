@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import type { GetArtistResponse } from "@/api/generated/model";
-import { SkeletonImage } from "@/components/common/SkeletonImage";
+import { SkeletonImage } from "@/modules/shared/components/SkeletonImage";
 
 export const AddArtistButton = ({ onClick }: { onClick: () => void }) => (
   <button

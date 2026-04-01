@@ -2,7 +2,7 @@
 
 import { X } from "lucide-react";
 import type { GetReleaseResponse } from "@/api/generated/model";
-import { SkeletonImage } from "@/components/common/SkeletonImage";
+import { SkeletonImage } from "@/modules/shared/components/SkeletonImage";
 
 interface ReleaseCardProps {
   release: GetReleaseResponse;

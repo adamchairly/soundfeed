@@ -4,7 +4,7 @@ import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-quer
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'sonner';
 import { Check, X } from 'lucide-react';
-import { ThemeProvider, useTheme } from '@/contexts/ThemeContext';
+import { ThemeProvider, useTheme } from '@/modules/shared/hooks/useTheme';
 
 function makeQueryClient() {
   return new QueryClient({

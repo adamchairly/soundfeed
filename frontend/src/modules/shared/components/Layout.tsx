@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
-import { SettingsModal } from '@/components/header/SettingsModal';
+import { Header } from '@/modules/shared/components/Header';
+import { Footer } from '@/modules/shared/components/Footer';
+import { SettingsModal } from '@/modules/shared/components/SettingsModal';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const [showSettings, setShowSettings] = useState(false);

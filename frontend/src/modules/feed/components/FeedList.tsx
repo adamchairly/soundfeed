@@ -1,9 +1,9 @@
 import type { GetReleaseResponse } from "@/api/generated/model";
-import { ReleaseCard } from "@/components/feed/ReleaseCard";
-import { ReleaseCardSkeleton } from "@/components/common/ReleaseCardSkeleton";
-import { MockFeedPreview } from "@/components/common/MockFeedPreview";
-import { MonthDivider } from "@/components/feed/MonthDivider";
-import { FeedPagination } from "@/components/feed/FeedPagination";
+import { ReleaseCard } from "@/modules/feed/components/ReleaseCard";
+import { ReleaseCardSkeleton } from "@/modules/feed/components/ReleaseCardSkeleton";
+import { MockFeedPreview } from "@/modules/feed/components/MockFeedPreview";
+import { MonthDivider } from "@/modules/feed/components/MonthDivider";
+import { FeedPagination } from "@/modules/feed/components/FeedPagination";
 
 interface FeedListProps {
   releases: GetReleaseResponse[] | null;

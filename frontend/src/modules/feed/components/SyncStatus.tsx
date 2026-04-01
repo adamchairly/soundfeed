@@ -1,5 +1,5 @@
 import { RefreshCw } from "lucide-react";
-import { SyncStatusSkeleton } from "@/components/common/SyncStatusSkeleton";
+import { SyncStatusSkeleton } from "@/modules/feed/components/SyncStatusSkeleton";
 
 interface SyncStatusProps {
   lastSynced: string | null;

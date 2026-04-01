@@ -2,8 +2,8 @@
 
 import { useRef, useState, useEffect } from "react";
 import { Sun, Moon, Monitor } from "lucide-react";
-import { useTheme } from "@/contexts/ThemeContext";
-import { useOnClickOutside } from "@/hooks/useOnClickOutside";
+import { useTheme } from "@/modules/shared/hooks/useTheme";
+import { useOnClickOutside } from "@/modules/shared/hooks/useOnClickOutside";
 
 const icons = {
   light: Sun,

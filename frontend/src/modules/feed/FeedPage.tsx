@@ -9,14 +9,14 @@ import {
   useGetApiSync, getGetApiSyncQueryKey, usePostApiSync,
   useDeleteApiSubscriptionArtistId,
 } from "@/api/generated";
-import { useAddArtistLogic } from "@/hooks/useAddArtist";
-import { useOnClickOutside } from "@/hooks/useOnClickOutside";
-import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
+import { useAddArtistLogic } from "@/modules/feed/hooks/useAddArtist";
+import { useOnClickOutside } from "@/modules/shared/hooks/useOnClickOutside";
+import { getApiErrorMessage } from "@/modules/shared/utils/getApiErrorMessage";
 
-import { FeedList } from "@/components/feed/FeedList";
-import { SyncStatus } from "@/components/feed/SyncStatus";
-import { ArtistGrid } from "@/components/feed/ArtistGrid";
-import { AddArtistDropdown } from "@/components/feed/AddArtistDropdown";
+import { FeedList } from "@/modules/feed/components/FeedList";
+import { SyncStatus } from "@/modules/feed/components/SyncStatus";
+import { ArtistGrid } from "@/modules/feed/components/ArtistGrid";
+import { AddArtistDropdown } from "@/modules/feed/components/AddArtistDropdown";
 
 const FeedPage = () => {
   const queryClient = useQueryClient();

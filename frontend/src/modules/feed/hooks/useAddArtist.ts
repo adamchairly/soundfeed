@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { getGetApiArtistsQueryKey, getGetApiReleaseQueryKey } from "@/api/generated";
 import type { SearchArtistResponse } from "@/api/generated/model";
 import { AXIOS_INSTANCE } from "@/api/mutator/custom-instance";
-import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
+import { getApiErrorMessage } from "@/modules/shared/utils/getApiErrorMessage";
 
 export const useAddArtistLogic = () => {
   const queryClient = useQueryClient();

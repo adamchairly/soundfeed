@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Github, Settings } from 'lucide-react';
-import { ThemeToggle } from '@/components/header/ThemeToggle';
+import { ThemeToggle } from '@/modules/shared/components/ThemeToggle';
 
 interface HeaderProps {
   onSettingsClick: () => void;
