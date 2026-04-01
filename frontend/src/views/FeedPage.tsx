@@ -8,7 +8,6 @@ import { useGetApiRelease, getGetApiReleaseQueryKey, useDeleteApiReleaseReleaseI
 import { useGetApiSync, getGetApiSyncQueryKey, usePostApiSync } from "@/api/endpoints/sync/sync";
 import { useDeleteApiSubscriptionArtistId } from "@/api/endpoints/subscription/subscription";
 import { useAddArtistLogic } from "@/hooks/useAddArtist";
-import { useArtistOrder } from "@/hooks/useArtistOrder";
 import { useOnClickOutside } from "@/hooks/useOnClickOutside";
 import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
@@ -74,9 +73,6 @@ const FeedPage = () => {
     selectArtist,
   } = useAddArtistLogic();
 
-  const { orderedArtists, sensors, handleDragEnd } = useArtistOrder(artists);
-
-  const [isReordering, setIsReordering] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const closeAdd = useCallback(() => {
@@ -84,13 +80,6 @@ const FeedPage = () => {
   }, [setShowAdd]);
 
   useOnClickOutside(containerRef, closeAdd, showAdd);
-
-  const handleToggleReorder = useCallback(() => {
-    setIsReordering((v) => {
-      if (!v) setShowAdd(false);
-      return !v;
-    });
-  }, [setShowAdd]);
 
   const releases = releasesData?.items ?? null;
   const totalPages = releasesData?.totalPages ?? 0;
@@ -107,16 +96,12 @@ const FeedPage = () => {
           />
 
           <ArtistGrid
-            artists={orderedArtists}
+            artists={artists}
             loading={artistsLoading}
             onAddClick={() => setShowAdd((v) => !v)}
             onRemoveArtist={(id) => unsubscribeMutation.mutate({ artistId: id })}
             initialVisibleMobile={5}
             initialVisibleDesktop={7}
-            isReordering={isReordering}
-            sensors={sensors}
-            onDragEnd={handleDragEnd}
-            onToggleReorder={handleToggleReorder}
           />
 
           {showAdd && (
