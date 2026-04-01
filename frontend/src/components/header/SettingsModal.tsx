@@ -1,15 +1,31 @@
+'use client';
+
 import { useState } from "react";
 import { toast } from "sonner";
 import { RefreshCw, X, Copy, Check } from "lucide-react";
-import { useUser } from "@/contexts/UserContext";
+import { useGetApiUser, getGetApiUserQueryKey, usePostApiUser } from "@/api/endpoints/user/user";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface SettingsModalProps {
   onClose: () => void;
 }
 
 export const SettingsModal = ({ onClose }: SettingsModalProps) => {
-  const { userCode, recoverIdentity } = useUser();
+  const { data: user } = useGetApiUser();
+  const queryClient = useQueryClient();
+  const recoverMutation = usePostApiUser({
+    mutation: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: getGetApiUserQueryKey() });
+        window.location.reload();
+      },
+      onError: () => {
+        toast.error("Invalid recovery code");
+      },
+    },
+  });
 
+  const userCode = user?.recoveryCode ?? "";
   const [inputCode, setInputCode] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,13 +41,8 @@ export const SettingsModal = ({ onClose }: SettingsModalProps) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleRecover = async () => {
-    const success = await recoverIdentity(inputCode);
-    if (success) {
-      window.location.reload();
-    } else {
-      toast.error("Invalid recovery code");
-    }
+  const handleRecover = () => {
+    recoverMutation.mutate({ data: { recoveryCode: inputCode } });
   };
 
   return (

@@ -1,4 +1,4 @@
-import type { Release } from "@/types/Release";
+import type { GetReleaseResponse } from "@/api/model";
 import { ReleaseCard } from "@/components/feed/ReleaseCard";
 import { ReleaseCardSkeleton } from "@/components/common/ReleaseCardSkeleton";
 import { MockFeedPreview } from "@/components/common/MockFeedPreview";
@@ -6,7 +6,7 @@ import { MonthDivider } from "@/components/feed/MonthDivider";
 import { FeedPagination } from "@/components/feed/FeedPagination";
 
 interface FeedListProps {
-  releases: Release[] | null;
+  releases: GetReleaseResponse[] | null;
   loading: boolean;
   hasArtists: boolean;
   page: number;
@@ -78,11 +78,11 @@ export const FeedList = ({
         const prevRelease = releases[index - 1];
         const showDivider =
           !prevRelease ||
-          !isSameMonth(release.releaseDate, prevRelease.releaseDate);
+          !isSameMonth(release.releaseDate!, prevRelease.releaseDate!);
 
         return (
           <div key={release.id}>
-            {showDivider && <MonthDivider date={release.releaseDate} />}
+            {showDivider && <MonthDivider date={release.releaseDate!} />}
 
             <ReleaseCard release={release} onDismiss={onDismiss} />
           </div>

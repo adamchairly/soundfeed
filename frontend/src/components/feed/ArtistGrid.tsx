@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from "react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import type { DragEndEvent } from "@dnd-kit/core";
@@ -6,10 +8,10 @@ import { ArrowUpDown, Check } from "lucide-react";
 import { AddArtistButton, ArtistItem } from "./AddArtistButton";
 import { SortableArtistItem } from "./SortableArtistItem";
 import { ArtistGridSkeleton } from "@/components/common/ArtistGridSkeleton";
-import type { Artist } from "@/types/Artist";
+import type { GetArtistResponse } from "@/api/model";
 
 interface ArtistGridProps {
-  artists: Artist[];
+  artists: GetArtistResponse[];
   loading?: boolean;
   onAddClick: () => void;
   onRemoveArtist?: (artistId: number) => void;
@@ -88,7 +90,7 @@ export const ArtistGrid = ({
           onDragEnd={onDragEnd}
         >
           <SortableContext
-            items={visibleArtists.map((a) => a.id)}
+            items={visibleArtists.map((a) => a.id!)}
             strategy={rectSortingStrategy}
           >
             {grid}

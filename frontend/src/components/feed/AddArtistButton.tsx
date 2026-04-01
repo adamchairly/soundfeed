@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import type { Artist } from "@/types/Artist";
+import type { GetArtistResponse } from "@/api/model";
 import { SkeletonImage } from "@/components/common/SkeletonImage";
 
 export const AddArtistButton = ({ onClick }: { onClick: () => void }) => (
@@ -18,13 +18,13 @@ export const ArtistItem = ({
   artist,
   onRemove,
 }: {
-  artist: Artist;
+  artist: GetArtistResponse;
   onRemove?: (id: number) => void;
 }) => (
   <div className="flex flex-col items-center w-full">
     <div className="relative">
       <a
-        href={artist.spotifyUrl}
+        href={artist.spotifyUrl ?? undefined}
         target="_blank"
         rel="noopener noreferrer"
         className="block"
@@ -36,7 +36,7 @@ export const ArtistItem = ({
               artist.name ?? "",
             )}`
           }
-          alt={artist.name}
+          alt={artist.name ?? ""}
           className="aspect-square w-full max-w-[56px] object-cover border border-slate-200 dark:border-slate-700"
         />
       </a>
@@ -56,7 +56,7 @@ export const ArtistItem = ({
     </div>
 
     <a
-      href={artist.spotifyUrl}
+      href={artist.spotifyUrl ?? undefined}
       target="_blank"
       rel="noopener noreferrer"
       className="text-slate-400 dark:text-slate-500 mt-1 text-[11px] text-center leading-tight line-clamp-2 w-full hover:text-slate-600 dark:hover:text-slate-400 transition-colors"

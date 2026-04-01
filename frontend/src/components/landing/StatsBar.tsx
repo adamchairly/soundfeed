@@ -1,4 +1,6 @@
-import { useStats } from "@/contexts/StatsContext";
+'use client';
+
+import { useGetApiStats } from "@/api/endpoints/stats/stats";
 import { formatStatNumber } from "@/utils/formatters";
 
 const StatItem = ({ value, label }: { value: number; label: string }) => (
@@ -11,16 +13,16 @@ const StatItem = ({ value, label }: { value: number; label: string }) => (
 );
 
 export const StatsBar = () => {
-  const { stats, loading } = useStats();
+  const { data: stats, isLoading } = useGetApiStats();
 
-  if (loading || !stats) return <div />;
+  if (isLoading || !stats) return <div />;
 
   return (
     <div className="flex flex-wrap items-center justify-center gap-6 mb-8">
-      <StatItem value={stats.users} label="Users" />
-      <StatItem value={stats.tracks} label="Releases" />
-      <StatItem value={stats.artists} label="Artists" />
-      <StatItem value={stats.userSubscriptions} label="Subscriptions" />
+      <StatItem value={stats.users ?? 0} label="Users" />
+      <StatItem value={stats.tracks ?? 0} label="Releases" />
+      <StatItem value={stats.artists ?? 0} label="Artists" />
+      <StatItem value={stats.userSubscriptions ?? 0} label="Subscriptions" />
     </div>
   );
 };

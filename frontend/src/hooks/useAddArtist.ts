@@ -1,19 +1,19 @@
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
-import { useReleases } from "@/contexts/ReleaseContext";
-import { useArtists } from "@/contexts/ArtistContext";
-import httpClient from "@/api/HttpClient";
-import type { SearchArtistResult } from "@/types/SearchArtistResult";
+import { useQueryClient } from "@tanstack/react-query";
+import { getGetApiArtistsQueryKey } from "@/api/endpoints/artists/artists";
+import { getGetApiReleaseQueryKey } from "@/api/endpoints/release/release";
+import { AXIOS_INSTANCE } from "@/api/mutator/custom-instance";
+import type { SearchArtistResponse } from "@/api/model";
 import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 export const useAddArtistLogic = () => {
-  const { refreshReleases } = useReleases();
-  const { addArtist } = useArtists();
+  const queryClient = useQueryClient();
   const [showAdd, setShowAdd] = useState(false);
   const [inputUrl, setInputUrl] = useState("");
   const [displayValue, setDisplayValue] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [searchResults, setSearchResults] = useState<SearchArtistResult[]>([]);
+  const [searchResults, setSearchResults] = useState<SearchArtistResponse[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(false);
@@ -33,7 +33,7 @@ export const useAddArtistLogic = () => {
     setIsSearching(true);
     setSearchOffset(0);
     try {
-      const { data } = await httpClient.get<SearchArtistResult[]>(
+      const { data } = await AXIOS_INSTANCE.get<SearchArtistResponse[]>(
         "/api/Artists/search",
         {
           params: { query, offset: 0 },
@@ -56,7 +56,7 @@ export const useAddArtistLogic = () => {
 
     setIsLoadingMore(true);
     try {
-      const { data } = await httpClient.get<SearchArtistResult[]>(
+      const { data } = await AXIOS_INSTANCE.get<SearchArtistResponse[]>(
         "/api/Artists/search",
         {
           params: { query: displayValue, offset: searchOffset },
@@ -78,17 +78,14 @@ export const useAddArtistLogic = () => {
       return;
     }
 
-    // if its spotify url
     const isUrl =
       displayValue.startsWith("http://") || displayValue.startsWith("https://");
     if (isUrl) {
-      // User typed a URL directly - use it as inputUrl
       setInputUrl(displayValue);
       setSearchResults([]);
       return;
     }
 
-    // Clear any previously set URL when typing a search query
     setInputUrl("");
 
     const timer = setTimeout(() => {
@@ -98,11 +95,11 @@ export const useAddArtistLogic = () => {
     return () => clearTimeout(timer);
   }, [displayValue, searchArtists]);
 
-  const selectArtist = async (artist: SearchArtistResult) => {
+  const selectArtist = async (artist: SearchArtistResponse) => {
     setShowAdd(false);
     setDisplayValue("");
     setSearchResults([]);
-    await submit(artist.spotifyUrl);
+    await submit(artist.spotifyUrl ?? "");
   };
 
   const submit = async (url?: string) => {
@@ -110,12 +107,13 @@ export const useAddArtistLogic = () => {
     if (!artistUrl || isSubmitting) return;
     setIsSubmitting(true);
     try {
-      await addArtist(artistUrl);
+      await AXIOS_INSTANCE.post("/api/Artists", null, { params: { artistUrl } });
       setInputUrl("");
       setDisplayValue("");
       setShowAdd(false);
       setSearchResults([]);
-      await refreshReleases();
+      queryClient.invalidateQueries({ queryKey: getGetApiArtistsQueryKey() });
+      queryClient.invalidateQueries({ queryKey: getGetApiReleaseQueryKey() });
       toast.success("Artist added");
     } catch (err) {
       console.error("Failed to add artist:", err);

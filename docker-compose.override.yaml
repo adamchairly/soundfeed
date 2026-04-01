@@ -17,10 +17,10 @@ services:
       target: deps
     command: npm run dev
     environment:
-      - CHOKIDAR_USEPOLLING=true
+      - BACKEND_URL=http://backend:8080
     volumes:
       - ./frontend:/app
       - /app/node_modules
+      - /app/.next
     ports:
       - "9999:3000"
-      - "24678:24678"

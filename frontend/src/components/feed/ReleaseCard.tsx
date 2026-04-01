@@ -1,45 +1,38 @@
-import { useState } from "react";
-import { ChevronDown, ChevronUp, X } from "lucide-react";
-import type { Release } from "@/types/Release";
+'use client';
+
+import { X } from "lucide-react";
+import type { GetReleaseResponse } from "@/api/model";
 import { SkeletonImage } from "@/components/common/SkeletonImage";
 
 interface ReleaseCardProps {
-  release: Release;
+  release: GetReleaseResponse;
   onDismiss?: (releaseId: number) => void;
 }
 
 export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const hasTracks = release.tracks && release.tracks.length > 0;
-
-  const date = new Date(release.releaseDate).toLocaleDateString("en-US", {
+  const date = new Date(release.releaseDate!).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
   });
 
-  const toggleExpand = () => {
-    if (hasTracks) setIsExpanded(!isExpanded);
-  };
-
   const handleDismiss = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onDismiss?.(release.id);
+    onDismiss?.(release.id!);
   };
 
   return (
     <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden hover:shadow-md transition-all mb-3 group">
       <div className="flex items-center p-3 gap-4">
         <a
-          href={release.spotifyUrl}
+          href={release.spotifyUrl ?? undefined}
           target="_blank"
           rel="noopener noreferrer"
           className="relative flex-shrink-0 cursor-pointer"
         >
           <SkeletonImage
             src={release.coverUrl ?? "https://via.placeholder.com/80"}
-            alt={release.title}
+            alt={release.title ?? ""}
             className="w-16 h-16 rounded shadow-sm object-cover border border-slate-100 dark:border-slate-800"
           />
         </a>
@@ -56,19 +49,6 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
             </div>
 
             <div className="flex items-center gap-2 pl-2">
-              {hasTracks && (
-                <button
-                  onClick={toggleExpand}
-                  className="flex-shrink-0 w-8 h-8 flex items-center justify-center transition-colors text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full"
-                >
-                  {isExpanded ? (
-                    <ChevronUp size={18} />
-                  ) : (
-                    <ChevronDown size={18} />
-                  )}
-                </button>
-              )}
-
               <button
                 onClick={handleDismiss}
                 className="flex-shrink-0 w-8 h-8 flex items-center justify-center transition-colors text-slate-400 dark:text-slate-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950 rounded-full"
@@ -85,43 +65,11 @@ export const ReleaseCard = ({ release, onDismiss }: ReleaseCardProps) => {
             <span className="font-bold uppercase tracking-wider text-[9px] bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-1.5 py-0.5 rounded">
               {release.releaseType ?? "Album"}
             </span>
-            <span>•</span>
+            <span>&bull;</span>
             <span>{date}</span>
-            {release.label && (
-              <>
-                <span>•</span>
-                <span className="truncate max-w-[150px]">{release.label}</span>
-              </>
-            )}
           </div>
         </div>
       </div>
-
-      {isExpanded && hasTracks && (
-        <div className="bg-slate-50/50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 px-4 py-3 animate-in slide-in-from-top-2 duration-200">
-          <div className="flex justify-between items-center mb-2">
-            <p className="text-slate-400 dark:text-slate-500 text-sm">
-              Tracklist ({release.tracks?.length})
-            </p>
-          </div>
-          <ul className="grid grid-cols-1 gap-1">
-            {release.tracks
-              ?.slice()
-              .sort((a, b) => a.trackNumber - b.trackNumber)
-              .map((track) => (
-                <li
-                  key={track.trackNumber}
-                  className="text-sm text-slate-600 dark:text-slate-400 truncate flex items-center py-0.5 hover:text-slate-900 dark:hover:text-slate-50"
-                >
-                  <span className="text-slate-300 dark:text-slate-600 tabular-nums mr-3 text-xs font-medium w-4 text-right">
-                    {track.trackNumber}
-                  </span>
-                  <span className="truncate">{track.title}</span>
-                </li>
-              ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 };

@@ -7,7 +7,7 @@ import {
 } from "@dnd-kit/core";
 import type { DragEndEvent } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import type { Artist } from "@/types/Artist";
+import type { GetArtistResponse } from "@/api/model";
 
 const STORAGE_KEY = "soundfeed-artist-order";
 
@@ -26,14 +26,14 @@ function writeStoredOrder(ids: number[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
 }
 
-function reconcile(artists: Artist[]): Artist[] {
+function reconcile(artists: GetArtistResponse[]): GetArtistResponse[] {
   if (artists.length === 0) return [];
 
   const storedOrder = readStoredOrder();
-  const artistMap = new Map(artists.map((a) => [a.id, a]));
-  const remainingIds = new Set(artists.map((a) => a.id));
+  const artistMap = new Map(artists.map((a) => [a.id!, a]));
+  const remainingIds = new Set(artists.map((a) => a.id!));
 
-  const ordered: Artist[] = [];
+  const ordered: GetArtistResponse[] = [];
   for (const id of storedOrder) {
     const artist = artistMap.get(id);
     if (artist) {
@@ -49,8 +49,8 @@ function reconcile(artists: Artist[]): Artist[] {
   return ordered;
 }
 
-export function useArtistOrder(artists: Artist[]) {
-  const [orderedArtists, setOrderedArtists] = useState<Artist[]>(() =>
+export function useArtistOrder(artists: GetArtistResponse[]) {
+  const [orderedArtists, setOrderedArtists] = useState<GetArtistResponse[]>(() =>
     reconcile(artists),
   );
 
@@ -80,7 +80,7 @@ export function useArtistOrder(artists: Artist[]) {
 
       const reordered = arrayMove(orderedArtists, oldIndex, newIndex);
       setOrderedArtists(reordered);
-      writeStoredOrder(reordered.map((a) => a.id));
+      writeStoredOrder(reordered.map((a) => a.id!));
     },
     [orderedArtists],
   );

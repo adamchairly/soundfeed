@@ -1,10 +1,10 @@
-import type { Release } from "@/types/Release";
+import type { GetReleaseResponse } from "@/api/model";
 import { ReleaseCard } from "@/components/feed/ReleaseCard";
 
 const PLACEHOLDER_COVER =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%23e2e8f0'/%3E%3C/svg%3E";
 
-const MOCK_RELEASE: Release = {
+const MOCK_RELEASE: GetReleaseResponse = {
   id: -1,
   title: "Title",
   artistName: "Artist",
@@ -12,7 +12,6 @@ const MOCK_RELEASE: Release = {
   coverUrl: PLACEHOLDER_COVER,
   spotifyUrl: "",
   releaseType: "Album",
-  label: "Label",
 };
 
 const OPACITY_CLASSES = ["opacity-45", "opacity-25", "opacity-15", "opacity-5"];

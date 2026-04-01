@@ -1,9 +1,11 @@
+'use client';
+
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { ArtistItem } from "./AddArtistButton";
-import type { Artist } from "@/types/Artist";
+import type { GetArtistResponse } from "@/api/model";
 
-export const SortableArtistItem = ({ artist }: { artist: Artist }) => {
+export const SortableArtistItem = ({ artist }: { artist: GetArtistResponse }) => {
   const {
     attributes,
     listeners,
@@ -11,7 +13,7 @@ export const SortableArtistItem = ({ artist }: { artist: Artist }) => {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: artist.id });
+  } = useSortable({ id: artist.id! });
 
   const style = {
     transform: CSS.Transform.toString(transform),

@@ -1,10 +1,16 @@
+'use client';
+
 import { useRef, useState, useCallback } from "react";
-import { useReleases } from "@/contexts/ReleaseContext";
-import { useSync } from "@/contexts/SyncContext";
-import { useArtists } from "@/contexts/ArtistContext";
+import { toast } from "sonner";
+import { useQueryClient, keepPreviousData } from "@tanstack/react-query";
+import { useGetApiArtists, getGetApiArtistsQueryKey } from "@/api/endpoints/artists/artists";
+import { useGetApiRelease, getGetApiReleaseQueryKey, useDeleteApiReleaseReleaseId } from "@/api/endpoints/release/release";
+import { useGetApiSync, getGetApiSyncQueryKey, usePostApiSync } from "@/api/endpoints/sync/sync";
+import { useDeleteApiSubscriptionArtistId } from "@/api/endpoints/subscription/subscription";
 import { useAddArtistLogic } from "@/hooks/useAddArtist";
 import { useArtistOrder } from "@/hooks/useArtistOrder";
 import { useOnClickOutside } from "@/hooks/useOnClickOutside";
+import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 import { FeedList } from "@/components/feed/FeedList";
 import { SyncStatus } from "@/components/feed/SyncStatus";
@@ -12,22 +18,48 @@ import { ArtistGrid } from "@/components/feed/ArtistGrid";
 import { AddArtistDropdown } from "@/components/feed/AddArtistDropdown";
 
 const FeedPage = () => {
-  const {
-    releases,
-    loading: releasesLoading,
-    dismissRelease,
-    page,
-    totalPages,
-    pageSize,
-    sortDescending,
-    setPage,
-    setPageSize,
-    setSortDescending,
-  } = useReleases();
+  const queryClient = useQueryClient();
 
-  const { lastSynced, syncReleases } = useSync();
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [sortDescending, setSortDescending] = useState(true);
 
-  const { artists, loading: artistsLoading, unsubscribe } = useArtists();
+  const { data: artists = [], isLoading: artistsLoading } = useGetApiArtists();
+  const { data: releasesData, isLoading: releasesLoading } = useGetApiRelease(
+    { page, pageSize, sortDescending },
+    { query: { placeholderData: keepPreviousData } },
+  );
+  const { data: lastSynced } = useGetApiSync();
+
+  const unsubscribeMutation = useDeleteApiSubscriptionArtistId({
+    mutation: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: getGetApiArtistsQueryKey() });
+        queryClient.invalidateQueries({ queryKey: getGetApiReleaseQueryKey() });
+        toast.success("Artist removed");
+      },
+      onError: (err) => toast.error(getApiErrorMessage(err)),
+    },
+  });
+
+  const dismissMutation = useDeleteApiReleaseReleaseId({
+    mutation: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: getGetApiReleaseQueryKey() });
+      },
+      onError: (err) => toast.error(getApiErrorMessage(err)),
+    },
+  });
+
+  const syncMutation = usePostApiSync({
+    mutation: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: getGetApiSyncQueryKey() });
+        toast.success("Syncing successfully started in the background");
+      },
+      onError: (err) => toast.error(getApiErrorMessage(err)),
+    },
+  });
 
   const {
     showAdd,
@@ -44,7 +76,6 @@ const FeedPage = () => {
   const { orderedArtists, sensors, handleDragEnd } = useArtistOrder(artists);
 
   const [isReordering, setIsReordering] = useState(false);
-  const [isSyncing, setIsSyncing] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const closeAdd = useCallback(() => {
@@ -53,15 +84,6 @@ const FeedPage = () => {
 
   useOnClickOutside(containerRef, closeAdd, showAdd);
 
-  const handleSync = async () => {
-    setIsSyncing(true);
-    try {
-      await syncReleases();
-    } finally {
-      setIsSyncing(false);
-    }
-  };
-
   const handleToggleReorder = useCallback(() => {
     setIsReordering((v) => {
       if (!v) setShowAdd(false);
@@ -69,14 +91,17 @@ const FeedPage = () => {
     });
   }, [setShowAdd]);
 
+  const releases = releasesData?.items ?? null;
+  const totalPages = releasesData?.totalPages ?? 0;
+
   return (
     <div className="bg-slate-50 dark:bg-slate-950 selection:bg-slate-200 dark:selection:bg-slate-700">
       <main className="max-w-2xl mx-auto w-full py-6 px-4">
         <div className="mb-2 relative" ref={containerRef}>
           <SyncStatus
-            lastSynced={lastSynced}
-            onSync={handleSync}
-            isSyncing={isSyncing}
+            lastSynced={lastSynced ?? null}
+            onSync={() => syncMutation.mutate()}
+            isSyncing={syncMutation.isPending}
             loading={artistsLoading}
           />
 
@@ -84,7 +109,7 @@ const FeedPage = () => {
             artists={orderedArtists}
             loading={artistsLoading}
             onAddClick={() => setShowAdd((v) => !v)}
-            onRemoveArtist={(id) => unsubscribe(id)}
+            onRemoveArtist={(id) => unsubscribeMutation.mutate({ artistId: id })}
             initialVisibleMobile={5}
             initialVisibleDesktop={7}
             isReordering={isReordering}
@@ -109,14 +134,14 @@ const FeedPage = () => {
             releases={releases}
             loading={releasesLoading}
             hasArtists={artists.length > 0}
-            onDismiss={dismissRelease}
+            onDismiss={(releaseId) => dismissMutation.mutate({ releaseId })}
             page={page}
             totalPages={totalPages}
             pageSize={pageSize}
             sortDescending={sortDescending}
             onPageChange={setPage}
-            onPageSizeChange={setPageSize}
-            onSortChange={setSortDescending}
+            onPageSizeChange={(size) => { setPageSize(size); setPage(1); }}
+            onSortChange={(desc) => { setSortDescending(desc); setPage(1); }}
           />
         </div>
       </main>

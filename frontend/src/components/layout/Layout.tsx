@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { SettingsModal } from "@/components/header/SettingsModal";
+'use client';
 
-export const Layout = () => {
+import { useState } from 'react';
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
+import { SettingsModal } from '@/components/header/SettingsModal';
+
+export const Layout = ({ children }: { children: React.ReactNode }) => {
   const [showSettings, setShowSettings] = useState(false);
 
   return (
@@ -12,7 +13,7 @@ export const Layout = () => {
       <Header onSettingsClick={() => setShowSettings(true)} />
 
       <main className="min-h-[calc(100vh-4rem)]">
-        <Outlet />
+        {children}
       </main>
 
       <Footer />

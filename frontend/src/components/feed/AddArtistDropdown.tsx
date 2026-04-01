@@ -1,15 +1,17 @@
+'use client';
+
 import { useCallback } from "react";
-import type { SearchArtistResult } from "@/types/SearchArtistResult";
+import type { SearchArtistResponse } from "@/api/model";
 import { SkeletonImage } from "@/components/common/SkeletonImage";
 
 interface AddArtistProps {
   displayValue: string;
   setDisplayValue: (val: string) => void;
-  searchResults: SearchArtistResult[];
+  searchResults: SearchArtistResponse[];
   isSearching: boolean;
   isLoadingMore: boolean;
   loadMore: () => void;
-  selectArtist: (artist: SearchArtistResult) => void;
+  selectArtist: (artist: SearchArtistResponse) => void;
 }
 
 export const AddArtistDropdown = ({
@@ -64,7 +66,7 @@ export const AddArtistDropdown = ({
                   {artist.imageUrl && (
                     <SkeletonImage
                       src={artist.imageUrl}
-                      alt={artist.name}
+                      alt={artist.name ?? ""}
                       className="w-12 h-12 rounded-full object-cover"
                     />
                   )}

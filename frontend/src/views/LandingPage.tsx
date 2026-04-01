@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
-import { ArrowRight, Rss, Clock, Shield, KeyRound, EyeOff } from "lucide-react";
-import screenshotLight from "@/assets/screen_light.png";
-import screenshotDark from "@/assets/screen_dark.png";
-import { StatsBar } from "@/components/landing/StatsBar";
+'use client';
+
+import Link from 'next/link';
+import { ArrowRight, Rss, Clock, Shield, KeyRound, EyeOff } from 'lucide-react';
+import { StatsBar } from '@/components/landing/StatsBar';
+
 const LandingPage = () => {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 selection:bg-slate-200 dark:selection:bg-slate-700">
@@ -20,7 +21,7 @@ const LandingPage = () => {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
-            to="/feed"
+            href="/feed"
             className="font-dsiplay w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-slate-900 dark:bg-slate-50 text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-200 transition-all px-8 py-4 rounded-2xl font-bold text-sm active:scale-95 shadow-lg shadow-slate-200 dark:shadow-slate-900"
           >
             Open my feed
@@ -48,12 +49,12 @@ const LandingPage = () => {
             <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[90%] h-full bg-slate-200/50 dark:bg-slate-700/50 blur-3xl -z-10 rounded-full"></div>
 
             <img
-              src={screenshotLight}
+              src="/screen_light.png"
               alt="Soundfeed App Screenshot"
               className="relative z-10 w-full shadow-2xl border-x-4 border-t-4 border-slate-50 dark:hidden"
             />
             <img
-              src={screenshotDark}
+              src="/screen_dark.png"
               alt="Soundfeed App Screenshot"
               className="relative z-10 w-full shadow-2xl border-x-4 border-t-4 border-slate-950 hidden dark:block"
             />

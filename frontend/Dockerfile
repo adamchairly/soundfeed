@@ -1,25 +1,25 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
-
-# copy package files
 COPY package*.json ./
-
-# install dependencies
 RUN npm ci
 
-# build stage
-FROM deps AS build
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-ARG VITE_CONTACT_EMAIL
-ENV VITE_CONTACT_EMAIL=$VITE_CONTACT_EMAIL
+ARG NEXT_PUBLIC_CONTACT_EMAIL
+ENV NEXT_PUBLIC_CONTACT_EMAIL=$NEXT_PUBLIC_CONTACT_EMAIL
+
 RUN npm run build
 
-# production stage
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
 
-EXPOSE 80
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
 
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 3000
+CMD ["node", "server.js"]

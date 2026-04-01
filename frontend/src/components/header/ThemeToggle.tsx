@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef, useState } from "react";
 import { Sun, Moon, Monitor } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";

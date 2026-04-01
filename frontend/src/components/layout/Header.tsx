@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom';
+'use client';
+
+import Link from 'next/link';
 import { Github, Settings } from 'lucide-react';
-import logo from '@/assets/logo.svg';
 import { ThemeToggle } from '@/components/header/ThemeToggle';
 
 interface HeaderProps {
@@ -11,8 +12,8 @@ export const Header = ({ onSettingsClick }: HeaderProps) => (
   <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-[100]">
     <div className="max-w-2xl mx-auto px-4 h-16 flex items-center justify-between">
 
-      <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-      <img src={logo} alt="Soundfeed Logo" className="w-10 h-10" />
+      <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+      <img src="/logo.svg" alt="Soundfeed Logo" className="w-10 h-10" />
         <h1 className="text-xl font-black text-slate-900 dark:text-slate-50">
           soundfeed
         </h1>
