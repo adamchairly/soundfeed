@@ -46,7 +46,9 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        - VITE_CONTACT_EMAIL=${VITE_CONTACT_EMAIL}
+        - NEXT_PUBLIC_CONTACT_EMAIL=${CONTACT_EMAIL}
+    environment:
+      - BACKEND_URL=http://backend:8080
     depends_on:
       - backend
     restart: unless-stopped

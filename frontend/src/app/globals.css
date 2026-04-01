@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html { @apply bg-slate-50 text-slate-900; }
+  html.dark { @apply bg-slate-950 text-slate-50; }
+}
