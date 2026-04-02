@@ -23,4 +23,4 @@ services:
       - /app/node_modules
       - /app/.next
     ports:
-      - "9999:3000"
+      - "3000:3000"
