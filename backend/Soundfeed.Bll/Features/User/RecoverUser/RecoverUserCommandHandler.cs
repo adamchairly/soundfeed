@@ -17,7 +17,7 @@ internal sealed class RecoverUserCommandHandler(IAppDbContext context) : IReques
 
         if (user is null)
         {
-            throw new EntityNotFoundException($"Invalid recovery code: {request.RecoveryCode}");
+            throw new EntityNotFoundException("Invalid recovery code.");
         }
 
         user.LastSeenAt = DateTime.UtcNow;

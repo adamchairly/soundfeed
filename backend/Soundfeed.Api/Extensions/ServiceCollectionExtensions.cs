@@ -12,10 +12,12 @@ public static class ApiServiceCollectionExtensions
 
             options.AddPolicy("recovery-limit", context =>
             {
-                var remoteIp = context.Connection.RemoteIpAddress?.ToString() ?? "anonymous";
+                var clientIp = context.Request.Headers["CF-Connecting-IP"].FirstOrDefault()
+                    ?? context.Connection.RemoteIpAddress?.ToString()
+                    ?? "anonymous";
 
                 return RateLimitPartition.GetFixedWindowLimiter(
-                    partitionKey: remoteIp,
+                    partitionKey: clientIp,
                     factory: _ => new FixedWindowRateLimiterOptions
                     {
                         PermitLimit = 5,
@@ -26,10 +28,12 @@ public static class ApiServiceCollectionExtensions
 
             options.AddPolicy("sync-limit", context =>
             {
-                var remoteIp = context.Connection.RemoteIpAddress?.ToString() ?? "anonymous";
+                var clientIp = context.Request.Headers["CF-Connecting-IP"].FirstOrDefault()
+                    ?? context.Connection.RemoteIpAddress?.ToString()
+                    ?? "anonymous";
 
                 return RateLimitPartition.GetFixedWindowLimiter(
-                    partitionKey: remoteIp,
+                    partitionKey: clientIp,
                     factory: _ => new FixedWindowRateLimiterOptions
                     {
                         PermitLimit = 1,

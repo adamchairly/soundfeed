@@ -70,6 +70,7 @@ internal sealed class DismissReleaseCommandHandlerTests
         context.Artists.Add(artist);
         await context.SaveChangesAsync();
 
+        context.UserSubscriptions.Add(new UserSubscription { UserId = user.Id, ArtistId = artist.Id, CreatedAt = DateTime.UtcNow });
         var release = new Release
         {
             ArtistId = artist.Id,
@@ -112,6 +113,7 @@ internal sealed class DismissReleaseCommandHandlerTests
         context.Artists.Add(artist);
         await context.SaveChangesAsync();
 
+        context.UserSubscriptions.Add(new UserSubscription { UserId = user.Id, ArtistId = artist.Id, CreatedAt = DateTime.UtcNow });
         var release = new Release
         {
             ArtistId = artist.Id,

@@ -192,12 +192,12 @@ internal sealed class PostArtistCommandHandlerTests
     }
 
     [Test]
-    public void Handle_WhenUrlIsCompletelyInvalid_ShouldThrowUriFormatException()
+    public void Handle_WhenUrlIsCompletelyInvalid_ShouldThrowArgumentException()
     {
         using var context = TestDbContextFactory.Create();
         var handler = new PostArtistCommandHandler(_spotifyService, context);
         var command = new PostArtistCommand { ArtistUrl = "not-a-valid-url", UserId = "user1" };
 
-        Assert.ThrowsAsync<UriFormatException>(() => handler.Handle(command, CancellationToken.None));
+        Assert.ThrowsAsync<ArgumentException>(() => handler.Handle(command, CancellationToken.None));
     }
 }

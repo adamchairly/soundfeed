@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { ArrowRight, Rss, Clock, Shield, KeyRound, EyeOff } from 'lucide-react';
-import { StatsBar } from '@/modules/landing/components/StatsBar';
 
 const LandingPage = () => {
   return (
@@ -16,8 +15,6 @@ const LandingPage = () => {
         <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-lg mx-auto mb-6">
           Soundfeed tracks your artists and displays new releases
         </p>
-
-        <StatsBar />
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link

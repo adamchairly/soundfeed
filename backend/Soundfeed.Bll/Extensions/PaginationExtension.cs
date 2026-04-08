@@ -9,8 +9,13 @@ public static class PaginationExtension
     {
         ArgumentNullException.ThrowIfNull(source, nameof(source));
 
+        const int maxPageSize = 100;
+        const int maxPage = 10_000;
+
         if (page <= 0) page = 1;
+        if (page > maxPage) page = maxPage;
         if (pageSize <= 0) pageSize = 10;
+        if (pageSize > maxPageSize) pageSize = maxPageSize;
 
         var totalCount = await source.CountAsync(cancellationToken);
 

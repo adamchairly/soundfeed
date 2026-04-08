@@ -57,7 +57,12 @@ internal sealed class PostArtistCommandHandler(ISpotifyService spotifyService, I
 
     private string ExtractArtistIdFromUrl(string artistUrl)
     {
-        var uri = new Uri(artistUrl);
+        Uri uri;
+        try { uri = new Uri(artistUrl); }
+        catch (UriFormatException)
+        {
+            throw new ArgumentException("Invalid Spotify artist URL.", nameof(artistUrl));
+        }
         var segments = uri.Segments;
 
         if (segments.Length < 3 || !segments[1].TrimEnd('/').Equals("artist", StringComparison.OrdinalIgnoreCase))

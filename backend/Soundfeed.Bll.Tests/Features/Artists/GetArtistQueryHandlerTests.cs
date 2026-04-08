@@ -10,9 +10,10 @@ namespace Soundfeed.Bll.Tests;
 internal sealed class GetArtistQueryHandlerTests
 {
     [Test]
-    public async Task Handle_WhenArtistExists_ShouldReturnMappedResponse()
+    public async Task Handle_WhenArtistExistsAndUserIsSubscribed_ShouldReturnMappedResponse()
     {
         using var context = TestDbContextFactory.Create();
+        var user = new User { Id = "user-1", RecoveryCode = "TEST-CODE", CreatedAt = DateTime.UtcNow, LastSeenAt = DateTime.UtcNow };
         var artist = new Artist
         {
             SpotifyArtistId = "spotify123",
@@ -21,11 +22,15 @@ internal sealed class GetArtistQueryHandlerTests
             SpotifyImageUrl = "https://img.url/photo.jpg",
             CreatedAt = DateTime.UtcNow
         };
+        context.Users.Add(user);
         context.Artists.Add(artist);
         await context.SaveChangesAsync();
 
+        context.UserSubscriptions.Add(new UserSubscription { UserId = user.Id, ArtistId = artist.Id, CreatedAt = DateTime.UtcNow });
+        await context.SaveChangesAsync();
+
         var handler = new GetArtistQueryHandler(context);
-        var query = new GetArtistQuery { Id = artist.Id };
+        var query = new GetArtistQuery { Id = artist.Id, UserId = user.Id };
 
         var result = await handler.Handle(query, CancellationToken.None);
 
@@ -37,11 +42,32 @@ internal sealed class GetArtistQueryHandlerTests
     }
 
     [Test]
+    public void Handle_WhenUserIsNotSubscribed_ShouldThrowEntityNotFoundException()
+    {
+        using var context = TestDbContextFactory.Create();
+        var artist = new Artist
+        {
+            SpotifyArtistId = "spotify123",
+            Name = "Test Artist",
+            SpotifyUrl = "https://open.spotify.com/artist/spotify123",
+            SpotifyImageUrl = "",
+            CreatedAt = DateTime.UtcNow
+        };
+        context.Artists.Add(artist);
+        context.SaveChanges();
+
+        var handler = new GetArtistQueryHandler(context);
+        var query = new GetArtistQuery { Id = artist.Id, UserId = "unsubscribed-user" };
+
+        Assert.ThrowsAsync<EntityNotFoundException>(() => handler.Handle(query, CancellationToken.None));
+    }
+
+    [Test]
     public void Handle_WhenArtistNotFound_ShouldThrowEntityNotFoundException()
     {
         using var context = TestDbContextFactory.Create();
         var handler = new GetArtistQueryHandler(context);
-        var query = new GetArtistQuery { Id = 999 };
+        var query = new GetArtistQuery { Id = 999, UserId = "any-user" };
 
         Assert.ThrowsAsync<EntityNotFoundException>(() => handler.Handle(query, CancellationToken.None));
     }

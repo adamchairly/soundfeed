@@ -21,7 +21,7 @@ public class ArtistsController(IMediator mediator) : ControllerBase
     {
         var userId = Request.GetRequiredUserId();
 
-        var result = await _mediator.Send(new GetArtistQuery { Id = id }, cancellationToken);
+        var result = await _mediator.Send(new GetArtistQuery { Id = id, UserId = userId }, cancellationToken);
         return Ok(result);
     }
 

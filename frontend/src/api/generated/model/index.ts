@@ -12,7 +12,6 @@ export * from './getApiReleaseParams';
 export * from './getArtistResponse';
 export * from './getReleaseResponse';
 export * from './getReleaseResponsePageResult';
-export * from './getStatsResponse';
 export * from './getUserResponse';
 export * from './postApiArtistsParams';
 export * from './recoverUserCommand';

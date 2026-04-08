@@ -18,6 +18,11 @@ internal sealed class DismissReleaseCommandHandler(IAppDbContext context) : IReq
         if (release == null)
             return;
 
+        var isSubscribed = await _context.UserSubscriptions
+            .AnyAsync(s => s.UserId == request.UserId && s.ArtistId == release.ArtistId, cancellationToken);
+        if (!isSubscribed)
+            return;
+
         var user = await _context.Users
             .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 

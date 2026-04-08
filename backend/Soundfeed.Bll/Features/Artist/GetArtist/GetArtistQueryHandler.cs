@@ -13,7 +13,7 @@ internal sealed class GetArtistQueryHandler(IAppDbContext context) : IRequestHan
     public async Task<GetArtistResponse> Handle(GetArtistQuery request, CancellationToken cancellationToken)
     {
         return await _context.Artists
-            .Where(a => a.Id == request.Id)
+            .Where(a => a.Id == request.Id && a.Subscriptions.Any(s => s.UserId == request.UserId))
             .Select(a => new GetArtistResponse
             {
                 Id = a.Id,
@@ -23,6 +23,6 @@ internal sealed class GetArtistQueryHandler(IAppDbContext context) : IRequestHan
                 ImageUrl = a.SpotifyImageUrl
             })
             .FirstOrDefaultAsync(cancellationToken)
-                ?? throw new EntityNotFoundException($"Failed to get the artist with the id: {request.Id}");
+                ?? throw new EntityNotFoundException("Artist not found.");
     }
 }

@@ -29,7 +29,6 @@ import type {
   GetApiReleaseParams,
   GetArtistResponse,
   GetReleaseResponsePageResult,
-  GetStatsResponse,
   GetUserResponse,
   PostApiArtistsParams,
   RecoverUserCommand,
@@ -501,93 +500,6 @@ const {mutation: mutationOptions} = options ?
       return useMutation(mutationOptions, queryClient);
     }
     
-export const getApiStats = (
-    
- signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<GetStatsResponse>(
-      {url: `/api/Stats`, method: 'GET', signal
-    },
-      );
-    }
-  
-
-
-
-export const getGetApiStatsQueryKey = () => {
-    return [
-    `/api/Stats`
-    ] as const;
-    }
-
-    
-export const getGetApiStatsQueryOptions = <TData = Awaited<ReturnType<typeof getApiStats>>, TError = BaseErrorResponse>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiStats>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetApiStatsQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiStats>>> = ({ signal }) => getApiStats(signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiStats>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetApiStatsQueryResult = NonNullable<Awaited<ReturnType<typeof getApiStats>>>
-export type GetApiStatsQueryError = BaseErrorResponse
-
-
-export function useGetApiStats<TData = Awaited<ReturnType<typeof getApiStats>>, TError = BaseErrorResponse>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiStats>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiStats>>,
-          TError,
-          Awaited<ReturnType<typeof getApiStats>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiStats<TData = Awaited<ReturnType<typeof getApiStats>>, TError = BaseErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiStats>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiStats>>,
-          TError,
-          Awaited<ReturnType<typeof getApiStats>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiStats<TData = Awaited<ReturnType<typeof getApiStats>>, TError = BaseErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiStats>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useGetApiStats<TData = Awaited<ReturnType<typeof getApiStats>>, TError = BaseErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiStats>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getGetApiStatsQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-
-
 export const deleteApiSubscriptionArtistId = (
     artistId: number,
  ) => {

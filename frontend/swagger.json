@@ -575,75 +575,6 @@
         }
       }
     },
-    "/api/Stats": {
-      "get": {
-        "tags": [
-          "Stats"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetStatsResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetStatsResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetStatsResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/BaseErrorResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BaseErrorResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BaseErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/BaseErrorResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BaseErrorResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BaseErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/Subscription/{artistId}": {
       "delete": {
         "tags": [
@@ -1115,28 +1046,6 @@
         },
         "additionalProperties": false
       },
-      "GetStatsResponse": {
-        "type": "object",
-        "properties": {
-          "users": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "tracks": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "artists": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "userSubscriptions": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
       "GetUserResponse": {
         "type": "object",
         "properties": {
@@ -1186,9 +1095,6 @@
     },
     {
       "name": "Release"
-    },
-    {
-      "name": "Stats"
     },
     {
       "name": "Subscription"
